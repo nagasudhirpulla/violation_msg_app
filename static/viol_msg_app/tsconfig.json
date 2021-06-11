@@ -5,7 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": false
   },
   "exclude": [
     "node_modules", "webpack.config.js"

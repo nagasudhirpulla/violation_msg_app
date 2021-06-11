@@ -11,4 +11,4 @@ def getpntData() -> dict:
     consList = appConf["constituents"]
     genList = appConf["generators"]
 
-    return jsonify({"gens": genList, "consList": consList})
+    return jsonify({"gens": genList, "cons": consList})
