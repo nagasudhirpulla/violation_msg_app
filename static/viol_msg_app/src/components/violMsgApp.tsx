@@ -1,9 +1,10 @@
 // https://react-bootstrap.github.io/components/modal/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select'
 import { useViolMsgAppReducer } from '../reducers/violMsgAppReducer';
 import pageInitState from '../initial_states/violMsgAppInitState'
 import { IUtilPnt } from '../typeDefs/utilPnt';
+import { getViolationRowsAction } from '../actions/getViolationRowsAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -16,6 +17,13 @@ function ViolMsgApp() {
     let [selGensList, setSelGensList] = useState([] as IUtilPnt[]);
     const onSelGensChange = (selectedOptions: IUtilPnt[]) => {
         setSelGensList(selectedOptions);
+    }
+
+    const onConsViolRowsUpdateClick = () => {
+        pageStateDispatch(getViolationRowsAction(selConsList))
+    }
+    const onGensViolRowsUpdateClick = () => {
+        pageStateDispatch(getViolationRowsAction(selGensList))
     }
 
     return (
@@ -33,7 +41,7 @@ function ViolMsgApp() {
                     onChange={onSelConsChange}
                     placeholder="Select Constituents"
                     classNamePrefix="select" />
-                <button>Update</button>
+                <button onClick={onConsViolRowsUpdateClick}>Update</button>
             </div>
             <br />
             {/* <h3>Select Generators</h3> */}
@@ -47,11 +55,12 @@ function ViolMsgApp() {
                     placeholder="Select Generators"
                     onChange={onSelGensChange}
                     classNamePrefix="select" />
-                <button>Update</button>
+                <button onClick={onGensViolRowsUpdateClick}>Update</button>
             </div>
-            {/* <pre>{JSON.stringify(pageState, null, 2)}</pre> */}
-            <pre>{JSON.stringify(selGensList, null, 2)}</pre>
-            <pre>{JSON.stringify(selConsList, null, 2)}</pre>
+
+            <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(selGensList, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(selConsList, null, 2)}</pre> */}
         </>
     );
 }

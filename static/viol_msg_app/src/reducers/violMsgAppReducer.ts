@@ -1,10 +1,12 @@
 import { useReducer, useEffect, useCallback } from "react";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { getAppConfigAction } from "../actions/getAppConfigAction";
-import { fetchAppConfig } from "../services/getAppConfig";
+import { fetchAppConfig } from "../services/fetchAppConfig";
 import { ISetAppConfigAction, setAppConfigAction, setAppConfigReducer } from "../actions/setAppConfigAction";
 import { ActionType } from "../actions/actionType";
 import { IAction } from "../typeDefs/action";
+import { ISetViolRowsAction, setViolRowsReducer } from "../actions/setViolRowsAction";
+import { getViolationRowsDispatch, IGetViolationRowsAction } from "../actions/getViolationRowsAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -12,6 +14,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
         switch (action.type) {
             case ActionType.SET_APP_CONFIG:
                 return setAppConfigReducer(state, action as ISetAppConfigAction)
+            case ActionType.SET_VIOLATION_ROWS:
+                return setViolRowsReducer(state, action as ISetViolRowsAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
@@ -37,6 +41,10 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             case ActionType.GET_APP_CONFIG: {
                 const appConfig = await fetchAppConfig(pageState.urls.serverBaseUrl)
                 pageStateDispatch(setAppConfigAction(appConfig));
+                break;
+            }
+            case ActionType.GET_VIOLATION_ROWS: {
+                await getViolationRowsDispatch(action as IGetViolationRowsAction, pageState, pageStateDispatch)
                 break;
             }
             default:
