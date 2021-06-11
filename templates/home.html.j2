@@ -9,7 +9,11 @@
 </head>
 
 <body>
-    <h1>Hello World!!!</h1>
+    <div id="root"></div>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/toastr/build/toastr.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/react/umd/react.production.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/react-dom/umd/react-dom.production.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/dist/bundle.viol_msg_app.js') }}"></script>
 </body>
 
 </html>

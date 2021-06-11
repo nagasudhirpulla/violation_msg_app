@@ -24,7 +24,7 @@ app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
 @app.route('/')
 def index():
-    return render_template('home.html.j2')
+    return render_template('hello.html.j2')
     # return "Hello"
 
 
