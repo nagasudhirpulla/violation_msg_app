@@ -59,8 +59,7 @@ function ViolMsgApp() {
             </div>
 
             <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre>
-            {/* <pre>{JSON.stringify(selGensList, null, 2)}</pre> */}
-            {/* <pre>{JSON.stringify(selConsList, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(pageState, null, 2)}</pre> */}
         </>
     );
 }

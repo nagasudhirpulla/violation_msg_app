@@ -5,7 +5,8 @@ import { IViolInfoRow } from "../typeDefs/violInfoRow";
 export const fetchViolRows = async (baseAddr: string, utils: IUtilPnt[]): Promise<IViolInfoRow[]> => {
     try {
         const violInfoRows: IViolInfoRow[] = []
-        utils.forEach(async utl => {
+        for (let uIter = 0; uIter < utils.length; uIter++) {
+            const utl = utils[uIter]
             const schPnt = utl.schPnt
             const schResp = await fetch(`${baseAddr}/rtDataApi/getpntData?id=${schPnt}`, {
                 method: 'get'
@@ -29,8 +30,7 @@ export const fetchViolRows = async (baseAddr: string, utils: IUtilPnt[]): Promis
                 drawal: drwlVal,
                 ace: aceVal
             })
-        })
-
+        }
         return violInfoRows
     } catch (e) {
         console.error(e)
