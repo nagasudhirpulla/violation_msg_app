@@ -9,7 +9,8 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
         const respJSON = await resp.json() as IUtilsInfoResp;
         const appConf: IAppConfig = {
             generators: [],
-            constituents: []
+            constituents: [],
+            freqPnt: respJSON.freqPnt
         }
         //console.log(respJSON);
         respJSON.gens.forEach(gen => {
@@ -31,7 +32,7 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
         return appConf;
     } catch (e) {
         console.error(e);
-        return { generators: [], constituents: [] };
+        return { generators: [], constituents: [], freqPnt: "" };
         //return { success: false, message: `Could not retrieve employees data due to error ${JSON.stringify(e)}` };
     }
 };

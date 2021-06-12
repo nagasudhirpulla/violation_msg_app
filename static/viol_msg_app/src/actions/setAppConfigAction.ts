@@ -25,7 +25,8 @@ export const setAppConfigReducer = (state: IViolMsgAppState, action: ISetAppConf
         ui: {
             ...state.ui,
             generators: action.payload.appConfig.generators,
-            constituents: action.payload.appConfig.constituents
+            constituents: action.payload.appConfig.constituents,
+            freqPnt: action.payload.appConfig.freqPnt
         }
     } as IViolMsgAppState;
 }

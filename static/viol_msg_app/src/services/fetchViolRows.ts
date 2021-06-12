@@ -1,6 +1,6 @@
-import { IRtDataApiResp } from "../typeDefs/rtDataApiResp";
 import { IUtilPnt } from "../typeDefs/utilPnt";
 import { IViolInfoRow } from "../typeDefs/violInfoRow";
+import { fetchPntData } from "./fetchPntData";
 
 export const fetchViolRows = async (baseAddr: string, utils: IUtilPnt[]): Promise<IViolInfoRow[]> => {
     try {
@@ -8,22 +8,14 @@ export const fetchViolRows = async (baseAddr: string, utils: IUtilPnt[]): Promis
         for (let uIter = 0; uIter < utils.length; uIter++) {
             const utl = utils[uIter]
             const schPnt = utl.schPnt
-            const schResp = await fetch(`${baseAddr}/rtDataApi/getpntData?id=${schPnt}`, {
-                method: 'get'
-            });
-            const schVal = (await schResp.json() as IRtDataApiResp).val
+            const schVal = await fetchPntData(baseAddr, schPnt)
 
             const drwlPnt = utl.drawalPnt
-            const drwlResp = await fetch(`${baseAddr}/rtDataApi/getpntData?id=${drwlPnt}`, {
-                method: 'get'
-            });
-            const drwlVal = (await drwlResp.json() as IRtDataApiResp).val
+            const drwlVal = await fetchPntData(baseAddr, drwlPnt)
 
             const acePnt = utl.acePnt
-            const aceResp = await fetch(`${baseAddr}/rtDataApi/getpntData?id=${acePnt}`, {
-                method: 'get'
-            });
-            const aceVal = (await aceResp.json() as IRtDataApiResp).val
+            const aceVal = await fetchPntData(baseAddr, acePnt)
+
             violInfoRows.push({
                 name: utl.name,
                 schedule: schVal,

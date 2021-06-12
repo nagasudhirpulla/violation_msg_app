@@ -10,5 +10,5 @@ def getpntData() -> dict:
     appConf = getAppConfig()
     consList = appConf["constituents"]
     genList = appConf["generators"]
-
-    return jsonify({"gens": genList, "cons": consList})
+    freqPnt = appConf["freqPnt"]
+    return jsonify({"gens": genList, "cons": consList, "freqPnt":freqPnt})

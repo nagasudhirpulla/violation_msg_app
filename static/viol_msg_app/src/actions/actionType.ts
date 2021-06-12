@@ -3,4 +3,6 @@ export enum ActionType {
     SET_APP_CONFIG,
     GET_VIOLATION_ROWS,
     SET_VIOLATION_ROWS,
+    SET_MSG_TIME,
+    SET_FREQ
 }

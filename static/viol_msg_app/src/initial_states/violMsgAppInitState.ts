@@ -5,9 +5,11 @@ const nowDate: Date = new Date()
 const initState: IViolMsgAppState = {
     ui: {
         date: nowDate,
+        freqPnt: "",
         generators: [],
         constituents: [],
-        violInfoRows: []
+        violInfoRows: [],
+        freq: 50
     },
     urls: {
         serverBaseUrl: ".."

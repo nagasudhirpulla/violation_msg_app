@@ -5,6 +5,9 @@ import { useViolMsgAppReducer } from '../reducers/violMsgAppReducer';
 import pageInitState from '../initial_states/violMsgAppInitState'
 import { IUtilPnt } from '../typeDefs/utilPnt';
 import { getViolationRowsAction } from '../actions/getViolationRowsAction';
+import { setMsgTimeAction } from '../actions/setMsgTimeAction';
+import moment from 'moment';
+import { getMsgInstructions } from '../app_logic/msgInstructions';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -19,10 +22,19 @@ function ViolMsgApp() {
         setSelGensList(selectedOptions);
     }
 
+    let [isGenSelected, setIsGenSelected] = useState(false);
+    let [msgInstructions, setMsgInstructions] = useState("");
+
     const onConsViolRowsUpdateClick = () => {
+        pageStateDispatch(setMsgTimeAction(new Date()))
+        setIsGenSelected(false)
+        setMsgInstructions(getMsgInstructions(false))
         pageStateDispatch(getViolationRowsAction(selConsList))
     }
     const onGensViolRowsUpdateClick = () => {
+        pageStateDispatch(setMsgTimeAction(new Date()))
+        setIsGenSelected(true)
+        setMsgInstructions(getMsgInstructions(true))
         pageStateDispatch(getViolationRowsAction(selGensList))
     }
 
@@ -31,6 +43,7 @@ function ViolMsgApp() {
             <h1>Violation Message Application</h1>
             <br />
             {/* <h3>Select Constituents</h3> */}
+            <h3>{moment(pageState.ui.date).format("YYYY-MM-DD hh:mm")}</h3>
             <div>
                 <Select options={pageState.ui.constituents}
                     isMulti
@@ -58,7 +71,36 @@ function ViolMsgApp() {
                 <button onClick={onGensViolRowsUpdateClick}>Update</button>
             </div>
 
-            <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre>
+            <br />
+            <h3>{`Frequency - ${pageState.ui.freq} Hz`}</h3>
+
+            <br />
+            <textarea value={msgInstructions} onChange={(ev) => { setMsgInstructions(ev.target.value) }}></textarea>
+
+            <br />
+            <table className={"viol_rows_table"}>
+                <thead>
+                    <td>Name</td>
+                    <td>{`Scheduled ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                    <td>{`Actual ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                    <td>Actual Deviation</td>
+                    <td>Area Control Error</td>
+                    <td>{`Desired ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                </thead>
+                <tbody>
+                    {pageState.ui.violInfoRows.map((v) =>
+                        <tr>
+                            <td>{v.name}</td>
+                            <td>{v.schedule}</td>
+                            <td>{v.drawal}</td>
+                            <td>{v.drawal - v.schedule}</td>
+                            <td>{v.ace}</td>
+                            <td>{v.schedule}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}
             {/* <pre>{JSON.stringify(pageState, null, 2)}</pre> */}
         </>
     );

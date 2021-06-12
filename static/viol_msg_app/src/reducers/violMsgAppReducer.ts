@@ -7,6 +7,8 @@ import { ActionType } from "../actions/actionType";
 import { IAction } from "../typeDefs/action";
 import { ISetViolRowsAction, setViolRowsReducer } from "../actions/setViolRowsAction";
 import { getViolationRowsDispatch, IGetViolationRowsAction } from "../actions/getViolationRowsAction";
+import { ISetMsgTimeAction, setMsgTimeReducer } from "../actions/setMsgTimeAction";
+import { ISetFreqAction, setFreqReducer } from "../actions/setFreqAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -16,6 +18,10 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setAppConfigReducer(state, action as ISetAppConfigAction)
             case ActionType.SET_VIOLATION_ROWS:
                 return setViolRowsReducer(state, action as ISetViolRowsAction)
+            case ActionType.SET_MSG_TIME:
+                return setMsgTimeReducer(state, action as ISetMsgTimeAction)
+            case ActionType.SET_FREQ:
+                return setFreqReducer(state, action as ISetFreqAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
