@@ -12,6 +12,8 @@ import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
 import { setViolTypeAction } from '../actions/setViolTypeAction';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import { saveViolLogAction } from '../actions/saveViolLogAction';
+import { deriveViolLog } from '../app_logic/deriveViolLog';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -44,7 +46,8 @@ function ViolMsgApp() {
     }
 
     const onSaveLog = () => {
-        console.log(pageState)
+        // console.log(pageState)
+        pageStateDispatch(saveViolLogAction(deriveViolLog(pageState)))
         setShowLogConfModal(false)
     }
 

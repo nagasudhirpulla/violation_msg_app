@@ -9,5 +9,6 @@ export enum ActionType {
     SET_IS_GEN_SEL,
     INIT_MSG_INSTRUCTIONS,
     SET_MSG_INSTRUCTIONS,
-    SET_VIOL_TYPE
+    SET_VIOL_TYPE,
+    SAVE_VIOL_LOG
 }

@@ -6,7 +6,7 @@ utilPntsApiPage = Blueprint('utilPntsApi', __name__,
 
 
 @utilPntsApiPage.route('/getUtilsInfo', methods=['GET'])
-def getpntData() -> dict:
+def getUtilsInfo() -> dict:
     appConf = getAppConfig()
     consList = appConf["constituents"]
     genList = appConf["generators"]

@@ -14,6 +14,7 @@ import { ISetMsgInstrucAction, setMsgInstrucReducer } from "../actions/setMsgIns
 import { IInitMsgInstrucAction, initMsgInstrucReducer } from "../actions/initMsgInstrucAction";
 import { ISetIsGenSelAction, setIsGenSelReducer } from "../actions/setIsGenSelAction";
 import { ISetViolTypeAction, setViolTypeReducer } from "../actions/setViolTypeAction";
+import { ISaveViolLogAction, saveViolLogDispatch } from "../actions/saveViolLogAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -66,6 +67,10 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.GET_VIOLATION_ROWS: {
                 await getViolationRowsDispatch(action as IGetViolationRowsAction, pageState, pageStateDispatch)
+                break;
+            }
+            case ActionType.SAVE_VIOL_LOG: {
+                await saveViolLogDispatch(action as ISaveViolLogAction, pageState, pageStateDispatch)
                 break;
             }
             default:

@@ -8,6 +8,7 @@ from flask import Flask, render_template
 from src.config.appConfig import loadAppConfig
 from src.routeControllers.rtDataApi import rtDataApiPage
 from src.routeControllers.utilPntsApi import utilPntsApiPage
+from src.routeControllers.violLogsApi import violLogsApiPage
 from src.app.utils.defaultJsonEncoder import ServerJSONEncoder
 
 # get application config
@@ -31,6 +32,7 @@ def index():
 
 app.register_blueprint(rtDataApiPage, url_prefix='/rtDataApi')
 app.register_blueprint(utilPntsApiPage, url_prefix='/utilPntsApi')
+app.register_blueprint(violLogsApiPage, url_prefix='/violLogsApi')
 
 
 if __name__ == '__main__':
