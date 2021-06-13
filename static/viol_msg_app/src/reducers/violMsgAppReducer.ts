@@ -9,6 +9,11 @@ import { ISetViolRowsAction, setViolRowsReducer } from "../actions/setViolRowsAc
 import { getViolationRowsDispatch, IGetViolationRowsAction } from "../actions/getViolationRowsAction";
 import { ISetMsgTimeAction, setMsgTimeReducer } from "../actions/setMsgTimeAction";
 import { ISetFreqAction, setFreqReducer } from "../actions/setFreqAction";
+import { ISetMsgIdAction, setMsgIdReducer } from "../actions/setMsgIdAction";
+import { ISetMsgInstrucAction, setMsgInstrucReducer } from "../actions/setMsgInstrucAction";
+import { IInitMsgInstrucAction, initMsgInstrucReducer } from "../actions/initMsgInstrucAction";
+import { ISetIsGenSelAction, setIsGenSelReducer } from "../actions/setIsGenSelAction";
+import { ISetViolTypeAction, setViolTypeReducer } from "../actions/setViolTypeAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -22,6 +27,16 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setMsgTimeReducer(state, action as ISetMsgTimeAction)
             case ActionType.SET_FREQ:
                 return setFreqReducer(state, action as ISetFreqAction)
+            case ActionType.SET_MSG_ID:
+                return setMsgIdReducer(state, action as ISetMsgIdAction)
+            case ActionType.INIT_MSG_INSTRUCTIONS:
+                return initMsgInstrucReducer(state, action as IInitMsgInstrucAction)
+            case ActionType.SET_MSG_INSTRUCTIONS:
+                return setMsgInstrucReducer(state, action as ISetMsgInstrucAction)
+            case ActionType.SET_IS_GEN_SEL:
+                return setIsGenSelReducer(state, action as ISetIsGenSelAction)
+            case ActionType.SET_VIOL_TYPE:
+                return setViolTypeReducer(state, action as ISetViolTypeAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));

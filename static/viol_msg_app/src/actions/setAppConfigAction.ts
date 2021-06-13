@@ -28,5 +28,5 @@ export const setAppConfigReducer = (state: IViolMsgAppState, action: ISetAppConf
             constituents: action.payload.appConfig.constituents,
             freqPnt: action.payload.appConfig.freqPnt
         }
-    } as IViolMsgAppState;
+    };
 }

@@ -27,5 +27,5 @@ export const setViolRowsReducer = (state: IViolMsgAppState, action: ISetViolRows
             ...state.ui,
             violInfoRows: action.payload.violRows
         }
-    } as IViolMsgAppState;
+    };
 }

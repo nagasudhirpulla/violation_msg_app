@@ -8,7 +8,11 @@ export interface IViolMsgAppState {
         generators: IUtilPnt[],
         constituents: IUtilPnt[],
         violInfoRows: IViolInfoRow[],
-        freq: number
+        freq: number,
+        msgId: string,
+        msgInstructions: string,
+        isGenSelected: boolean,
+        violType: string
     },
     urls: {
         serverBaseUrl: string

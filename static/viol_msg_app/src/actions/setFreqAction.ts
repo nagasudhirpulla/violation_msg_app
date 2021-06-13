@@ -25,5 +25,5 @@ export const setFreqReducer = (state: IViolMsgAppState, action: ISetFreqAction):
             ...state.ui,
             freq: action.payload.freq
         }
-    } as IViolMsgAppState;
+    };
 }

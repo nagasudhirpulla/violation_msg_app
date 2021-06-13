@@ -7,7 +7,10 @@ import { IUtilPnt } from '../typeDefs/utilPnt';
 import { getViolationRowsAction } from '../actions/getViolationRowsAction';
 import { setMsgTimeAction } from '../actions/setMsgTimeAction';
 import moment from 'moment';
-import { getMsgInstructions } from '../app_logic/msgInstructions';
+import { setMsgIdAction } from '../actions/setMsgIdAction';
+import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
+import { setIsGenSelAction } from '../actions/setIsGenSelAction';
+import { setViolTypeAction } from '../actions/setViolTypeAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -22,20 +25,16 @@ function ViolMsgApp() {
         setSelGensList(selectedOptions);
     }
 
-    let [isGenSelected, setIsGenSelected] = useState(false);
-    let [msgInstructions, setMsgInstructions] = useState("");
     let [siName, setSiName] = useState("");
 
     const onConsViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
-        setIsGenSelected(false)
-        setMsgInstructions(getMsgInstructions(false))
+        pageStateDispatch(setIsGenSelAction(false))
         pageStateDispatch(getViolationRowsAction(selConsList))
     }
     const onGensViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
-        setIsGenSelected(true)
-        setMsgInstructions(getMsgInstructions(true))
+        pageStateDispatch(setIsGenSelAction(true))
         pageStateDispatch(getViolationRowsAction(selGensList))
     }
 
@@ -77,17 +76,31 @@ function ViolMsgApp() {
             </div>
             {pageState.ui.violInfoRows.length > 0 &&
                 <>
+                    <h3 className="input_label_inline">{"Message No.: "}</h3>
+                    <input
+                        className="border_bottom"
+                        value={pageState.ui.msgId}
+                        onChange={(ev) => {
+                            pageStateDispatch(setMsgIdAction(ev.target.value))
+                        }} />
                     <h3>{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY hh:mm")}`}</h3>
                     <h3>{`Frequency: ${pageState.ui.freq} Hz`}</h3>
-                    <h3>Violation Information</h3>
+                    <h3 className="input_label_inline">{"Violation Type: "}</h3>
+                    <input
+                        className="border_bottom"
+                        value={pageState.ui.violType}
+                        onChange={(ev) => {
+                            pageStateDispatch(setViolTypeAction(ev.target.value))
+                        }} />
+                    <h4>Violation Information</h4>
                     <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
                         <thead>
                             <td>Utility Name</td>
-                            <td>{`Scheduled ${isGenSelected ? "Injection" : "Drawal"}`}</td>
-                            <td>{`Actual ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                            <td>{`Scheduled ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</td>
+                            <td>{`Actual ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</td>
                             <td>Actual Deviation</td>
                             <td>Area Control Error</td>
-                            <td>{`Desired ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                            <td>{`Desired ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</td>
                         </thead>
                         <tbody>
                             {pageState.ui.violInfoRows.map((v) =>
@@ -103,10 +116,19 @@ function ViolMsgApp() {
                         </tbody>
                     </table>
                     <h3>Instructions</h3>
-                    <textarea rows={8} cols={100} className="instructions_textarea" value={msgInstructions} onChange={(ev) => { setMsgInstructions(ev.target.value) }}></textarea>
+                    <textarea rows={8} cols={100}
+                        className="instructions_textarea"
+                        value={pageState.ui.msgInstructions}
+                        onChange={(ev) => { pageStateDispatch(setMsgInstrucAction(ev.target.value)) }}></textarea>
                     <br />
-                    <span>{"Shift Incharge: "}</span>
-                    <input placeholder="Enter name" onChange={(ev) => { setSiName(ev.target.value) }} value={siName} style={{ border: "none" }} />
+                    <h3 className="input_label_inline">{"Shift Incharge: "}</h3>
+                    <input
+                        placeholder="Enter name"
+                        className="border_bottom"
+                        value={siName}
+                        onChange={(ev) => {
+                            setSiName(ev.target.value)
+                        }} />
                 </>
             }
             {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}

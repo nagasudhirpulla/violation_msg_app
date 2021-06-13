@@ -25,5 +25,5 @@ export const setMsgTimeReducer = (state: IViolMsgAppState, action: ISetMsgTimeAc
             ...state.ui,
             date: action.payload.msgTime
         }
-    } as IViolMsgAppState;
+    };
 }
