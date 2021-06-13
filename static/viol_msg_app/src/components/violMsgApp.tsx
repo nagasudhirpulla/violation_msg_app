@@ -9,11 +9,13 @@ import { setMsgTimeAction } from '../actions/setMsgTimeAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
-import { setIsGenSelAction } from '../actions/setIsGenSelAction';
 import { setViolTypeAction } from '../actions/setViolTypeAction';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
+    const [showLogConfModal, setShowLogConfModal] = useState(false);
 
     let [selConsList, setSelConsList] = useState([] as IUtilPnt[]);
     const onSelConsChange = (selectedOptions: IUtilPnt[]) => {
@@ -29,19 +31,27 @@ function ViolMsgApp() {
 
     const onConsViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
-        pageStateDispatch(setIsGenSelAction(false))
-        pageStateDispatch(getViolationRowsAction(selConsList))
+        pageStateDispatch(getViolationRowsAction(selConsList, false))
     }
     const onGensViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
-        pageStateDispatch(setIsGenSelAction(true))
-        pageStateDispatch(getViolationRowsAction(selGensList))
+        pageStateDispatch(getViolationRowsAction(selGensList, true))
+    }
+
+    const onPrintClick = () => {
+        window.print()
+        setShowLogConfModal(true)
+    }
+
+    const onSaveLog = () => {
+        console.log(pageState)
+        setShowLogConfModal(false)
     }
 
     return (
         <>
             <div style={{ fontSize: "small", textAlign: "center" }}>
-                <h2>WESTERN  REGIONAL  LOAD  DESPATCH  CENTRE</h2>
+                <h3>WESTERN  REGIONAL  LOAD  DESPATCH  CENTRE</h3>
                 <p>F-3, MIDC Area, Marol, Andheri (East), Mumbai – 400093,</p>
                 <p>Phone (O) : 022-28202690, 28203885, 28203885,</p>
                 <p>Fax : 022-28235434, 28202630 website: www.wrldc.com, www.wrldc.in</p>
@@ -58,7 +68,7 @@ function ViolMsgApp() {
                         onChange={onSelConsChange}
                         placeholder="Select Constituents"
                         classNamePrefix="select" />
-                    <button onClick={onConsViolRowsUpdateClick}>Update</button>
+                    <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
                 </div>
                 <br />
                 <div>
@@ -71,28 +81,27 @@ function ViolMsgApp() {
                         placeholder="Select Generators"
                         onChange={onSelGensChange}
                         classNamePrefix="select" />
-                    <button onClick={onGensViolRowsUpdateClick}>Update</button>
+                    <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
                 </div>
             </div>
             {pageState.ui.violInfoRows.length > 0 &&
                 <>
-                    <h3 className="input_label_inline">{"Message No.: "}</h3>
+                    <h5 className="input_label_inline mb-3 mt-2">{"Message No.: "}</h5>
                     <input
                         className="border_bottom"
                         value={pageState.ui.msgId}
                         onChange={(ev) => {
                             pageStateDispatch(setMsgIdAction(ev.target.value))
                         }} />
-                    <h3>{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY hh:mm")}`}</h3>
-                    <h3>{`Frequency: ${pageState.ui.freq} Hz`}</h3>
-                    <h3 className="input_label_inline">{"Violation Type: "}</h3>
+                    <h5 className="mb-3">{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY hh:mm")}`}</h5>
+                    <h5 className="mb-3">{`Frequency: ${pageState.ui.freq} Hz`}</h5>
+                    <h5 className="input_label_inline mb-3">{"Violation Type: "}</h5>
                     <input
                         className="border_bottom"
                         value={pageState.ui.violType}
                         onChange={(ev) => {
                             pageStateDispatch(setViolTypeAction(ev.target.value))
                         }} />
-                    <h4>Violation Information</h4>
                     <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
                         <thead>
                             <td>Utility Name</td>
@@ -115,20 +124,40 @@ function ViolMsgApp() {
                             )}
                         </tbody>
                     </table>
-                    <h3>Instructions</h3>
+                    <h5 className="mt-3">Instructions</h5>
                     <textarea rows={8} cols={100}
                         className="instructions_textarea"
                         value={pageState.ui.msgInstructions}
                         onChange={(ev) => { pageStateDispatch(setMsgInstrucAction(ev.target.value)) }}></textarea>
                     <br />
-                    <h3 className="input_label_inline">{"Shift Incharge: "}</h3>
+                    <h5 className="input_label_inline mt-3">{"Shift Incharge: "}</h5>
                     <input
-                        placeholder="Enter name"
                         className="border_bottom"
                         value={siName}
                         onChange={(ev) => {
                             setSiName(ev.target.value)
                         }} />
+                    <br />
+                    <button onClick={onPrintClick} className="mt-3 btn btn-primary no-print">Print</button>
+                    <Modal
+                        show={showLogConfModal}
+                        onHide={() => setShowLogConfModal(false)}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>
+                                Save
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>
+                                Save this Message to Log ?
+                            </p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => setShowLogConfModal(false)}>Close</Button>
+                            <Button variant="primary" onClick={onSaveLog}>Save changes</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </>
             }
             {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}

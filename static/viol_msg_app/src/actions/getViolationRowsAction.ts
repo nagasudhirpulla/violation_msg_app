@@ -6,12 +6,14 @@ import { IUtilPnt } from "../typeDefs/utilPnt";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
 import { setFreqAction } from "./setFreqAction";
+import { setIsGenSelAction } from "./setIsGenSelAction";
 import { setMsgInstrucAction } from "./setMsgInstrucAction";
 import { setViolRowsAction } from "./setViolRowsAction";
 import { setViolTypeAction } from "./setViolTypeAction";
 
 export interface IGetViolationRowsPayload {
-    utils: IUtilPnt[]
+    utils: IUtilPnt[],
+    isGen: boolean
 }
 
 export interface IGetViolationRowsAction extends IAction {
@@ -19,25 +21,28 @@ export interface IGetViolationRowsAction extends IAction {
     payload: IGetViolationRowsPayload
 }
 
-export function getViolationRowsAction(utils: IUtilPnt[]): IGetViolationRowsAction {
+export function getViolationRowsAction(utils: IUtilPnt[], isGen: boolean): IGetViolationRowsAction {
     return {
         type: ActionType.GET_VIOLATION_ROWS,
-        payload: { utils }
+        payload: { utils, isGen }
     };
 }
 
 export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, pageState: IViolMsgAppState, pageStateDispatch: React.Dispatch<IAction>): Promise<void> => {
+    const isGen = action.payload.isGen
+    pageStateDispatch(setIsGenSelAction(isGen))
+
     let utils = action.payload.utils
     const violRows = await fetchViolRows(pageState.urls.serverBaseUrl, utils)
     pageStateDispatch(setViolRowsAction(violRows))
+
     const freq = await fetchPntData(pageState.urls.serverBaseUrl, pageState.ui.freqPnt)
     pageStateDispatch(setFreqAction(freq))
     if (violRows.length > 0) {
         const isViolPossitive = (violRows[0].drawal - violRows[0].schedule) > 0
-        const isGen = pageState.ui.isGenSelected
         // init message instructions
         pageStateDispatch(setMsgInstrucAction(getMsgInstructions(isGen, isViolPossitive)))
-        
+
         // init message viol type
         let violType = ""
         if (isGen && !isViolPossitive) {
