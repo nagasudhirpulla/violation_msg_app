@@ -24,6 +24,7 @@ function ViolMsgApp() {
 
     let [isGenSelected, setIsGenSelected] = useState(false);
     let [msgInstructions, setMsgInstructions] = useState("");
+    let [siName, setSiName] = useState("");
 
     const onConsViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
@@ -61,7 +62,6 @@ function ViolMsgApp() {
                     <button onClick={onConsViolRowsUpdateClick}>Update</button>
                 </div>
                 <br />
-                {/* <h3>Select Generators</h3> */}
                 <div>
                     <Select options={pageState.ui.generators}
                         isMulti
@@ -104,6 +104,9 @@ function ViolMsgApp() {
                     </table>
                     <h3>Instructions</h3>
                     <textarea rows={8} cols={100} className="instructions_textarea" value={msgInstructions} onChange={(ev) => { setMsgInstructions(ev.target.value) }}></textarea>
+                    <br />
+                    <span>{"Shift Incharge: "}</span>
+                    <input placeholder="Enter name" onChange={(ev) => { setSiName(ev.target.value) }} value={siName} style={{ border: "none" }} />
                 </>
             }
             {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}
