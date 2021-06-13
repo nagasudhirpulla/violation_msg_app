@@ -26,6 +26,21 @@
         border: 1px solid black;
         border-collapse: collapse;
     }
+    td {
+        padding: 0.5em;
+    }
+
+    .instructions_textarea {
+        border: none;
+        font-size: large;
+    }
+    @media print
+    {    
+        .no-print, .no-print *
+        {
+            display: none !important;
+        }
+    }
     </style>
 </body>
 

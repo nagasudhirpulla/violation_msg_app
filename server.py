@@ -2,6 +2,7 @@
 This is the web server that acts as a service that creates outages raw data
 utilsInfo : /utilPntsApi/getUtilsInfo
 data api : /rtDataApi/getpntData?id=abcd
+apppend data in excel - https://stackoverflow.com/questions/37182528/how-to-append-data-using-openpyxl-python-to-excel-file-from-a-specified-row
 '''
 from flask import Flask, render_template
 from src.config.appConfig import loadAppConfig

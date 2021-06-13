@@ -7,6 +7,6 @@ export const getMsgInstructions = (isGenSelected: boolean): string => {
         "Incerase their schedule from ISGS stations/IPP stations",
         "Increase their internal generation",
         "Further Load shedding may be taken to reduce overdrawl",
-        "If Over drawl continues suo motto revision shall be implemented"
+        "If Over drawl continues suo motto revision shall be implemented and emergency measures shall be taken"
     ].join("\n")
 };

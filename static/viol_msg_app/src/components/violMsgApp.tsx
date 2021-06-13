@@ -40,66 +40,72 @@ function ViolMsgApp() {
 
     return (
         <>
-            <h1>Violation Message Application</h1>
-            <br />
-            {/* <h3>Select Constituents</h3> */}
-            <h3>{moment(pageState.ui.date).format("YYYY-MM-DD hh:mm")}</h3>
-            <div>
-                <Select options={pageState.ui.constituents}
-                    isMulti
-                    className="basic-multi-select"
-                    closeMenuOnSelect={false}
-                    getOptionLabel={option => option.name}
-                    getOptionValue={option => option.name}
-                    onChange={onSelConsChange}
-                    placeholder="Select Constituents"
-                    classNamePrefix="select" />
-                <button onClick={onConsViolRowsUpdateClick}>Update</button>
+            <div style={{ fontSize: "small", textAlign: "center" }}>
+                <h2>WESTERN  REGIONAL  LOAD  DESPATCH  CENTRE</h2>
+                <p>F-3, MIDC Area, Marol, Andheri (East), Mumbai – 400093,</p>
+                <p>Phone (O) : 022-28202690, 28203885, 28203885,</p>
+                <p>Fax : 022-28235434, 28202630 website: www.wrldc.com, www.wrldc.in</p>
             </div>
             <br />
-            {/* <h3>Select Generators</h3> */}
-            <div>
-                <Select options={pageState.ui.generators}
-                    isMulti
-                    className="basic-multi-select"
-                    closeMenuOnSelect={false}
-                    getOptionLabel={option => option.name}
-                    getOptionValue={option => option.name}
-                    placeholder="Select Generators"
-                    onChange={onSelGensChange}
-                    classNamePrefix="select" />
-                <button onClick={onGensViolRowsUpdateClick}>Update</button>
+            <div className="no-print">
+                <div>
+                    <Select options={pageState.ui.constituents}
+                        isMulti
+                        className="basic-multi-select"
+                        closeMenuOnSelect={false}
+                        getOptionLabel={option => option.name}
+                        getOptionValue={option => option.name}
+                        onChange={onSelConsChange}
+                        placeholder="Select Constituents"
+                        classNamePrefix="select" />
+                    <button onClick={onConsViolRowsUpdateClick}>Update</button>
+                </div>
+                <br />
+                {/* <h3>Select Generators</h3> */}
+                <div>
+                    <Select options={pageState.ui.generators}
+                        isMulti
+                        className="basic-multi-select"
+                        closeMenuOnSelect={false}
+                        getOptionLabel={option => option.name}
+                        getOptionValue={option => option.name}
+                        placeholder="Select Generators"
+                        onChange={onSelGensChange}
+                        classNamePrefix="select" />
+                    <button onClick={onGensViolRowsUpdateClick}>Update</button>
+                </div>
             </div>
-
-            <br />
-            <h3>{`Frequency - ${pageState.ui.freq} Hz`}</h3>
-
-            <br />
-            <textarea value={msgInstructions} onChange={(ev) => { setMsgInstructions(ev.target.value) }}></textarea>
-
-            <br />
-            <table className={"viol_rows_table"}>
-                <thead>
-                    <td>Name</td>
-                    <td>{`Scheduled ${isGenSelected ? "Injection" : "Drawal"}`}</td>
-                    <td>{`Actual ${isGenSelected ? "Injection" : "Drawal"}`}</td>
-                    <td>Actual Deviation</td>
-                    <td>Area Control Error</td>
-                    <td>{`Desired ${isGenSelected ? "Injection" : "Drawal"}`}</td>
-                </thead>
-                <tbody>
-                    {pageState.ui.violInfoRows.map((v) =>
-                        <tr>
-                            <td>{v.name}</td>
-                            <td>{v.schedule}</td>
-                            <td>{v.drawal}</td>
-                            <td>{v.drawal - v.schedule}</td>
-                            <td>{v.ace}</td>
-                            <td>{v.schedule}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            {pageState.ui.violInfoRows.length > 0 &&
+                <>
+                    <h3>{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY hh:mm")}`}</h3>
+                    <h3>{`Frequency: ${pageState.ui.freq} Hz`}</h3>
+                    <h3>Violation Information</h3>
+                    <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
+                        <thead>
+                            <td>Utility Name</td>
+                            <td>{`Scheduled ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                            <td>{`Actual ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                            <td>Actual Deviation</td>
+                            <td>Area Control Error</td>
+                            <td>{`Desired ${isGenSelected ? "Injection" : "Drawal"}`}</td>
+                        </thead>
+                        <tbody>
+                            {pageState.ui.violInfoRows.map((v) =>
+                                <tr>
+                                    <td align={"center"}>{v.name}</td>
+                                    <td align={"center"}>{v.schedule}</td>
+                                    <td align={"center"}>{v.drawal}</td>
+                                    <td align={"center"}>{v.drawal - v.schedule}</td>
+                                    <td align={"center"}>{v.ace}</td>
+                                    <td align={"center"}>{v.schedule}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                    <h3>Instructions</h3>
+                    <textarea rows={8} cols={100} className="instructions_textarea" value={msgInstructions} onChange={(ev) => { setMsgInstructions(ev.target.value) }}></textarea>
+                </>
+            }
             {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}
             {/* <pre>{JSON.stringify(pageState, null, 2)}</pre> */}
         </>
