@@ -158,7 +158,7 @@ function ViolMsgApp() {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => setShowLogConfModal(false)}>Close</Button>
-                            <Button variant="primary" onClick={onSaveLog}>Save changes</Button>
+                            <Button variant="primary" onClick={onSaveLog}>Save Log</Button>
                         </Modal.Footer>
                     </Modal>
                 </>
