@@ -118,11 +118,11 @@ function ViolMsgApp() {
                             {pageState.ui.violInfoRows.map((v) =>
                                 <tr>
                                     <td align={"center"}>{v.name}</td>
-                                    <td align={"center"}>{v.schedule}</td>
-                                    <td align={"center"}>{v.drawal}</td>
-                                    <td align={"center"}>{v.drawal - v.schedule}</td>
-                                    <td align={"center"}>{v.ace}</td>
-                                    <td align={"center"}>{v.schedule}</td>
+                                    <td align={"center"}>{Math.round(v.schedule)}</td>
+                                    <td align={"center"}>{Math.round(v.drawal)}</td>
+                                    <td align={"center"}>{Math.round(v.drawal - v.schedule)}</td>
+                                    <td align={"center"}>{Math.round(v.ace)}</td>
+                                    <td align={"center"}>{Math.round(v.schedule)}</td>
                                 </tr>
                             )}
                         </tbody>

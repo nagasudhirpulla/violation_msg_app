@@ -76,7 +76,7 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             default:
                 pageStateDispatch(action);
         }
-    }, [pageState.urls.serverBaseUrl]); // The empty array causes this callback to only be created once per component instance
+    }, [pageState.urls.serverBaseUrl, pageState.ui.freqPnt]); // The empty array causes this callback to only be created once per component instance
 
     return [pageState, asyncDispatch];
 }
