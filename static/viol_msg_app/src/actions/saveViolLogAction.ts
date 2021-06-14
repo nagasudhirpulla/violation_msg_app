@@ -1,4 +1,3 @@
-import { deriveViolLog } from "../app_logic/deriveViolLog";
 import { saveViolLog } from "../services/saveViolLog";
 import { IAction } from "../typeDefs/action";
 import { IViolLog } from "../typeDefs/violLog";
