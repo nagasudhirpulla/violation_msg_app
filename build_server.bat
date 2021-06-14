@@ -1,0 +1,1 @@
+call pyinstaller server.py
