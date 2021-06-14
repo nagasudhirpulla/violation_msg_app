@@ -1,4 +1,3 @@
-from src.config.appConfig import getAppConfig
 from src.typeDefs.violInfoLog import IViolationLog
 from openpyxl import load_workbook
 import datetime as dt
