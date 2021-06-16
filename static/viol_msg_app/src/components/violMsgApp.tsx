@@ -96,7 +96,7 @@ function ViolMsgApp() {
                         onChange={(ev) => {
                             pageStateDispatch(setMsgIdAction(ev.target.value))
                         }} />
-                    <h5 className="mb-3">{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY hh:mm")}`}</h5>
+                    <h5 className="mb-3">{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY HH:mm")}`}</h5>
                     <h5 className="mb-3">{`Frequency: ${pageState.ui.freq} Hz`}</h5>
                     <h5 className="input_label_inline mb-3">{"Violation Type: "}</h5>
                     <input
