@@ -17,41 +17,72 @@
     <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/dist/bundle.viol_msg_app.js') }}"></script>
     
     <style>
-    .basic-multi-select{
-        width: 50%;
-        display: inline-block;
-        margin-right:1em;
-    }
-    
-    .viol_rows_table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-    td {
-        padding: 0.5em;
-    }
-
-    .instructions_textarea {
-        border: none;
-        font-size: large;
-    }
-    input.border_bottom {
-        border: 0;
-        outline: 0;
-        background: transparent;
-        border-bottom: 1px solid black;
-    }
-    .input_label_inline {
-        display: inline-block;
-        margin-right: 0.2em;
-    }
-    @media print
-    {    
-        .no-print, .no-print *
-        {
-            display: none !important;
+        .basic-multi-select{
+            width: 50%;
+            display: inline-block;
+            margin-right:1em;
         }
-    }
+        
+        .viol_rows_table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table,
+        td,
+        th {
+            border: 1px solid black;
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+        
+        input,
+        textarea {
+            border: none;
+            resize: vertical;
+        }
+        
+        body,
+        div,
+        table,
+        thead,
+        tbody,
+        tfoot,
+        tr,
+        th,
+        td,
+        p {
+            font-family: "Calibri";
+        }
+        
+        a.comment-indicator:hover+comment {
+            background: #ffd;
+            position: absolute;
+            display: block;
+            border: 1px solid black;
+            padding: 0.5em;
+        }
+        
+        a.comment-indicator {
+            background: red;
+            display: inline-block;
+            border: 1px solid black;
+            width: 0.5em;
+            height: 0.5em;
+        }
+        
+        comment {
+            display: none;
+        }
+        
+        @media print
+        {    
+            .no-print, .no-print *
+            {
+                display: none !important;
+            }
+        }
     </style>
 </body>
 
