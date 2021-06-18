@@ -13,7 +13,11 @@ const initState: IViolMsgAppState = {
         msgId: `LD/${(nowDate.getMonth() + 1)}/`,
         msgInstructions: "",
         isGenSelected: false,
-        violType: ""
+        violType: "",
+        voltViolationMsg: "",
+        loadViolationMsg: "",
+        zcvViolationMsg: "",
+        splEvnts: ""
     },
     urls: {
         serverBaseUrl: ".."

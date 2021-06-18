@@ -7,11 +7,15 @@ export interface IViolMsgAppState {
         freqPnt: string,
         generators: IUtilPnt[],
         constituents: IUtilPnt[],
-        violInfoRows: IViolInfoRow[],
-        freq: number,
         msgId: string,
+        freq: number,
+        voltViolationMsg: string,
+        loadViolationMsg: string,
+        zcvViolationMsg: string,
         msgInstructions: string,
+        splEvnts: string,
         isGenSelected: boolean,
+        violInfoRows: IViolInfoRow[],
         violType: string
     },
     urls: {

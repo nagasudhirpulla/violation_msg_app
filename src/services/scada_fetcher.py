@@ -3,8 +3,8 @@ import requests
 from src.config.appConfig import getAppConfig
 
 
-def fetchScadaPntRtData(pntId: str):
-    val = 0
+def fetchScadaPntRtData1(pntId: str):
+    val = None
     pntId = pntId.strip()
     if pntId == "":
         return val
@@ -17,7 +17,7 @@ def fetchScadaPntRtData(pntId: str):
         r.close()
     except:
         # print("Error loading data from scada api")
-        val = 0
+        val = None
     return val
 
 
@@ -25,5 +25,8 @@ def fetchScadaPntRandData(pntId):
     return random.randint(-50, 50)
 
 
-def fetchScadaPntRtData1(pntId):
+def fetchScadaPntRtData(pntId):
+    pntId = pntId.strip()
+    if pntId == "":
+        return None
     return random.randint(-50, 50)

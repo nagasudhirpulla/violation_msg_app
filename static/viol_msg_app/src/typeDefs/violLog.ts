@@ -1,10 +1,14 @@
 import { IViolInfoRow } from "./violInfoRow";
 
 export interface IViolLog {
-    freq: number,
     msgId: string,
     date: string,
-    violInfoRows: IViolInfoRow[],
+    freq: number,
+    voltViolationMsg: string,
+    loadViolationMsg: string,
+    zcvViolationMsg: string,
     msgInstructions: string,
+    splEvnts: string,
+    violInfoRows: IViolInfoRow[],
     violType: string
 }

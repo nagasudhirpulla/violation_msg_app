@@ -9,11 +9,15 @@ import { setMsgTimeAction } from '../actions/setMsgTimeAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
-import { setViolTypeAction } from '../actions/setViolTypeAction';
+// import { setViolTypeAction } from '../actions/setViolTypeAction';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import { saveViolLogAction } from '../actions/saveViolLogAction';
 import { deriveViolLog } from '../app_logic/deriveViolLog';
+import { setVoltViolMsgAction } from '../actions/setVoltViolMsgAction';
+import { setLoadViolMsgAction } from '../actions/setLoadViolMsgAction';
+import { setZcvViolMsgAction } from '../actions/setZcvViolMsg';
+import { setSplEvntsAction } from '../actions/setSplEvntsAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -53,13 +57,6 @@ function ViolMsgApp() {
 
     return (
         <>
-            <div style={{ fontSize: "small", textAlign: "center" }}>
-                <h3>WESTERN  REGIONAL  LOAD  DESPATCH  CENTRE</h3>
-                <p>F-3, MIDC Area, Marol, Andheri (East), Mumbai – 400093,</p>
-                <p>Phone (O) : 022-28202690, 28203885, 28203885,</p>
-                <p>Fax : 022-28235434, 28202630 website: www.wrldc.com, www.wrldc.in</p>
-            </div>
-            <br />
             <div className="no-print">
                 <div>
                     <Select options={pageState.ui.constituents}
@@ -89,58 +86,6 @@ function ViolMsgApp() {
             </div>
             {pageState.ui.violInfoRows.length > 0 &&
                 <>
-                    <h5 className="input_label_inline mb-3 mt-2">{"Message No.: "}</h5>
-                    <input
-                        className="border_bottom"
-                        value={pageState.ui.msgId}
-                        onChange={(ev) => {
-                            pageStateDispatch(setMsgIdAction(ev.target.value))
-                        }} />
-                    <h5 className="mb-3">{`Time of Issue: ${moment(pageState.ui.date).format("DD-MMM-YYYY HH:mm")}`}</h5>
-                    <h5 className="mb-3">{`Frequency: ${pageState.ui.freq} Hz`}</h5>
-                    <h5 className="input_label_inline mb-3">{"Violation Type: "}</h5>
-                    <input
-                        className="border_bottom"
-                        value={pageState.ui.violType}
-                        onChange={(ev) => {
-                            pageStateDispatch(setViolTypeAction(ev.target.value))
-                        }} />
-                    <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
-                        <thead>
-                            <td>Utility Name</td>
-                            <td>{`Scheduled ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</td>
-                            <td>{`Actual ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</td>
-                            <td>Actual Deviation</td>
-                            <td>Area Control Error</td>
-                            <td>{`Desired ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</td>
-                        </thead>
-                        <tbody>
-                            {pageState.ui.violInfoRows.map((v) =>
-                                <tr>
-                                    <td align={"center"}>{v.name}</td>
-                                    <td align={"center"}>{Math.round(v.schedule)}</td>
-                                    <td align={"center"}>{Math.round(v.drawal)}</td>
-                                    <td align={"center"}>{Math.round(v.drawal - v.schedule)}</td>
-                                    <td align={"center"}>{Math.round(v.ace)}</td>
-                                    <td align={"center"}>{Math.round(v.schedule)}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                    <h5 className="mt-3">Instructions</h5>
-                    <textarea rows={8} cols={100}
-                        className="instructions_textarea"
-                        value={pageState.ui.msgInstructions}
-                        onChange={(ev) => { pageStateDispatch(setMsgInstrucAction(ev.target.value)) }}></textarea>
-                    <br />
-                    <h5 className="input_label_inline mt-3">{"Shift Incharge: "}</h5>
-                    <input
-                        className="border_bottom"
-                        value={siName}
-                        onChange={(ev) => {
-                            setSiName(ev.target.value)
-                        }} />
-                    <br />
                     <button onClick={onPrintClick} className="mt-3 btn btn-primary no-print">Print</button>
                     <Modal
                         show={showLogConfModal}
@@ -234,7 +179,7 @@ function ViolMsgApp() {
                                     <span>Copy To</span>
                                 </td>
                                 <td colSpan={7} valign="middle" align="left">
-                                    <input type="text" value="" style={{ width: "100%" }} />
+                                    <input type="text" style={{ width: "100%" }} />
                                 </td>
                             </tr>
                             <tr>
@@ -257,7 +202,7 @@ function ViolMsgApp() {
                                     <span>5.2(m)</span>
                                 </td>
                                 <td colSpan={4} rowSpan={2} valign="middle" align="center">
-                                    <span>49.85</span>
+                                    <span>{`${pageState.ui.freq} Hz`}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -276,7 +221,10 @@ function ViolMsgApp() {
                                     <span>5.2(s) 6.4.12 6.6.3 6.6.6</span>
                                 </td>
                                 <td colSpan={4} rowSpan={2} valign="middle" align="center">
-                                    <textarea style={{ width: "100%" }} rows={2}></textarea>
+                                    <textarea style={{ width: "100%" }}
+                                        rows={2}
+                                        value={pageState.ui.voltViolationMsg}
+                                        onChange={(ev) => { pageStateDispatch(setVoltViolMsgAction(ev.target.value)) }}></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -299,7 +247,9 @@ function ViolMsgApp() {
                             <tr>
                                 <td valign="middle" align="left"><b><span>Alert</span></b></td>
                                 <td colSpan={4} valign="middle" align="left">
-                                    <textarea style={{ width: "100%" }} rows={1}></textarea>
+                                    <textarea style={{ width: "100%" }} rows={1}
+                                        value={pageState.ui.loadViolationMsg}
+                                        onChange={(ev) => { pageStateDispatch(setLoadViolMsgAction(ev.target.value)) }}></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -313,7 +263,9 @@ function ViolMsgApp() {
                                     <span>6.4.6</span>
                                 </td>
                                 <td colSpan={4} rowSpan={2} valign="middle" align="center">
-                                    <textarea style={{ width: "100%" }} rows={2}></textarea>
+                                    <textarea style={{ width: "100%" }} rows={2}
+                                        value={pageState.ui.zcvViolationMsg}
+                                        onChange={(ev) => { pageStateDispatch(setZcvViolMsgAction(ev.target.value)) }}></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -340,16 +292,24 @@ function ViolMsgApp() {
                                     <span>Alert</span>
                                 </td>
                                 <td colSpan={4} valign="middle" align="left">
-                                    <span>
-                                        <textarea rows={5} style={{ width: "100%" }}></textarea>
-                                    </span>
+                                    <textarea
+                                        rows={5}
+                                        style={{ width: "100%" }}
+                                        value={pageState.ui.msgInstructions}
+                                        onChange={(ev) => { pageStateDispatch(setMsgInstrucAction(ev.target.value)) }}></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={2} valign="middle" height="86" align="left"><b><span>Special Events</span></b></td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
-                                <td colSpan={4} valign="middle" align="center"><b><span><br /></span></b></td>
+                                <td colSpan={4} valign="middle" align="center">
+                                    <textarea
+                                        rows={5}
+                                        style={{ width: "100%" }}
+                                        value={pageState.ui.splEvnts}
+                                        onChange={(ev) => { pageStateDispatch(setSplEvntsAction(ev.target.value)) }}></textarea>
+                                </td>
                             </tr>
                             <tr>
                                 <td colSpan={8} valign="middle" height="21" align="center">
@@ -358,13 +318,13 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="71" align="left">
-                                    <span>Constituents/Generators</span>
+                                    <span>{`${pageState.ui.isGenSelected ? "Constituents" : "Generators"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>Schedule <br />Drawal / Injection</span>
+                                    <span>{`Schedule ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>Actual Drawal / Injection</span>
+                                    <span>{`Acual ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
                                     <span>Actual Deviation</span>
@@ -373,7 +333,7 @@ function ViolMsgApp() {
                                     <span>Area Control Error</span>
                                 </td>
                                 <td colSpan={2} valign="middle" align="right">
-                                    <span>Desired Drawal / Injection</span>
+                                    <span>{`Desired ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -393,120 +353,46 @@ function ViolMsgApp() {
                                     <span>MW</span>
                                 </td>
                             </tr>
+                            {pageState.ui.violInfoRows.map((v) =>
+                                <tr>
+                                    <td colSpan={2} valign="bottom" height="20" align="center">
+                                        <span>{v.name}</span>
+                                    </td>
+                                    <td valign="bottom" align="right">
+                                        <span>{Math.round(v.schedule)}</span>
+                                    </td>
+                                    <td valign="bottom" align="right">
+                                        <span>{Math.round(v.drawal)}</span>
+                                    </td>
+                                    <td valign="bottom" align="right">
+                                        <span>{Math.round(v.drawal - v.schedule)}</span>
+                                    </td>
+                                    <td valign="bottom" align="right">
+                                        <span>{isNaN(v.ace) ? "" : Math.round(v.ace)}</span>
+                                    </td>
+                                    <td valign="bottom" align="right" colSpan={2}>
+                                        <span>{Math.round(v.schedule)}</span>
+                                    </td>
+                                </tr>
+                            )}
                             <tr>
                                 <td colSpan={2} valign="bottom" height="20" align="center">
-                                    <span>Gujarat</span>
+                                    <span></span>
                                 </td>
                                 <td valign="bottom" align="right">
-                                    <span>5191.28</span>
+                                    <span></span>
                                 </td>
                                 <td valign="bottom" align="right">
-                                    <span>5271.59</span>
+                                    <span></span>
                                 </td>
                                 <td valign="bottom" align="right">
-                                    <span>80.31</span>
+                                    <span></span>
                                 </td>
                                 <td valign="bottom" align="right">
-                                    <span>126.25</span>
+                                    <span></span>
                                 </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="right">
-                                    <span>5191.28</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colSpan={2} valign="bottom" height="20" align="center">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2} valign="bottom" height="20" align="center">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2} valign="bottom" height="20" align="center">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2} valign="bottom" height="20" align="center">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
-                                </td>
-                                <td valign="bottom" align="left">
-                                    <span><br /></span>
+                                <td valign="bottom" align="right" colSpan={2}>
+                                    <span></span>
                                 </td>
                             </tr>
                             <tr>
@@ -526,7 +412,12 @@ function ViolMsgApp() {
                                     <span><br /></span>
                                 </td>
                                 <td colSpan={2} valign="bottom" align="center">
-                                    <span>Sunil Aharwal</span>
+                                    <input
+                                        value={siName}
+                                        style={{ width: "100%" }}
+                                        onChange={(ev) => {
+                                            setSiName(ev.target.value)
+                                        }} />
                                 </td>
                             </tr>
                             <tr>

@@ -4,11 +4,15 @@ import moment from 'moment';
 
 export const deriveViolLog = (state: IViolMsgAppState): IViolLog => {
     const violLog: IViolLog = {
-        freq: state.ui.freq,
         msgId: state.ui.msgId,
         date: moment(state.ui.date).format("YYYY-MM-DD HH:mm:ss"),
-        violInfoRows: state.ui.violInfoRows,
+        freq: state.ui.freq,
+        voltViolationMsg: state.ui.voltViolationMsg,
+        loadViolationMsg: state.ui.loadViolationMsg,
+        zcvViolationMsg: state.ui.zcvViolationMsg,
         msgInstructions: state.ui.msgInstructions,
+        splEvnts: state.ui.splEvnts,
+        violInfoRows: state.ui.violInfoRows,
         violType: state.ui.violType
     }
     return violLog

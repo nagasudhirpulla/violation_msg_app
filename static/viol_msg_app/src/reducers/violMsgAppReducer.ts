@@ -15,6 +15,10 @@ import { IInitMsgInstrucAction, initMsgInstrucReducer } from "../actions/initMsg
 import { ISetIsGenSelAction, setIsGenSelReducer } from "../actions/setIsGenSelAction";
 import { ISetViolTypeAction, setViolTypeReducer } from "../actions/setViolTypeAction";
 import { ISaveViolLogAction, saveViolLogDispatch } from "../actions/saveViolLogAction";
+import { ISetVoltViolMsgAction, setVoltViolMsgReducer } from "../actions/setVoltViolMsgAction";
+import { ISetLoadViolMsgAction, setLoadViolMsgReducer } from "../actions/setLoadViolMsgAction";
+import { ISetZcvViolMsgAction, setZcvViolMsgReducer } from "../actions/setZcvViolMsg";
+import { ISetSplEvntsAction, setSplEvntsReducer } from "../actions/setSplEvntsAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -38,6 +42,14 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setIsGenSelReducer(state, action as ISetIsGenSelAction)
             case ActionType.SET_VIOL_TYPE:
                 return setViolTypeReducer(state, action as ISetViolTypeAction)
+            case ActionType.SET_VOLT_VIOL_MSG:
+                return setVoltViolMsgReducer(state, action as ISetVoltViolMsgAction)
+            case ActionType.SET_LOAD_VIOL_MSG:
+                return setLoadViolMsgReducer(state, action as ISetLoadViolMsgAction)
+            case ActionType.SET_ZCV_VIOL_MSG:
+                return setZcvViolMsgReducer(state, action as ISetZcvViolMsgAction)
+            case ActionType.SET_SPL_EVNTS:
+                return setSplEvntsReducer(state, action as ISetSplEvntsAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
