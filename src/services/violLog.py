@@ -11,7 +11,10 @@ def saveViolLog(vDta: IViolationLog, violLogFilePath: str) -> bool:
         msgDt, "%H:%M"), vDta["freq"], vDta["voltViolationMsg"], vDta["loadViolationMsg"], vDta["zcvViolationMsg"], vDta["msgInstructions"], vDta["splEvnts"]]
     violRows = vDta["violInfoRows"]
     for vInfo in violRows:
-        devtn = float(vInfo["drawal"]) - float(vInfo["schedule"])
+        try:
+            devtn = float(vInfo["drawal"]) - float(vInfo["schedule"])
+        except:
+            devtn = 0
         dataRow.extend([vInfo["name"], vInfo["schedule"],
                        vInfo["drawal"], devtn, vInfo["ace"]])
 
