@@ -3,7 +3,7 @@ import requests
 from src.config.appConfig import getAppConfig
 
 
-def fetchScadaPntRtData1(pntId: str):
+def fetchScadaPntRtData(pntId: str):
     val = None
     pntId = pntId.strip()
     if pntId == "":
@@ -25,7 +25,7 @@ def fetchScadaPntRandData(pntId):
     return random.randint(-50, 50)
 
 
-def fetchScadaPntRtData(pntId):
+def fetchScadaPntRtData1(pntId):
     pntId = pntId.strip()
     if pntId == "":
         return None

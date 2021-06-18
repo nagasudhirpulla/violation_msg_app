@@ -86,7 +86,6 @@ function ViolMsgApp() {
             </div>
             {pageState.ui.violInfoRows.length > 0 &&
                 <>
-                    <button onClick={onPrintClick} className="mt-3 btn btn-primary no-print">Print</button>
                     <Modal
                         show={showLogConfModal}
                         onHide={() => setShowLogConfModal(false)}
@@ -117,12 +116,17 @@ function ViolMsgApp() {
                         <colgroup style={{ width: 195 }}></colgroup>
                         <colgroup style={{ width: 130 }}></colgroup>
                         <tbody>
+                            <tr className="no-print">
+                                <td colSpan={12} valign="middle" align="center">
+                                    <button onClick={onPrintClick} className="mt-3 btn btn-primary">PRINT</button>
+                                </td>
+                            </tr>
                             <tr>
                                 <td colSpan={7} rowSpan={5} valign="middle" height="100" align="center">
                                     <span>WESTERN REGIONAL LOAD DESPATCH CENTRE<br />F-3, MIDC Area, Marol, Andheri (East) , Mumbai 400 093<br />Phone (O) : 022-28202690, 28203885, 28203885, <br />Fax : 022-28235434, 28202630 website: www.wrldc.com, www.wrldc.in</span>
                                 </td>
                                 <td rowSpan={5} valign="middle" align="center">
-                                    <span><br /><img src="logo.png" width="83" height="92" />
+                                    <span><br /><img src="static/img/logo.png" width="83" height="92" />
                                     </span>
                                 </td>
                             </tr>
