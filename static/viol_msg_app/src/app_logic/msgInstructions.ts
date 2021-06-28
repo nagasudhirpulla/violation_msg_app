@@ -16,5 +16,15 @@ export const getMsgInstructions = (isGen: boolean, isViolPossitive: boolean): st
             "If Underdrawl continues suo motto revision shall be implemented and emergency measures shall be taken"
         ].join("\n")
     }
+    else if (isGen && !isViolPossitive) {
+        return [
+            "Generator(s) are requested to reduce their under-injection and generate as per schedule",
+        ].join("\n")
+    }
+    else if (isGen && isViolPossitive) {
+        return [
+            "Generator(s) are requested to reduce their over-injection and generate as per schedule",
+        ].join("\n")
+    }
     return ""
 };
