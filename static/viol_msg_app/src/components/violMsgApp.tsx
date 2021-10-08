@@ -297,7 +297,7 @@ function ViolMsgApp() {
                                 </td>
                                 <td colSpan={4} valign="middle" align="left">
                                     <textarea
-                                        rows={5}
+                                        rows={9}
                                         style={{ width: "100%" }}
                                         value={pageState.ui.msgInstructions}
                                         onChange={(ev) => { pageStateDispatch(setMsgInstrucAction(ev.target.value)) }}></textarea>

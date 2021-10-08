@@ -4,7 +4,8 @@ export const getMsgInstructions = (isGen: boolean, isViolPossitive: boolean): st
             "Utilities are requested to reduce their overdrawl",
             "Incerase their schedule from ISGS stations/IPP stations",
             "Increase their internal generation",
-            "Further Load shedding may be taken to reduce overdrawl",
+            "State utilities to be advised to harness captive generation in the state",
+            "Further Demand-side measures may be taken to reduce overdrawl",
             "If Over drawl continues suo motto revision shall be implemented and emergency measures shall be taken"
         ].join("\n")
     }
