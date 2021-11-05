@@ -1,7 +1,8 @@
+import { IAtcViolLog } from "../typeDefs/atcViolLog";
 import { ISaveLogApiResp } from "../typeDefs/saveLogApiResp";
 import { IViolLog } from "../typeDefs/violLog";
 
-export const saveViolLog = async (baseAddr: string, violLog: IViolLog): Promise<boolean> => {
+export const saveViolLog = async (baseAddr: string, violLog: IViolLog | IAtcViolLog): Promise<boolean> => {
     try {
         const resp = await fetch(`${baseAddr}/violLogsApi/saveLog`, {
             method: 'POST',

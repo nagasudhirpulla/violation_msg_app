@@ -26,7 +26,9 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
                 name: c[0],
                 schPnt: c[1],
                 drawalPnt: c[2],
-                acePnt: c[3]
+                acePnt: c[3],
+                atcPnt: c[4],
+                ttcPnt: c[5]
             })
         });
         return appConf;

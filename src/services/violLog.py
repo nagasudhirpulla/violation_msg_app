@@ -1,4 +1,5 @@
 from src.typeDefs.violInfoLog import IViolationLog
+from src.typeDefs.atcViolInfoLog import IAtcViolInfoLog
 from openpyxl import load_workbook
 import datetime as dt
 
@@ -25,10 +26,36 @@ def saveViolLog(vDta: IViolationLog, violLogFilePath: str) -> bool:
         dataRow.extend(["", "", "", "", ""])
 
     wb = load_workbook(violLogFilePath)
-    wbSht = wb.active
+    wbSht = wb["Sheet1"]
     # append data to sheet
     wbSht.append(dataRow)
+    # save workbook
+    wb.save(violLogFilePath)
+    wb.close()
+    return True
 
+
+def saveAtcViolLog(vDta: IAtcViolInfoLog, violLogFilePath: str) -> bool:
+    # create row as per Violation Log format
+    # Message no.	Date	Time of issue	Voltage Violation	Loading Violation	Entity1	ATC1	Actual1	Entity2	ATC2	Actual2	Entity3	ATC3	Actual3	Entity4	ATC4	Actual4
+    msgDt = dt.datetime.strptime(vDta["date"], "%Y-%m-%d %H:%M:%S")
+    dataRow = [vDta["msgId"], msgDt.date(), dt.datetime.strftime(
+        msgDt, "%H:%M"), vDta["voltViolationMsg"], vDta["loadViolationMsg"]]
+    violRows = vDta["atcInfoRows"]
+    for vInfo in violRows:
+        dataRow.extend([vInfo["name"], vInfo["atc"],
+                       vInfo["drawal"]])
+
+    # add empty columns if viol rows less than 4
+    numRowsLt4 = 4 - len(violRows)
+    numRowsLt4 = 0 if numRowsLt4 < 0 else numRowsLt4
+    for itr in range(numRowsLt4):
+        dataRow.extend(["", "", ""])
+
+    wb = load_workbook(violLogFilePath)
+    wbSht = wb["atc"]
+    # append data to sheet
+    wbSht.append(dataRow)
     # save workbook
     wb.save(violLogFilePath)
     wb.close()

@@ -1,4 +1,5 @@
 import { IAction } from "../typeDefs/action";
+import { IAtcViolMsgAppState } from "../typeDefs/atcViolMsgAppState";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
 
@@ -19,6 +20,16 @@ export function setMsgIdAction(msgId: string): ISetMsgIdAction {
 }
 
 export const setMsgIdReducer = (state: IViolMsgAppState, action: ISetMsgIdAction): IViolMsgAppState => {
+    return {
+        ...state,
+        ui: {
+            ...state.ui,
+            msgId: action.payload.msgId
+        }
+    };
+}
+
+export const setAtcPageMsgIdReducer = (state: IAtcViolMsgAppState, action: ISetMsgIdAction): IAtcViolMsgAppState => {
     return {
         ...state,
         ui: {

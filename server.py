@@ -29,6 +29,9 @@ def index():
     return render_template('home.html.j2')
     # return "Hello"
 
+@app.route('/atc')
+def atc():
+    return render_template('atc.html.j2')
 
 app.register_blueprint(rtDataApiPage, url_prefix='/rtDataApi')
 app.register_blueprint(utilPntsApiPage, url_prefix='/utilPntsApi')

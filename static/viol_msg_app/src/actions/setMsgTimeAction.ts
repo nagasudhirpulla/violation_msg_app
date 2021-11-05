@@ -1,4 +1,5 @@
 import { IAction } from "../typeDefs/action";
+import { IAtcViolMsgAppState } from "../typeDefs/atcViolMsgAppState";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
 
@@ -19,6 +20,16 @@ export function setMsgTimeAction(msgTime: Date): ISetMsgTimeAction {
 }
 
 export const setMsgTimeReducer = (state: IViolMsgAppState, action: ISetMsgTimeAction): IViolMsgAppState => {
+    return {
+        ...state,
+        ui: {
+            ...state.ui,
+            date: action.payload.msgTime
+        }
+    };
+}
+
+export const setAtcPageMsgTimeReducer = (state: IAtcViolMsgAppState, action: ISetMsgTimeAction): IAtcViolMsgAppState => {
     return {
         ...state,
         ui: {
