@@ -136,8 +136,8 @@ function AtcViolMsgApp() {
                         {pageState.ui.atcInfoRows.map((v) =>
                             <tr>
                                 <td>{v.name}</td>
-                                <td><input defaultValue={v.atc} /></td>
-                                <td><input defaultValue={v.drawal} /></td>
+                                <td><input defaultValue={Math.round(v.atc)} /></td>
+                                <td><input defaultValue={Math.round(v.drawal)} /></td>
                             </tr>
                         )}
                     </table>
