@@ -123,7 +123,10 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td colSpan={7} rowSpan={5} valign="middle" height="100" align="center">
-                                    <span>WESTERN REGIONAL LOAD DESPATCH CENTRE<br />F-3, MIDC Area, Marol, Andheri (East) , Mumbai 400 093<br />Phone (O) : 022-28202690, 28203885, 28203885, <br />Fax : 022-28235434, 28202630 website: www.wrldc.com, www.wrldc.in</span>
+                                    <span>WESTERN REGIONAL LOAD DESPATCH CENTRE / पश्चिमी क्षेत्रीय भार प्रेषण केंद्र<br />
+                                    F-3, MIDC Area, Marol, Andheri (East) , Mumbai 400 093 / एफ-3, एमआईडीसी क्षेत्र, मरोल, अंधेरी (पूर्व), मुंबई<br />
+                                    Phone / फ़ोन (O) : 022-28202690, 28203885, 28203885, <br />
+                                    Fax / फैक्स : 022-28235434, 28202630 website / वेबसाइट: www.wrldc.com, www.wrldc.in</span>
                                 </td>
                                 <td rowSpan={5} valign="middle" align="center">
                                     <span><br /><img src="static/img/logo.png" width="83" height="92" />
@@ -140,7 +143,7 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td rowSpan={3} valign="middle" height="63" align="center">
-                                    <span>Message No.</span>
+                                    <span>Message No. / संदेश क्रमांक</span>
                                 </td>
                                 <td colSpan={2} rowSpan={3} valign="middle" align="center">
                                     <input type="text"
@@ -152,21 +155,21 @@ function ViolMsgApp() {
                                 <td colSpan={2} rowSpan={3} valign="middle" align="left">
                                     <span><br /></span>
                                 </td>
-                                <td valign="middle" align="left"><b><span>ALERT</span></b></td>
+                                <td valign="middle" align="left"><b><span>ALERT / चेतावनी</span></b></td>
                                 <td valign="middle" align="left">
-                                    <span>Date</span>
+                                    <span>Date / दिनांक</span>
                                 </td>
                                 <td valign="middle" align="right"><b><span>{`${moment(pageState.ui.date).format("DD-MMM-YYYY")}`}</span></b></td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"><b><span>EMERGENCY</span></b></td>
+                                <td valign="middle" align="left"><b><span>EMERGENCY / आपातकालीन</span></b></td>
                                 <td valign="middle" align="left">
-                                    <span>Time of Issue</span>
+                                    <span>Time of Issue / जारी करने का समय</span>
                                 </td>
                                 <td valign="middle" align="right"><b><span>{`${moment(pageState.ui.date).format("DD-MMM-YYYY HH:mm")}`}</span></b></td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"><b><span>NON COMPLIANCE </span></b></td>
+                                <td valign="middle" align="left"><b><span>NON COMPLIANCE / गैर अनुपालन</span></b></td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td valign="middle" align="left">
                                     <span><br /></span>
@@ -174,33 +177,33 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" height="31" align="left">
-                                    <span>From</span>
+                                    <span>From / द्वारा</span>
                                 </td>
-                                <td colSpan={7} valign="middle" align="left"><b><span>Shift In Charge, WRLDC, Mumbai</span></b></td>
+                                <td colSpan={7} valign="middle" align="left"><b><span>Shift In Charge, WRLDC, Mumbai / पाली प्रभारी प.क्ष.भा.प्रे.कें, मुंबई</span></b></td>
                             </tr>
                             <tr>
                                 <td valign="middle" height="28" align="left">
-                                    <span>Copy To</span>
+                                    <span>Copy To / प्रति</span>
                                 </td>
                                 <td colSpan={7} valign="middle" align="left">
                                     <input type="text" style={{ width: "100%" }} />
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan={8} valign="middle" height="21" align="left"><b><span>Sub : Violation of Indian Electricity Grid Code</span></b></td>
+                                <td colSpan={8} valign="middle" height="21" align="left"><b><span>Sub : Violation of Indian Electricity Grid Code / विषय : भारतीय विद्युत ग्रिड कोड का उल्लंघन</span></b></td>
                             </tr>
                             <tr>
-                                <td colSpan={2} valign="middle" height="42" align="left"><b><span>Type of Violation</span></b></td>
-                                <td valign="middle" align="left"><b><span>Category of Violation</span></b></td>
-                                <td valign="middle" align="left"><b><span>IEGC Clause</span></b></td>
-                                <td colSpan={4} valign="middle" align="center"><b><span>Details</span></b></td>
+                                <td colSpan={2} valign="middle" height="42" align="left"><b><span>Type of Violation / उल्लंघन का प्रकार</span></b></td>
+                                <td valign="middle" align="left"><b><span>Category of Violation / उल्लंघन की श्रेणी</span></b></td>
+                                <td valign="middle" align="left"><b><span>IEGC Clause / आईईजीसी धारा</span></b></td>
+                                <td colSpan={4} valign="middle" align="center"><b><span>Details / विवरण</span></b></td>
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="79" align="left">
-                                    <span>Frequency Violation</span>
+                                    <span>Frequency Violation / आवृति का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left">
-                                    <span>Emergency /</span>
+                                    <span>Emergency / आपातकालीन</span>
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>5.2(m)</span>
@@ -211,15 +214,15 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" align="left">
-                                    <span>Alert</span>
+                                    <span>Alert / चेतावनी</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="79" align="left">
-                                    <span>Voltage Violation</span>
+                                    <span>Voltage Violation / वोल्टेज का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left">
-                                    <span>Emergency /</span>
+                                    <span>Emergency / आपातकालीन</span>
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>5.2(s) 6.4.12 6.6.3 6.6.6</span>
@@ -233,12 +236,12 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" align="left">
-                                    <span>Alert</span>
+                                    <span>Alert / चेतावनी</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="100" align="left">
-                                    <span>Loading Violation</span>
+                                    <span>Loading Violation / लोडिंग का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td rowSpan={2} valign="middle" align="left">
@@ -249,7 +252,7 @@ function ViolMsgApp() {
                                 </td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"><b><span>Alert</span></b></td>
+                                <td valign="middle" align="left"><b><span>Alert / चेतावनी</span></b></td>
                                 <td colSpan={4} valign="middle" align="left">
                                     <textarea style={{ width: "100%" }} rows={1}
                                         value={pageState.ui.loadViolationMsg}
@@ -258,10 +261,10 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="79" align="left">
-                                    <span>Zero Crossing Violation</span>
+                                    <span>Zero Crossing Violation / ज़ीरो क्रासिंग का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left">
-                                    <span>Emergency /</span>
+                                    <span>Emergency / आपातकालीन</span>
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>6.4.6</span>
@@ -274,15 +277,15 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" align="left">
-                                    <span>Alert</span>
+                                    <span>Alert / चेतावनी</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="155" align="left">
-                                    <span>Deviation Violation</span>
+                                    <span>Deviation Violation / शिड्यूल से विचलन का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left">
-                                    <span>Emergency /</span>
+                                    <span>Emergency / आपातकालीन</span>
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>5.4.2(a) 5.4.2(b) 6.4.6 6.4.7 6.4.10 6.4.12 </span>
@@ -293,18 +296,18 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" align="left">
-                                    <span>Alert</span>
+                                    <span>Alert / चेतावनी</span>
                                 </td>
                                 <td colSpan={4} valign="middle" align="left">
                                     <textarea
-                                        rows={9}
+                                        rows={15}
                                         style={{ width: "100%" }}
                                         value={pageState.ui.msgInstructions}
                                         onChange={(ev) => { pageStateDispatch(setMsgInstrucAction(ev.target.value)) }}></textarea>
                                 </td>
                             </tr>
                             <tr>
-                                <td colSpan={2} valign="middle" height="86" align="left"><b><span>Special Events</span></b></td>
+                                <td colSpan={2} valign="middle" height="86" align="left"><b><span>Special Events / विशेष घटना</span></b></td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td colSpan={4} valign="middle" align="center">
@@ -322,39 +325,39 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="71" align="left">
-                                    <span>{`${pageState.ui.isGenSelected ? "Constituents" : "Generators"}`}</span>
+                                    <span>{`${pageState.ui.isGenSelected ? "Constituents / उपभोक्ता" : "Generators / जनरेटर"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>{`Schedule ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</span>
+                                    <span>{`Schedule ${pageState.ui.isGenSelected ? "Injection / शिड्यूल इंजेक्शन" : "Drawal / शिड्यूल आहरण"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>{`Acual ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</span>
+                                    <span>{`Acual ${pageState.ui.isGenSelected ? "Injection / वास्तविक इंजेक्शन" : "Drawal / वास्तविक आहरण"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>Actual Deviation</span>
+                                    <span>Actual Deviation / वास्तविक विचलन</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>Area Control Error</span>
+                                    <span>Area Control Error / क्षेत्र नियंत्रण त्रुटि</span>
                                 </td>
                                 <td colSpan={2} valign="middle" align="right">
-                                    <span>{`Desired ${pageState.ui.isGenSelected ? "Injection" : "Drawal"}`}</span>
+                                    <span>{`Desired ${pageState.ui.isGenSelected ? "Injection / इच्छित इंजेक्शन" : "Drawal / इच्छित आहरण"}`}</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td valign="middle" align="right">
-                                    <span>MW</span>
+                                    <span>MW / मेगा वाट</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>MW</span>
+                                    <span>MW / मेगा वाट</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>MW</span>
+                                    <span>MW / मेगा वाट</span>
                                 </td>
                                 <td valign="middle" align="right">
-                                    <span>MW</span>
+                                    <span>MW / मेगा वाट</span>
                                 </td>
                                 <td colSpan={2} valign="middle" align="right">
-                                    <span>MW</span>
+                                    <span>MW / मेगा वाट</span>
                                 </td>
                             </tr>
                             {pageState.ui.violInfoRows.map((v) =>
@@ -440,7 +443,7 @@ function ViolMsgApp() {
                                 <td valign="middle" align="left">
                                     <span><br /></span>
                                 </td>
-                                <td colSpan={2} valign="middle" align="center"><b><span>SHIFT INCHARGE</span></b></td>
+                                <td colSpan={2} valign="middle" align="center"><b><span>SHIFT INCHARGE / पाली प्रभारी</span></b></td>
                             </tr>
                         </tbody>
                     </table>
