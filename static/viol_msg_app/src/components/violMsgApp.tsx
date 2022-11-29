@@ -124,9 +124,9 @@ function ViolMsgApp() {
                             <tr>
                                 <td colSpan={7} rowSpan={5} valign="middle" height="100" align="center">
                                     <span>WESTERN REGIONAL LOAD DESPATCH CENTRE / पश्चिमी क्षेत्रीय भार प्रेषण केंद्र<br />
-                                    F-3, MIDC Area, Marol, Andheri (East) , Mumbai 400 093 / एफ-3, एमआईडीसी क्षेत्र, मरोल, अंधेरी (पूर्व), मुंबई<br />
-                                    Phone / फ़ोन (O) : 022-28202690, 28203885, 28203885, <br />
-                                    Fax / फैक्स : 022-28235434, 28202630 website / वेबसाइट: www.wrldc.com, www.wrldc.in</span>
+                                        F-3, MIDC Area, Marol, Andheri (East) , Mumbai 400 093 / एफ-3, एमआईडीसी क्षेत्र, मरोल, अंधेरी (पूर्व), मुंबई<br />
+                                        Phone / फ़ोन (O) : 022-28202690, 28203885, 28203885, <br />
+                                        Fax / फैक्स : 022-28235434, 28202630 website / वेबसाइट: www.wrldc.com, www.wrldc.in</span>
                                 </td>
                                 <td rowSpan={5} valign="middle" align="center">
                                     <span><br /><img src="static/img/logo.png" width="83" height="92" />
@@ -447,6 +447,9 @@ function ViolMsgApp() {
                             </tr>
                         </tbody>
                     </table>
+                    <p style={{ fontSize: "x-small" }}>
+                        {pageState.ui.distributionMails}
+                    </p>
                 </>
             }
             {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}

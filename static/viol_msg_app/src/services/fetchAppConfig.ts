@@ -16,19 +16,21 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
         respJSON.gens.forEach(gen => {
             appConf.generators.push({
                 name: gen[0],
-                schPnt: gen[1],
-                drawalPnt: gen[2],
-                acePnt: gen[3]
+                email: gen[1],
+                schPnt: gen[2],
+                drawalPnt: gen[3],
+                acePnt: gen[4]
             })
         });
         respJSON.cons.forEach(c => {
             appConf.constituents.push({
                 name: c[0],
-                schPnt: c[1],
-                drawalPnt: c[2],
-                acePnt: c[3],
-                atcPnt: c[4],
-                ttcPnt: c[5]
+                email: c[1],
+                schPnt: c[2],
+                drawalPnt: c[3],
+                acePnt: c[4],
+                atcPnt: c[5],
+                ttcPnt: c[6]
             })
         });
         return appConf;

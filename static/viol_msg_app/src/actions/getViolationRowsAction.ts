@@ -5,6 +5,7 @@ import { IAction } from "../typeDefs/action";
 import { IUtilPnt } from "../typeDefs/utilPnt";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
+import { setDistributionEmailsAction } from "./setDistributionEmailsAction";
 import { setFreqAction } from "./setFreqAction";
 import { setIsGenSelAction } from "./setIsGenSelAction";
 import { setMsgInstrucAction } from "./setMsgInstrucAction";
@@ -55,5 +56,9 @@ export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, 
             violType = "Over Drawal"
         }
         pageStateDispatch(setViolTypeAction(violType))
+
+        // set the distribution emails list
+        const emailListStr = action.payload.utils.map(u => u.email).join(";")
+        pageStateDispatch(setDistributionEmailsAction(`Distribution List: ${emailListStr}`))
     }
 }

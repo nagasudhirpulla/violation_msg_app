@@ -17,7 +17,8 @@ const initState: IViolMsgAppState = {
         voltViolationMsg: "",
         loadViolationMsg: "",
         zcvViolationMsg: "",
-        splEvnts: ""
+        splEvnts: "",
+        distributionMails: ""
     },
     urls: {
         serverBaseUrl: ".."
