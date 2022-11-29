@@ -58,7 +58,10 @@ export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, 
         pageStateDispatch(setViolTypeAction(violType))
 
         // set the distribution emails list
-        const emailListStr = action.payload.utils.map(u => u.email).join(";")
-        pageStateDispatch(setDistributionEmailsAction(`Distribution List: ${emailListStr}`))
+        let emailListStr = action.payload.utils.filter(u => u.email.trim().length > 0).map(u => u.email).join(";")
+        if (emailListStr !== "") {
+            emailListStr = `Distribution List: ${emailListStr}`
+        }
+        pageStateDispatch(setDistributionEmailsAction(emailListStr))
     }
 }
