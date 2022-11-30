@@ -16,7 +16,8 @@ export interface IViolMsgAppState {
         splEvnts: string,
         isGenSelected: boolean,
         violInfoRows: IViolInfoRow[],
-        violType: string
+        violType: string,
+        distributionMails: string
     },
     urls: {
         serverBaseUrl: string

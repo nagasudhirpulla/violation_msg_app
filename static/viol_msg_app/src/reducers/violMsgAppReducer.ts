@@ -19,6 +19,7 @@ import { ISetVoltViolMsgAction, setVoltViolMsgReducer } from "../actions/setVolt
 import { ISetLoadViolMsgAction, setLoadViolMsgReducer } from "../actions/setLoadViolMsgAction";
 import { ISetZcvViolMsgAction, setZcvViolMsgReducer } from "../actions/setZcvViolMsg";
 import { ISetSplEvntsAction, setSplEvntsReducer } from "../actions/setSplEvntsAction";
+import { ISetDistributionEmailsAction, setDistributionEmailsReducer } from "../actions/setDistributionEmailsAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -50,6 +51,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setZcvViolMsgReducer(state, action as ISetZcvViolMsgAction)
             case ActionType.SET_SPL_EVNTS:
                 return setSplEvntsReducer(state, action as ISetSplEvntsAction)
+            case ActionType.SET_DISTRIBUTION_MAILS:
+                return setDistributionEmailsReducer(state, action as ISetDistributionEmailsAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
