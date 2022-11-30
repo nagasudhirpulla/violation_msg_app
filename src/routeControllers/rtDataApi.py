@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
 from src.services.scada_fetcher import fetchScadaPntRtData
-import datetime as dt
 
 rtDataApiPage = Blueprint('rtDataApi', __name__,
                           template_folder='templates')
