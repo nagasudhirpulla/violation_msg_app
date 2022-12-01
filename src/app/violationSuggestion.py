@@ -27,9 +27,9 @@ def deriveBuyersInAlertState() -> List[int]:
 
         # check if each buyer is satisfying the alert criteria
         buyerHistDev = buyerHistDrawal - buyerHistSch
-        minDev = buyerHistDev.min()
+        minDev = buyerHistDev.abs().min()
         buyerHistDevPerc = buyerHistDev.div(buyerHistSch)*100
-        minDevPerc = buyerHistDevPerc.min()
+        minDevPerc = buyerHistDevPerc.abs().min()
 
         if buyerCategory == BuyerCategory.RE:
             if (minDev >= 200 and minDev <= 300) or (minDevPerc >= 10 and minDevPerc <= 15):
@@ -65,9 +65,9 @@ def deriveBuyersInEmergencyState() -> List[int]:
 
         # check if each buyer is satisfying the emergency criteria
         buyerHistDev = buyerHistDrawal - buyerHistSch
-        minDev = buyerHistDev.min()
+        minDev = buyerHistDev.abs().min()
         buyerHistDevPerc = buyerHistDev.div(buyerHistSch)*100
-        minDevPerc = buyerHistDevPerc.min()
+        minDevPerc = buyerHistDevPerc.abs().min()
 
         if buyerCategory == BuyerCategory.RE:
             if minDev >= 300 or minDevPerc >= 15:
@@ -101,9 +101,9 @@ def deriveSellersInAlertState() -> List[int]:
 
         # check if each seller is satisfying the alert criteria
         sellerHistDev = sellerHistDrawal - sellerHistSch
-        # minDev = sellerHistDev.min()
+        # minDev = sellerHistDev.abs().min()
         sellerHistDevPerc = sellerHistDev.div(sellerHistSch)*100
-        minDevPerc = sellerHistDevPerc.min()
+        minDevPerc = sellerHistDevPerc.abs().min()
 
         if sellerCategory == SellerCategory.WS:
             if (minDevPerc >= 10):
@@ -134,9 +134,9 @@ def deriveSellersInEmergencyState() -> List[int]:
 
         # check if each seller is satisfying the alert criteria
         sellerHistDev = sellerHistDrawal - sellerHistSch
-        # minDev = sellerHistDev.min()
+        # minDev = sellerHistDev.abs().min()
         sellerHistDevPerc = sellerHistDev.div(sellerHistSch)*100
-        minDevPerc = sellerHistDevPerc.min()
+        minDevPerc = sellerHistDevPerc.abs().min()
 
         if sellerCategory == SellerCategory.General:
             if (minDevPerc >= 10):

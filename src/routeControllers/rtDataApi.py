@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from src.services.scada_fetcher import fetchScadaPntRtData
 from src.app.violationSuggestion import deriveBuyersInAlertState, deriveBuyersInEmergencyState, deriveSellersInAlertState, deriveSellersInEmergencyState
-from typing import List
+from typing import List, Dict
 
 rtDataApiPage = Blueprint('rtDataApi', __name__,
                           template_folder='templates')
@@ -9,30 +9,30 @@ rtDataApiPage = Blueprint('rtDataApi', __name__,
 
 @rtDataApiPage.route('/getpntData', methods=['GET'])
 def getpntData() -> dict:
-    pntId = request.args.get('id')
+    pntId = request.args.get('id') or ""
     val = fetchScadaPntRtData(pntId)
-    return jsonify({"val": val})
+    return {"val": val}
 
 
 @rtDataApiPage.route('/getAlertBuyers', methods=['GET'])
-def getAlertBuyers() -> List[int]:
+def getAlertBuyers() -> Dict[str, List[int]]:
     buyerIndices = deriveBuyersInAlertState()
-    return jsonify({"indices": buyerIndices})
+    return {"indices": buyerIndices}
 
 
 @rtDataApiPage.route('/getEmergencyBuyers', methods=['GET'])
-def getEmergencyBuyers() -> List[int]:
+def getEmergencyBuyers() -> Dict[str, List[int]]:
     buyerIndices = deriveBuyersInEmergencyState()
-    return jsonify({"indices": buyerIndices})
+    return {"indices": buyerIndices}
 
 
 @rtDataApiPage.route('/getAlertSellers', methods=['GET'])
-def getAlertSellers() -> List[int]:
+def getAlertSellers() -> Dict[str, List[int]]:
     sellerIndices = deriveSellersInAlertState()
-    return jsonify({"indices": sellerIndices})
+    return {"indices": sellerIndices}
 
 
 @rtDataApiPage.route('/getEmergencySellers', methods=['GET'])
-def getEmergencySellers() -> List[int]:
+def getEmergencySellers() -> Dict[str, List[int]]:
     sellerIndices = deriveSellersInEmergencyState()
-    return jsonify({"indices": sellerIndices})
+    return {"indices": sellerIndices}

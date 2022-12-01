@@ -67,6 +67,6 @@ def fetchScadaPntRandHistData(pntId, startTime: dt.datetime, endTime: dt.datetim
         return pd.Series()
     timestamps = pd.date_range(
         startTime, endTime, freq=dt.timedelta(minutes=1)).tolist()
-    dataSeries = pd.Series([random.randint(-50, 50)
+    dataSeries = pd.Series([random.randint(-1000, 1000)
                            for x in timestamps], index=timestamps)
     return dataSeries
