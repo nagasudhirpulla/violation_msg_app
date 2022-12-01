@@ -57,3 +57,9 @@ class BuyerCategory(Enum):
     General = 1
     RE = 2
     LessSch = 3
+
+
+class SellerCategory(Enum):
+    General = 1
+    WS = 2
+    MunWaste = 3

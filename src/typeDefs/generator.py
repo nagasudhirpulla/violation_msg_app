@@ -7,4 +7,4 @@ class IGenerator(TypedDict):
     schPnt: str
     drawalPnt: str
     acePnt: str
-    isWs: bool
+    isWS: bool
