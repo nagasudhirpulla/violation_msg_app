@@ -20,6 +20,7 @@ import { ISetLoadViolMsgAction, setLoadViolMsgReducer } from "../actions/setLoad
 import { ISetZcvViolMsgAction, setZcvViolMsgReducer } from "../actions/setZcvViolMsg";
 import { ISetSplEvntsAction, setSplEvntsReducer } from "../actions/setSplEvntsAction";
 import { ISetDistributionEmailsAction, setDistributionEmailsReducer } from "../actions/setDistributionEmailsAction";
+import { getAlertBuyersDispatch, IGetAlertBuyersAction } from "../actions/getAlertBuyersAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -86,6 +87,10 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.SAVE_VIOL_LOG: {
                 await saveViolLogDispatch(action as ISaveViolLogAction, pageState, pageStateDispatch)
+                break;
+            }
+            case ActionType.SUGGEST_ALERT_BUYERS: {
+                await getAlertBuyersDispatch(action as IGetAlertBuyersAction, pageState, pageStateDispatch)
                 break;
             }
             default:

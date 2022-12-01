@@ -6,6 +6,7 @@ import pageInitState from '../initial_states/violMsgAppInitState'
 import { IUtilPnt } from '../typeDefs/utilPnt';
 import { getViolationRowsAction } from '../actions/getViolationRowsAction';
 import { setMsgTimeAction } from '../actions/setMsgTimeAction';
+import { getAlertBuyersAction } from '../actions/getAlertBuyersAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
@@ -55,6 +56,10 @@ function ViolMsgApp() {
         setShowLogConfModal(false)
     }
 
+    const onSuggestAlertBuyersClick = () => {
+        pageStateDispatch(getAlertBuyersAction(setSelConsList))
+    }
+
     return (
         <>
             <div className="no-print">
@@ -67,7 +72,9 @@ function ViolMsgApp() {
                         getOptionValue={option => option.name}
                         onChange={onSelConsChange}
                         placeholder="Select Constituents"
+                        value={selConsList}
                         classNamePrefix="select" />
+                    <button onClick={onSuggestAlertBuyersClick} className="btn btn-xs btn-info">Suggest Alert</button>
                     <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
                 </div>
                 <br />
@@ -80,6 +87,7 @@ function ViolMsgApp() {
                         getOptionValue={option => option.name}
                         placeholder="Select Generators"
                         onChange={onSelGensChange}
+                        value={selGensList}
                         classNamePrefix="select" />
                     <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
                 </div>
