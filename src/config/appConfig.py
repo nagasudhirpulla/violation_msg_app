@@ -3,6 +3,7 @@ import json
 from typing import List
 from src.typeDefs.buyer import IBuyer
 from src.typeDefs.generator import IGenerator
+from enum import Enum
 
 # initialize the app config global variable
 appConf = {}
@@ -50,3 +51,9 @@ def getGensFromConf() -> List[IGenerator]:
         return gen
     gens = [parseGenConf(c) for c in appConf["constituents"]]
     return gens
+
+
+class BuyerCategory(Enum):
+    General = 1
+    RE = 2
+    LessSch = 3
