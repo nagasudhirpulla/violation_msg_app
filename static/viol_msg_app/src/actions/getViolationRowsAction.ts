@@ -2,7 +2,6 @@ import { getMsgInstructions } from "../app_logic/msgInstructions";
 import { fetchPntData } from "../services/fetchPntData";
 import { fetchViolRows } from "../services/fetchViolRows";
 import { IAction } from "../typeDefs/action";
-import { IUtilPnt } from "../typeDefs/utilPnt";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
 import { setDistributionEmailsAction } from "./setDistributionEmailsAction";

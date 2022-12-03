@@ -23,6 +23,7 @@ import { ISetDistributionEmailsAction, setDistributionEmailsReducer } from "../a
 import { getAlertBuyersDispatch, IGetAlertBuyersAction } from "../actions/getAlertBuyersAction";
 import { ISetSelectedConsAction, setSelectedConsReducer } from "../actions/setSelectedConsAction";
 import { getEmergencyBuyersDispatch, IGetEmergencyBuyersAction } from "../actions/getEmergencyBuyersAction";
+import { ISetSelectedGensAction, setSelectedGensReducer } from "../actions/setSelectedGensAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -58,6 +59,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setDistributionEmailsReducer(state, action as ISetDistributionEmailsAction)
             case ActionType.SET_SELECTED_CONS:
                 return setSelectedConsReducer(state, action as ISetSelectedConsAction)
+            case ActionType.SET_SELECTED_GENS:
+                    return setSelectedGensReducer(state, action as ISetSelectedGensAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
@@ -106,7 +109,7 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             default:
                 pageStateDispatch(action);
         }
-    }, [pageState.urls.serverBaseUrl, pageState.ui.freqPnt]); // The empty array causes this callback to only be created once per component instance
+    }, [pageState.urls.serverBaseUrl, pageState.ui.freqPnt, pageState.ui.selectedCons, pageState.ui.selectedGens]); // The empty array causes this callback to only be created once per component instance
 
     return [pageState, asyncDispatch];
 }

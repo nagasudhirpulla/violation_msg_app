@@ -33,7 +33,6 @@ function ViolMsgApp() {
 
     const onSelGensChange = (selectedOptions: IUtilPnt[]) => {
         pageStateDispatch(setSelectedGensAction(selectedOptions))
-
     }
 
     let [siName, setSiName] = useState("");
