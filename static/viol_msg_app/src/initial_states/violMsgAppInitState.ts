@@ -8,6 +8,8 @@ const initState: IViolMsgAppState = {
         freqPnt: "",
         generators: [],
         constituents: [],
+        selectedGens:[],
+        selectedCons:[],
         violInfoRows: [],
         freq: 50,
         msgId: `LD/${(nowDate.getMonth() + 1)}/`,

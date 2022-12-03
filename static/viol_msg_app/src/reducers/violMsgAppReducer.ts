@@ -6,7 +6,7 @@ import { ISetAppConfigAction, setAppConfigAction, setAppConfigReducer } from "..
 import { ActionType } from "../actions/actionType";
 import { IAction } from "../typeDefs/action";
 import { ISetViolRowsAction, setViolRowsReducer } from "../actions/setViolRowsAction";
-import { getViolationRowsDispatch, IGetViolationRowsAction } from "../actions/getViolationRowsAction";
+import { getViolationRowsAction, getViolationRowsDispatch, IGetViolationRowsAction } from "../actions/getViolationRowsAction";
 import { ISetMsgTimeAction, setMsgTimeReducer } from "../actions/setMsgTimeAction";
 import { ISetFreqAction, setFreqReducer } from "../actions/setFreqAction";
 import { ISetMsgIdAction, setMsgIdReducer } from "../actions/setMsgIdAction";
@@ -21,6 +21,7 @@ import { ISetZcvViolMsgAction, setZcvViolMsgReducer } from "../actions/setZcvVio
 import { ISetSplEvntsAction, setSplEvntsReducer } from "../actions/setSplEvntsAction";
 import { ISetDistributionEmailsAction, setDistributionEmailsReducer } from "../actions/setDistributionEmailsAction";
 import { getAlertBuyersDispatch, IGetAlertBuyersAction } from "../actions/getAlertBuyersAction";
+import { ISetSelectedConsAction, setSelectedConsReducer } from "../actions/setSelectedConsAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -54,6 +55,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setSplEvntsReducer(state, action as ISetSplEvntsAction)
             case ActionType.SET_DISTRIBUTION_MAILS:
                 return setDistributionEmailsReducer(state, action as ISetDistributionEmailsAction)
+            case ActionType.SET_SELECTED_CONS:
+                return setSelectedConsReducer(state, action as ISetSelectedConsAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
@@ -91,6 +94,7 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.SUGGEST_ALERT_BUYERS: {
                 await getAlertBuyersDispatch(action as IGetAlertBuyersAction, pageState, pageStateDispatch)
+                await getViolationRowsDispatch(getViolationRowsAction(false), pageState, pageStateDispatch)
                 break;
             }
             default:

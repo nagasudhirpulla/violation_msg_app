@@ -7,6 +7,8 @@ export interface IViolMsgAppState {
         freqPnt: string,
         generators: IUtilPnt[],
         constituents: IUtilPnt[],
+        selectedGens: IUtilPnt[],
+        selectedCons: IUtilPnt[],
         msgId: string,
         freq: number,
         voltViolationMsg: string,

@@ -13,7 +13,6 @@ import { setViolRowsAction } from "./setViolRowsAction";
 import { setViolTypeAction } from "./setViolTypeAction";
 
 export interface IGetViolationRowsPayload {
-    utils: IUtilPnt[],
     isGen: boolean
 }
 
@@ -22,10 +21,10 @@ export interface IGetViolationRowsAction extends IAction {
     payload: IGetViolationRowsPayload
 }
 
-export function getViolationRowsAction(utils: IUtilPnt[], isGen: boolean): IGetViolationRowsAction {
+export function getViolationRowsAction(isGen: boolean): IGetViolationRowsAction {
     return {
         type: ActionType.GET_VIOLATION_ROWS,
-        payload: { utils, isGen }
+        payload: { isGen }
     };
 }
 
@@ -33,7 +32,8 @@ export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, 
     const isGen = action.payload.isGen
     pageStateDispatch(setIsGenSelAction(isGen))
 
-    let utils = action.payload.utils
+    let utils = isGen ? pageState.ui.selectedGens : pageState.ui.selectedCons
+
     const violRows = await fetchViolRows(pageState.urls.serverBaseUrl, utils)
     pageStateDispatch(setViolRowsAction(violRows))
 
@@ -58,7 +58,7 @@ export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, 
         pageStateDispatch(setViolTypeAction(violType))
 
         // set the distribution emails list
-        let emailListStr = action.payload.utils.filter(u => u.email.trim().length > 0).map(u => u.email).join(";")
+        let emailListStr = utils.filter(u => u.email.trim().length > 0).map(u => u.email).join(";")
         if (emailListStr !== "") {
             emailListStr = `Distribution List: ${emailListStr}`
         }

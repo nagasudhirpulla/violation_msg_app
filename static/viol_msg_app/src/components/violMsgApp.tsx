@@ -19,30 +19,32 @@ import { setVoltViolMsgAction } from '../actions/setVoltViolMsgAction';
 import { setLoadViolMsgAction } from '../actions/setLoadViolMsgAction';
 import { setZcvViolMsgAction } from '../actions/setZcvViolMsg';
 import { setSplEvntsAction } from '../actions/setSplEvntsAction';
+import { setSelectedConsAction } from '../actions/setSelectedConsAction';
+import { setSelectedGensAction } from '../actions/setSelectedGensAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
     const [showLogConfModal, setShowLogConfModal] = useState(false);
 
-    let [selConsList, setSelConsList] = useState([] as IUtilPnt[]);
+    // let [selConsList, setSelConsList] = useState([] as IUtilPnt[]);
     const onSelConsChange = (selectedOptions: IUtilPnt[]) => {
-        setSelConsList(selectedOptions);
+        pageStateDispatch(setSelectedConsAction(selectedOptions))
     }
-
-    let [selGensList, setSelGensList] = useState([] as IUtilPnt[]);
+    
     const onSelGensChange = (selectedOptions: IUtilPnt[]) => {
-        setSelGensList(selectedOptions);
+        pageStateDispatch(setSelectedGensAction(selectedOptions))
+
     }
 
     let [siName, setSiName] = useState("");
 
     const onConsViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
-        pageStateDispatch(getViolationRowsAction(selConsList, false))
+        pageStateDispatch(getViolationRowsAction(false))
     }
     const onGensViolRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
-        pageStateDispatch(getViolationRowsAction(selGensList, true))
+        pageStateDispatch(getViolationRowsAction(true))
     }
 
     const onPrintClick = () => {
@@ -57,7 +59,7 @@ function ViolMsgApp() {
     }
 
     const onSuggestAlertBuyersClick = () => {
-        pageStateDispatch(getAlertBuyersAction(setSelConsList))
+        pageStateDispatch(getAlertBuyersAction())
     }
 
     return (
@@ -72,7 +74,7 @@ function ViolMsgApp() {
                         getOptionValue={option => option.name}
                         onChange={onSelConsChange}
                         placeholder="Select Constituents"
-                        value={selConsList}
+                        value={pageState.ui.selectedCons}
                         classNamePrefix="select" />
                     <button onClick={onSuggestAlertBuyersClick} className="btn btn-xs btn-info">Suggest Alert</button>
                     <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
@@ -87,7 +89,7 @@ function ViolMsgApp() {
                         getOptionValue={option => option.name}
                         placeholder="Select Generators"
                         onChange={onSelGensChange}
-                        value={selGensList}
+                        value={pageState.ui.selectedGens}
                         classNamePrefix="select" />
                     <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
                 </div>
