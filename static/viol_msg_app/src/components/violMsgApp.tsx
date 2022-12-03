@@ -21,16 +21,16 @@ import { setZcvViolMsgAction } from '../actions/setZcvViolMsg';
 import { setSplEvntsAction } from '../actions/setSplEvntsAction';
 import { setSelectedConsAction } from '../actions/setSelectedConsAction';
 import { setSelectedGensAction } from '../actions/setSelectedGensAction';
+import { getEmergencyBuyersAction } from '../actions/getEmergencyBuyersAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
     const [showLogConfModal, setShowLogConfModal] = useState(false);
 
-    // let [selConsList, setSelConsList] = useState([] as IUtilPnt[]);
     const onSelConsChange = (selectedOptions: IUtilPnt[]) => {
         pageStateDispatch(setSelectedConsAction(selectedOptions))
     }
-    
+
     const onSelGensChange = (selectedOptions: IUtilPnt[]) => {
         pageStateDispatch(setSelectedGensAction(selectedOptions))
 
@@ -61,6 +61,9 @@ function ViolMsgApp() {
     const onSuggestAlertBuyersClick = () => {
         pageStateDispatch(getAlertBuyersAction())
     }
+    const onSuggestEmergencyBuyersClick = () => {
+        pageStateDispatch(getEmergencyBuyersAction())
+    }
 
     return (
         <>
@@ -77,6 +80,7 @@ function ViolMsgApp() {
                         value={pageState.ui.selectedCons}
                         classNamePrefix="select" />
                     <button onClick={onSuggestAlertBuyersClick} className="btn btn-xs btn-info">Suggest Alert</button>
+                    <button onClick={onSuggestEmergencyBuyersClick} className="btn btn-xs btn-info">Suggest Emergency</button>
                     <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
                 </div>
                 <br />

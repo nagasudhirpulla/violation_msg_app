@@ -22,6 +22,7 @@ import { ISetSplEvntsAction, setSplEvntsReducer } from "../actions/setSplEvntsAc
 import { ISetDistributionEmailsAction, setDistributionEmailsReducer } from "../actions/setDistributionEmailsAction";
 import { getAlertBuyersDispatch, IGetAlertBuyersAction } from "../actions/getAlertBuyersAction";
 import { ISetSelectedConsAction, setSelectedConsReducer } from "../actions/setSelectedConsAction";
+import { getEmergencyBuyersDispatch, IGetEmergencyBuyersAction } from "../actions/getEmergencyBuyersAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -94,6 +95,11 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.SUGGEST_ALERT_BUYERS: {
                 await getAlertBuyersDispatch(action as IGetAlertBuyersAction, pageState, pageStateDispatch)
+                await getViolationRowsDispatch(getViolationRowsAction(false), pageState, pageStateDispatch)
+                break;
+            }
+            case ActionType.SUGGEST_EMERGENCY_BUYERS: {
+                await getEmergencyBuyersDispatch(action as IGetEmergencyBuyersAction, pageState, pageStateDispatch)
                 await getViolationRowsDispatch(getViolationRowsAction(false), pageState, pageStateDispatch)
                 break;
             }
