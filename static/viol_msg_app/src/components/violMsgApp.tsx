@@ -22,6 +22,8 @@ import { setSplEvntsAction } from '../actions/setSplEvntsAction';
 import { setSelectedConsAction } from '../actions/setSelectedConsAction';
 import { setSelectedGensAction } from '../actions/setSelectedGensAction';
 import { getEmergencyBuyersAction } from '../actions/getEmergencyBuyersAction';
+import { getAlertSellersAction } from '../actions/getAlertSellersAction';
+import { getEmergencySellersAction } from '../actions/getEmergencySellersAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -64,6 +66,13 @@ function ViolMsgApp() {
         pageStateDispatch(getEmergencyBuyersAction())
     }
 
+    const onSuggestAlertSellersClick = () => {
+        pageStateDispatch(getAlertSellersAction())
+    }
+    const onSuggestEmergencySellersClick = () => {
+        pageStateDispatch(getEmergencySellersAction())
+    }
+
     return (
         <>
             <div className="no-print">
@@ -79,8 +88,8 @@ function ViolMsgApp() {
                         value={pageState.ui.selectedCons}
                         classNamePrefix="select" />
                     <button onClick={onSuggestAlertBuyersClick} className="btn btn-xs btn-info">Suggest Alert</button>
-                    <button onClick={onSuggestEmergencyBuyersClick} className="btn btn-xs btn-info">Suggest Emergency</button>
-                    <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
+                    <button onClick={onSuggestEmergencyBuyersClick} className="btn btn-xs btn-warning ml-2">Suggest Emergency</button>
+                    <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-success ml-2">Update</button>
                 </div>
                 <br />
                 <div>
@@ -94,7 +103,9 @@ function ViolMsgApp() {
                         onChange={onSelGensChange}
                         value={pageState.ui.selectedGens}
                         classNamePrefix="select" />
-                    <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-info">Update</button>
+                    <button onClick={onSuggestAlertSellersClick} className="btn btn-xs btn-info">Suggest Alert</button>
+                    <button onClick={onSuggestEmergencySellersClick} className="btn btn-xs btn-warning ml-2">Suggest Emergency</button>
+                    <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-success ml-2">Update</button>
                 </div>
             </div>
             {pageState.ui.violInfoRows.length > 0 &&

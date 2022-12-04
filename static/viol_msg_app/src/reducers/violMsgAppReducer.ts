@@ -24,6 +24,8 @@ import { getAlertBuyersDispatch, IGetAlertBuyersAction } from "../actions/getAle
 import { ISetSelectedConsAction, setSelectedConsReducer } from "../actions/setSelectedConsAction";
 import { getEmergencyBuyersDispatch, IGetEmergencyBuyersAction } from "../actions/getEmergencyBuyersAction";
 import { ISetSelectedGensAction, setSelectedGensReducer } from "../actions/setSelectedGensAction";
+import { getAlertSellersDispatch, IGetAlertSellersAction } from "../actions/getAlertSellersAction";
+import { getEmergencySellersDispatch, IGetEmergencySellersAction } from "../actions/getEmergencySellersAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -60,7 +62,7 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             case ActionType.SET_SELECTED_CONS:
                 return setSelectedConsReducer(state, action as ISetSelectedConsAction)
             case ActionType.SET_SELECTED_GENS:
-                    return setSelectedGensReducer(state, action as ISetSelectedGensAction)
+                return setSelectedGensReducer(state, action as ISetSelectedGensAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
@@ -98,12 +100,22 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.SUGGEST_ALERT_BUYERS: {
                 await getAlertBuyersDispatch(action as IGetAlertBuyersAction, pageState, pageStateDispatch)
-                await getViolationRowsDispatch(getViolationRowsAction(false), pageState, pageStateDispatch)
+                //TODO update violation data
                 break;
             }
             case ActionType.SUGGEST_EMERGENCY_BUYERS: {
                 await getEmergencyBuyersDispatch(action as IGetEmergencyBuyersAction, pageState, pageStateDispatch)
-                await getViolationRowsDispatch(getViolationRowsAction(false), pageState, pageStateDispatch)
+                //TODO update violation data
+                break;
+            }
+            case ActionType.SUGGEST_ALERT_SELLERS: {
+                await getAlertSellersDispatch(action as IGetAlertSellersAction, pageState, pageStateDispatch)
+                //TODO update violation data
+                break;
+            }
+            case ActionType.SUGGEST_EMERGENCY_SELLERS: {
+                await getEmergencySellersDispatch(action as IGetEmergencySellersAction, pageState, pageStateDispatch)
+                //TODO update violation data
                 break;
             }
             default:

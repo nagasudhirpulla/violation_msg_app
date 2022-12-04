@@ -8,13 +8,13 @@ export interface IGetEmergencyBuyersPayload {
 }
 
 export interface IGetEmergencyBuyersAction extends IAction {
-    type: ActionType.SUGGEST_ALERT_BUYERS,
+    type: ActionType.SUGGEST_EMERGENCY_BUYERS,
     payload: IGetEmergencyBuyersPayload
 }
 
 export function getEmergencyBuyersAction(): IGetEmergencyBuyersAction {
     return {
-        type: ActionType.SUGGEST_ALERT_BUYERS,
+        type: ActionType.SUGGEST_EMERGENCY_BUYERS,
         payload: {}
     };
 }
