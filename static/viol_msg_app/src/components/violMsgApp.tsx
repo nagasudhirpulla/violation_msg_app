@@ -1,11 +1,10 @@
 // https://react-bootstrap.github.io/components/modal/
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select'
 import { useViolMsgAppReducer } from '../reducers/violMsgAppReducer';
 import pageInitState from '../initial_states/violMsgAppInitState'
 import { IUtilPnt } from '../typeDefs/utilPnt';
 import { getViolationRowsAction } from '../actions/getViolationRowsAction';
-import { setMsgTimeAction } from '../actions/setMsgTimeAction';
 import { getAlertBuyersAction } from '../actions/getAlertBuyersAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
@@ -40,11 +39,9 @@ function ViolMsgApp() {
     let [siName, setSiName] = useState("");
 
     const onConsViolRowsUpdateClick = () => {
-        pageStateDispatch(setMsgTimeAction(new Date()))
         pageStateDispatch(getViolationRowsAction(false))
     }
     const onGensViolRowsUpdateClick = () => {
-        pageStateDispatch(setMsgTimeAction(new Date()))
         pageStateDispatch(getViolationRowsAction(true))
     }
 

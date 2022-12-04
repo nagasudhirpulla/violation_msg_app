@@ -8,8 +8,8 @@ const initState: IViolMsgAppState = {
         freqPnt: "",
         generators: [],
         constituents: [],
-        selectedGens:[],
-        selectedCons:[],
+        selectedGens: [],
+        selectedCons: [],
         violInfoRows: [],
         freq: 50,
         msgId: `LD/${(nowDate.getMonth() + 1)}/`,
@@ -20,7 +20,8 @@ const initState: IViolMsgAppState = {
         loadViolationMsg: "",
         zcvViolationMsg: "",
         splEvnts: "",
-        distributionMails: ""
+        distributionMails: "",
+        pendingActions: []
     },
     urls: {
         serverBaseUrl: ".."

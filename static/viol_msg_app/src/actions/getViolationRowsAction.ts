@@ -8,6 +8,7 @@ import { setDistributionEmailsAction } from "./setDistributionEmailsAction";
 import { setFreqAction } from "./setFreqAction";
 import { setIsGenSelAction } from "./setIsGenSelAction";
 import { setMsgInstrucAction } from "./setMsgInstrucAction";
+import { setMsgTimeAction } from "./setMsgTimeAction";
 import { setViolRowsAction } from "./setViolRowsAction";
 import { setViolTypeAction } from "./setViolTypeAction";
 
@@ -28,6 +29,8 @@ export function getViolationRowsAction(isGen: boolean): IGetViolationRowsAction 
 }
 
 export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, pageState: IViolMsgAppState, pageStateDispatch: React.Dispatch<IAction>): Promise<void> => {
+    pageStateDispatch(setMsgTimeAction(new Date()))
+
     const isGen = action.payload.isGen
     pageStateDispatch(setIsGenSelAction(isGen))
 

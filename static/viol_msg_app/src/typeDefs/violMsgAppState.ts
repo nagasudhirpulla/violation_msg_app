@@ -1,3 +1,4 @@
+import { IAction } from "./action";
 import { IUtilPnt } from "./utilPnt";
 import { IViolInfoRow } from "./violInfoRow";
 
@@ -19,7 +20,8 @@ export interface IViolMsgAppState {
         isGenSelected: boolean,
         violInfoRows: IViolInfoRow[],
         violType: string,
-        distributionMails: string
+        distributionMails: string,
+        pendingActions: IAction[]
     },
     urls: {
         serverBaseUrl: string

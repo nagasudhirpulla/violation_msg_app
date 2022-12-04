@@ -26,6 +26,7 @@ import { getEmergencyBuyersDispatch, IGetEmergencyBuyersAction } from "../action
 import { ISetSelectedGensAction, setSelectedGensReducer } from "../actions/setSelectedGensAction";
 import { getAlertSellersDispatch, IGetAlertSellersAction } from "../actions/getAlertSellersAction";
 import { getEmergencySellersDispatch, IGetEmergencySellersAction } from "../actions/getEmergencySellersAction";
+import { ISetPendingActionsAction, setPendingActionsAction, setPendingActionsReducer } from "../actions/setPendingActionsAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -63,6 +64,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setSelectedConsReducer(state, action as ISetSelectedConsAction)
             case ActionType.SET_SELECTED_GENS:
                 return setSelectedGensReducer(state, action as ISetSelectedGensAction)
+            case ActionType.SET_PENDING_ACTIONS:
+                return setPendingActionsReducer(state, action as ISetPendingActionsAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));
@@ -82,6 +85,16 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
         })();
     }, [pageState.urls.serverBaseUrl]);
 
+    // dispatch the first pending action
+    useEffect(() => {
+        (async function () {
+            let pendingActions = pageState.ui.pendingActions
+            if (pendingActions.length == 0) { return }
+            pageStateDispatch(setPendingActionsAction(pendingActions.slice(1)))
+            asyncDispatch(pendingActions[0])
+        })();
+    }, [pageState.ui.pendingActions]);
+
     // created middleware to intercept dispatch calls that require async operations
     const asyncDispatch: React.Dispatch<IAction> = useCallback(async (action) => {
         switch (action.type) {
@@ -100,28 +113,32 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.SUGGEST_ALERT_BUYERS: {
                 await getAlertBuyersDispatch(action as IGetAlertBuyersAction, pageState, pageStateDispatch)
-                //TODO update violation data
+                // update violation data after ui refresh
+                pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(false)]))
                 break;
             }
             case ActionType.SUGGEST_EMERGENCY_BUYERS: {
                 await getEmergencyBuyersDispatch(action as IGetEmergencyBuyersAction, pageState, pageStateDispatch)
-                //TODO update violation data
+                // update violation data after ui refresh
+                pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(false)]))
                 break;
             }
             case ActionType.SUGGEST_ALERT_SELLERS: {
                 await getAlertSellersDispatch(action as IGetAlertSellersAction, pageState, pageStateDispatch)
-                //TODO update violation data
+                // update violation data after ui refresh
+                pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(true)]))
                 break;
             }
             case ActionType.SUGGEST_EMERGENCY_SELLERS: {
                 await getEmergencySellersDispatch(action as IGetEmergencySellersAction, pageState, pageStateDispatch)
-                //TODO update violation data
+                // update violation data after ui refresh
+                pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(true)]))
                 break;
             }
             default:
                 pageStateDispatch(action);
         }
-    }, [pageState.urls.serverBaseUrl, pageState.ui.freqPnt, pageState.ui.selectedCons, pageState.ui.selectedGens]); // The empty array causes this callback to only be created once per component instance
+    }, [pageState.urls.serverBaseUrl, pageState.ui.freqPnt, pageState.ui.selectedCons, pageState.ui.selectedGens, pageState.ui.pendingActions]); // The empty array causes this callback to only be created once per component instance
 
     return [pageState, asyncDispatch];
 }
