@@ -1,9 +1,11 @@
 from src.config.appConfig import getBuyersFromConf, BuyerCategory, getGensFromConf, SellerCategory
 from src.services.scada_fetcher import fetchScadaPntHistData
-from src.typeDefs.buyer import IBuyer
-from src.typeDefs.generator import IGenerator
 from typing import List
 import datetime as dt
+
+
+def stripSeconds(t: dt.datetime) -> dt.datetime:
+    return dt.datetime(t.year, t.month, t.day, t.hour, t.minute)
 
 
 def deriveBuyersInAlertState() -> List[int]:
@@ -12,7 +14,8 @@ def deriveBuyersInAlertState() -> List[int]:
     alertBuyerIndices: List[int] = []
     for itr, b in enumerate(buyers):
         # fetch last 15 mins data for each buyer
-        endTime: dt.datetime = dt.datetime.now()
+        endTime: dt.datetime = stripSeconds(
+            dt.datetime.now()-dt.timedelta(minutes=1))
         startTime: dt.datetime = endTime-dt.timedelta(minutes=15)
         buyerHistSch = fetchScadaPntHistData(b["schPnt"], startTime, endTime)
         buyerHistDrawal = fetchScadaPntHistData(
@@ -28,7 +31,7 @@ def deriveBuyersInAlertState() -> List[int]:
         # check if each buyer is satisfying the alert criteria
         buyerHistDev = buyerHistDrawal - buyerHistSch
         minDev = buyerHistDev.abs().min()
-        buyerHistDevPerc = buyerHistDev.div(buyerHistSch)*100
+        buyerHistDevPerc = (buyerHistDev.div(buyerHistSch))*100
         minDevPerc = buyerHistDevPerc.abs().min()
 
         if buyerCategory == BuyerCategory.RE:
@@ -50,7 +53,8 @@ def deriveBuyersInEmergencyState() -> List[int]:
     emergencyBuyerIndices: List[int] = []
     for itr, b in enumerate(buyers):
         # fetch last 5 mins data for each buyer
-        endTime: dt.datetime = dt.datetime.now()
+        endTime: dt.datetime = stripSeconds(
+            dt.datetime.now()-dt.timedelta(minutes=1))
         startTime: dt.datetime = endTime-dt.timedelta(minutes=5)
         buyerHistSch = fetchScadaPntHistData(b["schPnt"], startTime, endTime)
         buyerHistDrawal = fetchScadaPntHistData(
@@ -66,7 +70,7 @@ def deriveBuyersInEmergencyState() -> List[int]:
         # check if each buyer is satisfying the emergency criteria
         buyerHistDev = buyerHistDrawal - buyerHistSch
         minDev = buyerHistDev.abs().min()
-        buyerHistDevPerc = buyerHistDev.div(buyerHistSch)*100
+        buyerHistDevPerc = (buyerHistDev.div(buyerHistSch))*100
         minDevPerc = buyerHistDevPerc.abs().min()
 
         if buyerCategory == BuyerCategory.RE:
@@ -88,7 +92,8 @@ def deriveSellersInAlertState() -> List[int]:
     alertSellerIndices: List[int] = []
     for itr, s in enumerate(sellers):
         # fetch last 15 mins data for each seller
-        endTime: dt.datetime = dt.datetime.now()
+        endTime: dt.datetime = stripSeconds(
+            dt.datetime.now()-dt.timedelta(minutes=1))
         startTime: dt.datetime = endTime-dt.timedelta(minutes=15)
         sellerHistSch = fetchScadaPntHistData(s["schPnt"], startTime, endTime)
         sellerHistDrawal = fetchScadaPntHistData(
@@ -102,7 +107,7 @@ def deriveSellersInAlertState() -> List[int]:
         # check if each seller is satisfying the alert criteria
         sellerHistDev = sellerHistDrawal - sellerHistSch
         # minDev = sellerHistDev.abs().min()
-        sellerHistDevPerc = sellerHistDev.div(sellerHistSch)*100
+        sellerHistDevPerc = (sellerHistDev.div(sellerHistSch))*100
         minDevPerc = sellerHistDevPerc.abs().min()
 
         if sellerCategory == SellerCategory.WS:
@@ -121,7 +126,8 @@ def deriveSellersInEmergencyState() -> List[int]:
     alertSellerIndices: List[int] = []
     for itr, s in enumerate(sellers):
         # fetch last 15 mins data for each seller
-        endTime: dt.datetime = dt.datetime.now()
+        endTime: dt.datetime = stripSeconds(
+            dt.datetime.now()-dt.timedelta(minutes=1))
         startTime: dt.datetime = endTime-dt.timedelta(minutes=5)
         sellerHistSch = fetchScadaPntHistData(s["schPnt"], startTime, endTime)
         sellerHistDrawal = fetchScadaPntHistData(
@@ -135,7 +141,7 @@ def deriveSellersInEmergencyState() -> List[int]:
         # check if each seller is satisfying the alert criteria
         sellerHistDev = sellerHistDrawal - sellerHistSch
         # minDev = sellerHistDev.abs().min()
-        sellerHistDevPerc = sellerHistDev.div(sellerHistSch)*100
+        sellerHistDevPerc = (sellerHistDev.div(sellerHistSch))*100
         minDevPerc = sellerHistDevPerc.abs().min()
 
         if sellerCategory == SellerCategory.General:
