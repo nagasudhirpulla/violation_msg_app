@@ -273,32 +273,11 @@ function ViolMsgApp() {
                                 </td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"><b><span>Alert / चेतावनी</span></b></td>
+                                <td valign="middle" align="left"><span>Alert / चेतावनी</span></td>
                                 <td colSpan={4} valign="middle" align="left">
                                     <textarea style={{ width: "100%" }} rows={1}
                                         value={pageState.ui.loadViolationMsg}
                                         onChange={(ev) => { pageStateDispatch(setLoadViolMsgAction(ev.target.value)) }}></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={2} rowSpan={2} valign="middle" height="79" align="left">
-                                    <span>Zero Crossing Violation / ज़ीरो क्रासिंग का उल्लंघन</span>
-                                </td>
-                                <td valign="middle" align="left">
-                                    <span>Emergency / आपातकालीन</span>
-                                </td>
-                                <td rowSpan={2} valign="middle" align="left">
-                                    <span>6.4.6</span>
-                                </td>
-                                <td colSpan={4} rowSpan={2} valign="middle" align="center">
-                                    <textarea style={{ width: "100%" }} rows={2}
-                                        value={pageState.ui.zcvViolationMsg}
-                                        onChange={(ev) => { pageStateDispatch(setZcvViolMsgAction(ev.target.value)) }}></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td valign="middle" align="left">
-                                    <span>Alert / चेतावनी</span>
                                 </td>
                             </tr>
                             <tr>
@@ -310,6 +289,8 @@ function ViolMsgApp() {
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>5.4.2(a) 5.4.2(b) 6.4.6 6.4.7 6.4.10 6.4.12 </span>
+                                    <br />
+                                    <span>Clause 5(1) of DSM Regulation</span>
                                 </td>
                                 <td colSpan={4} valign="bottom" align="center">
                                     <span><br /></span>
