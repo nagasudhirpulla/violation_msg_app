@@ -150,7 +150,7 @@ function ViolMsgApp() {
                                         Fax / फैक्स : 022-28235434, 28202630 website / वेबसाइट: www.wrldc.com, www.wrldc.in</span>
                                 </td>
                                 <td rowSpan={5} valign="middle" align="center">
-                                    <span><br /><img src="static/img/logo.png" width="83" height="92" />
+                                    <span><br /><img src="static/img/logo.png" width="120" height="50" />
                                     </span>
                                 </td>
                             </tr>

@@ -11,4 +11,4 @@ def getUtilsInfo() -> dict:
     consList = appConf["constituents"]
     genList = appConf["generators"]
     freqPnt = appConf["freqPnt"]
-    return jsonify({"gens": genList, "cons": consList, "freqPnt":freqPnt})
+    return {"gens": genList, "cons": consList, "freqPnt":freqPnt}
