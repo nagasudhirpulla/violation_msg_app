@@ -49,7 +49,7 @@ def getGensFromConf() -> List[IGenerator]:
                            "isWS": True if c[5].lower() == "ws" else False
                            }
         return gen
-    gens = [parseGenConf(c) for c in appConf["constituents"]]
+    gens = [parseGenConf(c) for c in appConf["generators"]]
     return gens
 
 
