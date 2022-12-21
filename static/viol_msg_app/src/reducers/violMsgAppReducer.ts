@@ -27,6 +27,7 @@ import { ISetSelectedGensAction, setSelectedGensReducer } from "../actions/setSe
 import { getAlertSellersDispatch, IGetAlertSellersAction } from "../actions/getAlertSellersAction";
 import { getEmergencySellersDispatch, IGetEmergencySellersAction } from "../actions/getEmergencySellersAction";
 import { ISetPendingActionsAction, setPendingActionsAction, setPendingActionsReducer } from "../actions/setPendingActionsAction";
+import { ISetMsgModeAction, setMsgModeReducer } from "../actions/setMsgModeAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -66,6 +67,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setSelectedGensReducer(state, action as ISetSelectedGensAction)
             case ActionType.SET_PENDING_ACTIONS:
                 return setPendingActionsReducer(state, action as ISetPendingActionsAction)
+                case ActionType.SET_MSG_MODE:
+                    return setMsgModeReducer(state, action as ISetMsgModeAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));

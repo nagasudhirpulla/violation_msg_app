@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select'
 import { useViolMsgAppReducer } from '../reducers/violMsgAppReducer';
-import pageInitState from '../initial_states/violMsgAppInitState'
+import pageInitState, { MsgModes } from '../initial_states/violMsgAppInitState'
 import { IUtilPnt } from '../typeDefs/utilPnt';
 import { getViolationRowsAction } from '../actions/getViolationRowsAction';
 import { getAlertBuyersAction } from '../actions/getAlertBuyersAction';
@@ -16,13 +16,14 @@ import { saveViolLogAction } from '../actions/saveViolLogAction';
 import { deriveViolLog } from '../app_logic/deriveViolLog';
 import { setVoltViolMsgAction } from '../actions/setVoltViolMsgAction';
 import { setLoadViolMsgAction } from '../actions/setLoadViolMsgAction';
-import { setZcvViolMsgAction } from '../actions/setZcvViolMsg';
+// import { setZcvViolMsgAction } from '../actions/setZcvViolMsg';
 import { setSplEvntsAction } from '../actions/setSplEvntsAction';
 import { setSelectedConsAction } from '../actions/setSelectedConsAction';
 import { setSelectedGensAction } from '../actions/setSelectedGensAction';
 import { getEmergencyBuyersAction } from '../actions/getEmergencyBuyersAction';
 import { getAlertSellersAction } from '../actions/getAlertSellersAction';
 import { getEmergencySellersAction } from '../actions/getEmergencySellersAction';
+import { setMsgModeAction } from '../actions/setMsgModeAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -70,6 +71,10 @@ function ViolMsgApp() {
         pageStateDispatch(getEmergencySellersAction())
     }
 
+    const onSelMsgModeChange = (selectedOption: { label: string, value: string }) => {
+        pageStateDispatch(setMsgModeAction(selectedOption.value))
+    }
+
     return (
         <>
             <div className="no-print">
@@ -103,6 +108,22 @@ function ViolMsgApp() {
                     <button onClick={onSuggestAlertSellersClick} className="btn btn-xs btn-info">Suggest Alert</button>
                     <button onClick={onSuggestEmergencySellersClick} className="btn btn-xs btn-warning ml-2">Suggest Emergency</button>
                     <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-success ml-2">Update</button>
+                </div>
+                <div>
+                    <label className='mr-2'>Select Message Mode</label>
+                    <Select
+                        onChange={onSelMsgModeChange}
+                        value={{
+                            "value": pageState.ui.msgMode,
+                            "label": pageState.ui.msgMode
+                        }}
+                        options={Object.keys(MsgModes).map((modeKey) => {
+                            const modeVal = MsgModes[modeKey as keyof typeof MsgModes]
+                            return {
+                                label: modeVal,
+                                value: modeVal,
+                            };
+                        })} />
                 </div>
             </div>
             {pageState.ui.violInfoRows.length > 0 &&
@@ -176,21 +197,21 @@ function ViolMsgApp() {
                                 <td colSpan={2} rowSpan={3} valign="middle" align="left">
                                     <span><br /></span>
                                 </td>
-                                <td valign="middle" align="left"><b><span>ALERT / चेतावनी</span></b></td>
+                                <td valign="middle" align="left"></td>
                                 <td valign="middle" align="left">
                                     <span>Date / दिनांक</span>
                                 </td>
                                 <td valign="middle" align="right"><b><span>{`${moment(pageState.ui.date).format("DD-MMM-YYYY")}`}</span></b></td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"><b><span>EMERGENCY / आपातकालीन</span></b></td>
+                                <td valign="middle" align="left"><b><span>{pageState.ui.msgMode}</span></b></td>
                                 <td valign="middle" align="left">
                                     <span>Time of Issue / जारी करने का समय</span>
                                 </td>
                                 <td valign="middle" align="right"><b><span>{`${moment(pageState.ui.date).format("DD-MMM-YYYY HH:mm")}`}</span></b></td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"><b><span>NON COMPLIANCE / गैर अनुपालन</span></b></td>
+                                <td valign="middle" align="left"></td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td valign="middle" align="left">
                                     <span><br /></span>
@@ -285,7 +306,7 @@ function ViolMsgApp() {
                                     <span>Deviation Violation / शिड्यूल से विचलन का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left">
-                                    <span>Emergency / आपातकालीन</span>
+                                    
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>5.4.2(a) 5.4.2(b) 6.4.6 6.4.7 6.4.10 6.4.12 </span>
@@ -298,7 +319,7 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" align="left">
-                                    <span>Alert / चेतावनी</span>
+                                    <span>{pageState.ui.msgMode}</span>
                                 </td>
                                 <td colSpan={4} valign="middle" align="left">
                                     <textarea

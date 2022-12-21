@@ -2,6 +2,12 @@ import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 
 const nowDate: Date = new Date()
 
+export enum MsgModes {
+    ALERT = 'ALERT / चेतावनी',
+    EMERGENCY = 'EMERGENCY / आपातकालीन',
+    NON_COMPLIANCE = 'NON COMPLIANCE / गैर अनुपालन',
+}
+
 const initState: IViolMsgAppState = {
     ui: {
         date: nowDate,
@@ -21,7 +27,8 @@ const initState: IViolMsgAppState = {
         zcvViolationMsg: "",
         splEvnts: "",
         distributionMails: "",
-        pendingActions: []
+        pendingActions: [],
+        msgMode: MsgModes.ALERT
     },
     urls: {
         serverBaseUrl: ".."

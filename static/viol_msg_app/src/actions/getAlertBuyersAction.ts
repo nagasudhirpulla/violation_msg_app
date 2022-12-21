@@ -1,7 +1,9 @@
+import { MsgModes } from "../initial_states/violMsgAppInitState";
 import { fetchAlertBuyerIndices } from "../services/fetchAlertBuyerIndices";
 import { IAction } from "../typeDefs/action";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
+import { setMsgModeAction } from "./setMsgModeAction";
 import { setSelectedConsAction } from "./setSelectedConsAction";
 
 export interface IGetAlertBuyersPayload {
@@ -23,4 +25,5 @@ export const getAlertBuyersDispatch = async (action: IGetAlertBuyersAction, page
     const buyerIndices = await fetchAlertBuyerIndices(pageState.urls.serverBaseUrl)
     const buyers = buyerIndices.map(x => pageState.ui.constituents[x])
     pageStateDispatch(setSelectedConsAction(buyers))
+    pageStateDispatch(setMsgModeAction(MsgModes.ALERT))
 }

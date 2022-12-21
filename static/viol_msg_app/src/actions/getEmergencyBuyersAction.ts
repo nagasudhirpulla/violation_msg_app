@@ -1,7 +1,9 @@
+import { MsgModes } from "../initial_states/violMsgAppInitState";
 import { fetchEmergencyBuyerIndices } from "../services/fetchEmergencyBuyerIndices";
 import { IAction } from "../typeDefs/action";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
+import { setMsgModeAction } from "./setMsgModeAction";
 import { setSelectedConsAction } from "./setSelectedConsAction";
 
 export interface IGetEmergencyBuyersPayload {
@@ -23,4 +25,5 @@ export const getEmergencyBuyersDispatch = async (action: IGetEmergencyBuyersActi
     const buyerIndices = await fetchEmergencyBuyerIndices(pageState.urls.serverBaseUrl)
     const buyers = buyerIndices.map(x => pageState.ui.constituents[x])
     pageStateDispatch(setSelectedConsAction(buyers))
+    pageStateDispatch(setMsgModeAction(MsgModes.EMERGENCY))
 }
