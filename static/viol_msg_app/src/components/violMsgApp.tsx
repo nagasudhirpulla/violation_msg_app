@@ -71,8 +71,8 @@ function ViolMsgApp() {
         pageStateDispatch(getEmergencySellersAction())
     }
 
-    const onSelMsgModeChange = (selectedOption: { label: string, value: string }) => {
-        pageStateDispatch(setMsgModeAction(selectedOption.value))
+    const onSelMsgModeChange = (mode: string) => {
+        pageStateDispatch(setMsgModeAction(mode))
     }
 
     return (
@@ -90,8 +90,8 @@ function ViolMsgApp() {
                         value={pageState.ui.selectedCons}
                         classNamePrefix="select" />
                     <button onClick={onSuggestAlertBuyersClick} className="btn btn-xs btn-info">Suggest Alert</button>
-                    <button onClick={onSuggestEmergencyBuyersClick} className="btn btn-xs btn-warning ml-2">Suggest Emergency</button>
-                    <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-success ml-2">Update</button>
+                    <button onClick={onSuggestEmergencyBuyersClick} className="btn btn-xs btn-warning ms-2">Suggest Emergency</button>
+                    <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Update</button>
                 </div>
                 <br />
                 <div>
@@ -106,24 +106,20 @@ function ViolMsgApp() {
                         value={pageState.ui.selectedGens}
                         classNamePrefix="select" />
                     <button onClick={onSuggestAlertSellersClick} className="btn btn-xs btn-info">Suggest Alert</button>
-                    <button onClick={onSuggestEmergencySellersClick} className="btn btn-xs btn-warning ml-2">Suggest Emergency</button>
-                    <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-success ml-2">Update</button>
+                    <button onClick={onSuggestEmergencySellersClick} className="btn btn-xs btn-warning ms-2">Suggest Emergency</button>
+                    <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Update</button>
                 </div>
                 <div>
-                    <label className='mr-2'>Select Message Mode</label>
-                    <Select
-                        onChange={onSelMsgModeChange}
-                        value={{
-                            "value": pageState.ui.msgMode,
-                            "label": pageState.ui.msgMode
-                        }}
-                        options={Object.keys(MsgModes).map((modeKey) => {
+                    <label className='me-2'>Select Message Mode</label>
+                    <select
+                        className='select'
+                        value={pageState.ui.msgMode}
+                        onChange={e => onSelMsgModeChange(e.target.value)}>
+                        {Object.keys(MsgModes).map((modeKey) => {
                             const modeVal = MsgModes[modeKey as keyof typeof MsgModes]
-                            return {
-                                label: modeVal,
-                                value: modeVal,
-                            };
-                        })} />
+                            return <option key={modeVal}>{modeVal}</option>
+                        })}
+                    </select>
                 </div>
             </div>
             {pageState.ui.violInfoRows.length > 0 &&
@@ -306,7 +302,7 @@ function ViolMsgApp() {
                                     <span>Deviation Violation / शिड्यूल से विचलन का उल्लंघन</span>
                                 </td>
                                 <td valign="middle" align="left">
-                                    
+
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
                                     <span>5.4.2(a) 5.4.2(b) 6.4.6 6.4.7 6.4.10 6.4.12 </span>
