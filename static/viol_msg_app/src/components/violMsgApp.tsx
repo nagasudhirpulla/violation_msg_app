@@ -110,7 +110,7 @@ function ViolMsgApp() {
                     <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Update</button>
                 </div>
                 <div>
-                    <label className='me-2'>Select Message Mode</label>
+                    <label className='me-2'>Message Mode</label>
                     <select
                         className='select'
                         value={pageState.ui.msgMode}
@@ -344,7 +344,7 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td colSpan={2} rowSpan={2} valign="middle" height="71" align="left">
-                                    <span>{`${pageState.ui.isGenSelected ? "Constituents / उपभोक्ता" : "Generators / जनरेटर"}`}</span>
+                                    <span>{`${pageState.ui.isGenSelected ? "Generators / जनरेटर" : "Constituents / उपभोक्ता"}`}</span>
                                 </td>
                                 <td valign="middle" align="right">
                                     <span>{`Schedule ${pageState.ui.isGenSelected ? "Injection / शिड्यूल इंजेक्शन" : "Drawal / शिड्यूल आहरण"}`}</span>
