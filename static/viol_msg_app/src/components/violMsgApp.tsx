@@ -72,6 +72,7 @@ function ViolMsgApp() {
     }
 
     const onSelMsgModeChange = (mode: string) => {
+        pageStateDispatch(setMsgInstrucAction("The voltage of following nodes is continuing to be outside the IEGC operation limits despite WRLDC directions vide message ref .... dated .... . Time of issue ... . To take remedial measures"))
         pageStateDispatch(setMsgModeAction(mode))
     }
 
@@ -244,7 +245,7 @@ function ViolMsgApp() {
                                     <span>Emergency / आपातकालीन</span>
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
-                                    <span>5.2(m)</span>
+                                    <span>30(1), 30(2), 30(3), 36 and 45(7)</span>
                                 </td>
                                 <td colSpan={4} rowSpan={2} valign="middle" align="center">
                                     <span>{`${pageState.ui.freq} Hz`}</span>
@@ -263,7 +264,7 @@ function ViolMsgApp() {
                                     <span>Emergency / आपातकालीन</span>
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
-                                    <span>5.2(s) 6.4.12 6.6.3 6.6.6</span>
+                                    <span>In compliance to 39(3), 39(5), 39(7), 39 (12) to adhere to the requirements specified in IEGC Regulations: 29(15) and 29(16)</span>
                                 </td>
                                 <td colSpan={4} rowSpan={2} valign="middle" align="center">
                                     <textarea style={{ width: "100%" }}
@@ -283,7 +284,7 @@ function ViolMsgApp() {
                                 </td>
                                 <td valign="middle" align="left"><b><span><br /></span></b></td>
                                 <td rowSpan={2} valign="middle" align="left">
-                                    <span>6.4.12</span>
+                                    <span>35(1), 35(3) & 36</span>
                                 </td>
                                 <td colSpan={4} valign="middle" align="left">
                                     <textarea style={{ width: "100%" }} rows={1}></textarea>
@@ -305,7 +306,7 @@ function ViolMsgApp() {
 
                                 </td>
                                 <td rowSpan={2} valign="middle" align="left">
-                                    <span>5.4.2(a) 5.4.2(b) 6.4.6 6.4.7 6.4.10 6.4.12 </span>
+                                    <span>30(1), 30(2), 30(3),  and 36</span>
                                     <br />
                                     <span>Clause 5(1) of DSM Regulation</span>
                                 </td>
