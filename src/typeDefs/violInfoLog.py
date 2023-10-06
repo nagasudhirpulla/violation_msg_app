@@ -5,6 +5,7 @@ class IViolationLog(TypedDict):
     msgId: str
     date: str
     freq: float
+    freqViolationMsg: str
     voltViolationMsg: str
     loadViolationMsg: str
     zcvViolationMsg: str

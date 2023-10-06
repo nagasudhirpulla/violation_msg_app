@@ -24,6 +24,7 @@ import { getEmergencyBuyersAction } from '../actions/getEmergencyBuyersAction';
 import { getAlertSellersAction } from '../actions/getAlertSellersAction';
 import { getEmergencySellersAction } from '../actions/getEmergencySellersAction';
 import { setMsgModeAction } from '../actions/setMsgModeAction';
+import { setFreqViolMsgAction } from '../actions/setFreqViolMsgAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -208,8 +209,8 @@ function ViolMsgApp() {
                                 <td valign="middle" align="right"><b><span>{`${moment(pageState.ui.date).format("DD-MMM-YYYY HH:mm")}`}</span></b></td>
                             </tr>
                             <tr>
-                                <td valign="middle" align="left"></td>
-                                <td valign="middle" align="left"><b><span><br /></span></b></td>
+                                <td valign="middle" align="left"><b><span>System State</span></b></td>
+                                <td valign="middle" align="left"><b><span>{`${pageState.ui.systemState} (${pageState.ui.freq} Hz)`}<br /></span></b></td>
                                 <td valign="middle" align="left">
                                     <span><br /></span>
                                 </td>
@@ -248,7 +249,10 @@ function ViolMsgApp() {
                                     <span>30(1), 30(2), 30(3), 36 and 45(7)</span>
                                 </td>
                                 <td colSpan={4} rowSpan={2} valign="middle" align="center">
-                                    <span>{`${pageState.ui.freq} Hz`}</span>
+                                    <textarea style={{ width: "100%" }}
+                                        rows={2}
+                                        value={pageState.ui.freqViolationMsg}
+                                        onChange={(ev) => { pageStateDispatch(setFreqViolMsgAction(ev.target.value)) }}></textarea>
                                 </td>
                             </tr>
                             <tr>

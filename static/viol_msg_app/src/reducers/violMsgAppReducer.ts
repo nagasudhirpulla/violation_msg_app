@@ -16,6 +16,7 @@ import { ISetIsGenSelAction, setIsGenSelReducer } from "../actions/setIsGenSelAc
 import { ISetViolTypeAction, setViolTypeReducer } from "../actions/setViolTypeAction";
 import { ISaveViolLogAction, saveViolLogDispatch } from "../actions/saveViolLogAction";
 import { ISetVoltViolMsgAction, setVoltViolMsgReducer } from "../actions/setVoltViolMsgAction";
+import { ISetFreqViolMsgAction, setFreqViolMsgReducer } from "../actions/setFreqViolMsgAction";
 import { ISetLoadViolMsgAction, setLoadViolMsgReducer } from "../actions/setLoadViolMsgAction";
 import { ISetZcvViolMsgAction, setZcvViolMsgReducer } from "../actions/setZcvViolMsg";
 import { ISetSplEvntsAction, setSplEvntsReducer } from "../actions/setSplEvntsAction";
@@ -53,6 +54,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setViolTypeReducer(state, action as ISetViolTypeAction)
             case ActionType.SET_VOLT_VIOL_MSG:
                 return setVoltViolMsgReducer(state, action as ISetVoltViolMsgAction)
+            case ActionType.SET_FREQ_VIOL_MSG:
+                    return setFreqViolMsgReducer(state, action as ISetFreqViolMsgAction)
             case ActionType.SET_LOAD_VIOL_MSG:
                 return setLoadViolMsgReducer(state, action as ISetLoadViolMsgAction)
             case ActionType.SET_ZCV_VIOL_MSG:

@@ -12,6 +12,8 @@ export interface IViolMsgAppState {
         selectedCons: IUtilPnt[],
         msgId: string,
         freq: number,
+        systemState: string,
+        freqViolationMsg: string,
         voltViolationMsg: string,
         loadViolationMsg: string,
         zcvViolationMsg: string,
