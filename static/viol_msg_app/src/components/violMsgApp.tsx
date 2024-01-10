@@ -223,7 +223,7 @@ function ViolMsgApp() {
                             </tr>
                             <tr>
                                 <td valign="middle" height="28" align="left">
-                                    <span>Copy To / प्रति</span>
+                                    <span>To / प्रति</span>
                                 </td>
                                 <td colSpan={7} valign="middle" align="left">
                                     <input type="text" style={{ width: "100%" }} />
