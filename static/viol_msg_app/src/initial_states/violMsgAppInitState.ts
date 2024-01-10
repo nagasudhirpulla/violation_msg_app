@@ -29,6 +29,7 @@ const initState: IViolMsgAppState = {
         zcvViolationMsg: "",
         splEvnts: "",
         distributionMails: "",
+        distributionNames: "",
         pendingActions: [],
         msgMode: MsgModes.ALERT
     },

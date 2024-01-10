@@ -8,6 +8,7 @@ import { getViolationRowsAction } from '../actions/getViolationRowsAction';
 import { getAlertBuyersAction } from '../actions/getAlertBuyersAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
+import { setDistributionNamesAction } from '../actions/setDistributionNamesAction';
 import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
 // import { setViolTypeAction } from '../actions/setViolTypeAction';
 import Modal from 'react-bootstrap/Modal'
@@ -226,7 +227,13 @@ function ViolMsgApp() {
                                     <span>To / प्रति</span>
                                 </td>
                                 <td colSpan={7} valign="middle" align="left">
-                                    <input type="text" style={{ width: "100%" }} />
+                                    <input
+                                        style={{ width: "100%" }}
+                                        value={pageState.ui.distributionNames}
+                                        onChange={(ev) => {
+                                            pageStateDispatch(setDistributionNamesAction(ev.target.value))
+                                        }}
+                                    />
                                 </td>
                             </tr>
                             <tr>

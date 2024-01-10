@@ -29,6 +29,7 @@ import { getAlertSellersDispatch, IGetAlertSellersAction } from "../actions/getA
 import { getEmergencySellersDispatch, IGetEmergencySellersAction } from "../actions/getEmergencySellersAction";
 import { ISetPendingActionsAction, setPendingActionsAction, setPendingActionsReducer } from "../actions/setPendingActionsAction";
 import { ISetMsgModeAction, setMsgModeReducer } from "../actions/setMsgModeAction";
+import { ISetDistributionNamesAction, setDistributionNamesReducer } from "../actions/setDistributionNamesAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -55,7 +56,7 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             case ActionType.SET_VOLT_VIOL_MSG:
                 return setVoltViolMsgReducer(state, action as ISetVoltViolMsgAction)
             case ActionType.SET_FREQ_VIOL_MSG:
-                    return setFreqViolMsgReducer(state, action as ISetFreqViolMsgAction)
+                return setFreqViolMsgReducer(state, action as ISetFreqViolMsgAction)
             case ActionType.SET_LOAD_VIOL_MSG:
                 return setLoadViolMsgReducer(state, action as ISetLoadViolMsgAction)
             case ActionType.SET_ZCV_VIOL_MSG:
@@ -64,14 +65,16 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setSplEvntsReducer(state, action as ISetSplEvntsAction)
             case ActionType.SET_DISTRIBUTION_MAILS:
                 return setDistributionEmailsReducer(state, action as ISetDistributionEmailsAction)
+            case ActionType.SET_DISTRIBUTION_NAMES:
+                return setDistributionNamesReducer(state, action as ISetDistributionNamesAction)
             case ActionType.SET_SELECTED_CONS:
                 return setSelectedConsReducer(state, action as ISetSelectedConsAction)
             case ActionType.SET_SELECTED_GENS:
                 return setSelectedGensReducer(state, action as ISetSelectedGensAction)
             case ActionType.SET_PENDING_ACTIONS:
                 return setPendingActionsReducer(state, action as ISetPendingActionsAction)
-                case ActionType.SET_MSG_MODE:
-                    return setMsgModeReducer(state, action as ISetMsgModeAction)
+            case ActionType.SET_MSG_MODE:
+                return setMsgModeReducer(state, action as ISetMsgModeAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));

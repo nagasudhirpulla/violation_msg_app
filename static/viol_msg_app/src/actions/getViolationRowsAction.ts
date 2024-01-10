@@ -5,6 +5,7 @@ import { IAction } from "../typeDefs/action";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
 import { setDistributionEmailsAction } from "./setDistributionEmailsAction";
+import { setDistributionNamesAction } from "./setDistributionNamesAction";
 import { setFreqAction } from "./setFreqAction";
 import { setIsGenSelAction } from "./setIsGenSelAction";
 import { setMsgInstrucAction } from "./setMsgInstrucAction";
@@ -65,5 +66,9 @@ export const getViolationRowsDispatch = async (action: IGetViolationRowsAction, 
             emailListStr = `Distribution List: ${emailListStr}`
         }
         pageStateDispatch(setDistributionEmailsAction(emailListStr))
+
+        // set the distribution names list
+        let namesListStr = utils.map(u => u.name).join("; ")
+        pageStateDispatch(setDistributionNamesAction(namesListStr))
     }
 }

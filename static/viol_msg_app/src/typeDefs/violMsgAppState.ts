@@ -23,6 +23,7 @@ export interface IViolMsgAppState {
         violInfoRows: IViolInfoRow[],
         violType: string,
         distributionMails: string,
+        distributionNames: string,
         msgMode: string,
         pendingActions: IAction[]
     },
