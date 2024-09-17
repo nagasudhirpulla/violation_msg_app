@@ -9,6 +9,7 @@ import { getAlertBuyersAction } from '../actions/getAlertBuyersAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { setDistributionNamesAction } from '../actions/setDistributionNamesAction';
+// import { setDistributionEmailsAction } from '../actions/setDistributionEmailsAction';
 import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
 // import { setViolTypeAction } from '../actions/setViolTypeAction';
 import Modal from 'react-bootstrap/Modal'
@@ -159,7 +160,7 @@ function ViolMsgApp() {
                         <tbody>
                             <tr className="no-print">
                                 <td colSpan={12} valign="middle" align="center">
-                                    <button onClick={onPrintClick} className="mt-3 btn btn-primary">PRINT</button>
+                                    <button onClick={onPrintClick} className="mt-3 btn btn-primary">Send Message</button>
                                 </td>
                             </tr>
                             <tr>

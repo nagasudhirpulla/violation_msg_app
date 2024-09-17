@@ -17,7 +17,7 @@ class ViolationMsgSummaryRepo():
         """
         self.localConStr = dbConStr
 
-    def insertViolationLog(self, violLogData: dict) -> int:
+    def insertViolationLog(self, violLogData: dict, fileName: str) -> int:
         """_summary_
 
         Args:
@@ -52,8 +52,8 @@ class ViolationMsgSummaryRepo():
 
             # dbCur.execute('DELETE FROM public.viol_msg_log')
 
-            dbCur.execute('INSERT INTO "viol_msg_log" ("msgId", time_stamp, freq, "freqViolationMsg", "voltViolationMsg", "loadViolationMsg", "zcvViolationMsg", "msgInstructions", "splEvnts", "violType") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  RETURNING "Id"',
-                          (msgId, time_stamp, freq, freqViolationMsg, voltViolationMsg, loadViolationMsg, zcvViolationMsg, msgInstructions, splEvnts, violType))
+            dbCur.execute('INSERT INTO "sch_drwl_viol_msgs" ("msgId", time_stamp, freq, "freqViolationMsg", "voltViolationMsg", "loadViolationMsg", "zcvViolationMsg", "msgInstructions", "splEvnts", "violType", "violMsgFile") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  RETURNING "Id"',
+                          (msgId, time_stamp, freq, freqViolationMsg, voltViolationMsg, loadViolationMsg, zcvViolationMsg, msgInstructions, splEvnts, violType, fileName))
             dbConn.commit()
             id: int = dbCur.fetchone()[0]
             isInsertSuccess = True
@@ -110,7 +110,7 @@ class ViolationMsgSummaryRepo():
                 # prepare sql for insertion and execute
                 dataText = ','.join(dbCur.mogrify('(%s, %s, %s, %s, %s)', row).decode(
                     "utf-8") for row in dataInsertionTuples)
-                sqlTxt = 'INSERT INTO public.atc_viol_info_log ("name", schedule, drawal, ace, "msgLogId") VALUES {0} '.format(
+                sqlTxt = 'INSERT INTO public.sch_drwl_viol_rows ("name", schedule, drawal, ace, "msgLogId") VALUES {0} '.format(
                     dataText)
                 dbCur.execute(sqlTxt)
                 dbConn.commit()
