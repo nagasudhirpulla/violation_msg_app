@@ -30,6 +30,7 @@ import { getEmergencySellersDispatch, IGetEmergencySellersAction } from "../acti
 import { ISetPendingActionsAction, setPendingActionsAction, setPendingActionsReducer } from "../actions/setPendingActionsAction";
 import { ISetMsgModeAction, setMsgModeReducer } from "../actions/setMsgModeAction";
 import { ISetDistributionNamesAction, setDistributionNamesReducer } from "../actions/setDistributionNamesAction";
+import { ISetShInchAction, setShInchReducer } from "../actions/setShInchAction";
 
 export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppState, React.Dispatch<IAction>] => {
     // create the reducer function
@@ -75,6 +76,8 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
                 return setPendingActionsReducer(state, action as ISetPendingActionsAction)
             case ActionType.SET_MSG_MODE:
                 return setMsgModeReducer(state, action as ISetMsgModeAction)
+            case ActionType.SET_SH_INCH:
+                return setShInchReducer(state, action as ISetShInchAction)
             default:
                 console.log("unwanted action detected");
                 console.log(JSON.stringify(action));

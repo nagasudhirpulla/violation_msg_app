@@ -1,7 +1,7 @@
 import pandas as pd
 import datetime as dt
 from datetime import datetime
-from src.typeDefs.reportContext import IReportCxt
+from src.typeDefs.reportContext import IAtcReportCxt
 from src.typeDefs.violMsgRows import IViolMsgRows
 from docxtpl import DocxTemplate
 import os
@@ -10,13 +10,13 @@ from src.app.utils.systemState import systemStateFetcher
 from src.app.utils.convertDocToPdf import convert_docx_to_pdf
 import uuid
 
-class ViolMsgReportGenerator:
+class AtcMsgReportGenerator:
     appDbConStr: str = ''
 
     def __init__(self, appDbConStr: str):
         self.appDbConStr = appDbConStr
 
-    def getReportContextObj(self, violLogData) -> IReportCxt:
+    def getReportContextObj(self, violLogData) -> IAtcReportCxt:
         """get the report context object for populating the weekly report template
 
         Args:
@@ -31,18 +31,13 @@ class ViolMsgReportGenerator:
         original_datetime = violLogData['date']
         date_only = datetime.strptime(original_datetime, '%Y-%m-%d %H:%M:%S').date()
         formatted_date = date_only.strftime('%Y-%m-%d')
-        reportContext: IReportCxt = {
+        reportContext: IAtcReportCxt = {
             'msgNumber': violLogData['msgId'],
             'msgDt': formatted_date,
             'timeOfIssue': violLogData['date'],
-            'systemState': systemStateFetcher(violLogData['freq']),
-            'freq': violLogData['freq'],
             'violMsgTo': violLogData['violMsgTo'],
-            'freqViolStr': violLogData['freqViolationMsg'],
-            'voltViolStr': violLogData['freqViolationMsg'],
+            'voltViolStr': violLogData['voltViolationMsg'],
             'loadViolStr': violLogData['loadViolationMsg'],
-            'devViolStr': violLogData['msgInstructions'],
-            'splEvents': violLogData['splEvnts'],
             'violMsgs': [],
             'shiftIncharge': violLogData['shiftIncharge']
         }
@@ -51,15 +46,12 @@ class ViolMsgReportGenerator:
         try:
 
             violMsgList: List[IViolMsgRows] = []
-            for row in violLogData['violInfoRows']:
+            for row in violLogData['atcInfoRows']:
                 violMsg: IViolMsgRows = {
                     'name': row['name'],
                     # 'date': dt.datetime.strftime(df['DATE_TIME'][i], "%d-%m-%Y"),
-                    'schedule': int(round(row['schedule'])),
-                    'drawal': int(round(row['drawal'])),
-                    'deviation': int(round(row['drawal']) - round(row['schedule'])),
-                    'ace': row['ace'],
-                    'desiredDrawal': int(round(row['schedule']))
+                    'atc': int(round(row['atc'])),
+                    'drawal': int(round(row['drawal']))
                 }
                 violMsgList.append(violMsg)
             reportContext['violMsgs'] = violMsgList
@@ -67,7 +59,7 @@ class ViolMsgReportGenerator:
             print(err)
         return reportContext
     
-    def generateReportWithContext(self, reportContext: IReportCxt, tmplPath: str, dumpFolder: str) -> bool:
+    def generateReportWithContext(self, reportContext: IAtcReportCxt, tmplPath: str, dumpFolder: str) -> bool:
         """generate the report file at the desired dump folder location 
         based on the template file and report context object
 
@@ -92,7 +84,7 @@ class ViolMsgReportGenerator:
         return dumpFileName
 
 
-    def generateViolMsgReport(self, violLogData, tmplPath: str, dumpFolder: str) -> bool:
+    def generateAtcMsgReport(self, violLogData, tmplPath: str, dumpFolder: str) -> bool:
         """generates and dumps violaytion Message report based on a template file
 
         Args:
@@ -108,9 +100,9 @@ class ViolMsgReportGenerator:
         fileName = self.generateReportWithContext(
             reportCtxt, tmplPath, dumpFolder)
         
-        docx_file_location = 'data/violMsg/{0}'.format(fileName)
+        docx_file_location = 'data/atcMsg/{0}'.format(fileName)
         pdf_file = fileName.replace("docx", "pdf")
-        pdf_file_location = 'output/violMsg/{0}'.format(pdf_file)
+        pdf_file_location = 'output/atcMsg/{0}'.format(pdf_file)
         # convert report to pdf
         convert_docx_to_pdf(docx_file_location, pdf_file_location)
         return pdf_file

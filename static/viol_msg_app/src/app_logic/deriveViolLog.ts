@@ -16,7 +16,8 @@ export const deriveViolLog = (state: IViolMsgAppState): IViolLog => {
         msgInstructions: state.ui.msgInstructions,
         splEvnts: state.ui.splEvnts,
         violInfoRows: state.ui.violInfoRows,
-        violType: state.ui.violType
+        violType: state.ui.violType,
+        shiftIncharge: state.ui.shiftIncharge
     }
     return violLog
 };

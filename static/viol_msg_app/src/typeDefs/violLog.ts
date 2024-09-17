@@ -13,5 +13,6 @@ export interface IViolLog {
     msgInstructions: string,
     splEvnts: string,
     violInfoRows: IViolInfoRow[],
-    violType: string
+    violType: string,
+    shiftIncharge: string
 }

@@ -36,17 +36,17 @@ def send_email(sender_email, loginId, sender_password, receiver_emails, subject,
         print(f"An error occurred while sending the email: {str(e)}")
 
 
-html = """\
-<html>
-  <head></head>
-  <body>
-    <p>Hi!<br>
-       How are you?<br>
-       Here is the <a href="https://www.python.org">link</a> you wanted.
-    </p>
-  </body>
-</html>
-"""
+# html = """\
+# <html>
+#   <head></head>
+#   <body>
+#     <p>Hi!<br>
+#        How are you?<br>
+#        Here is the <a href="https://www.python.org">link</a> you wanted.
+#     </p>
+#   </body>
+# </html>
+# """
 # sender_email = "@grid-india.in"
 # sender_password = ""  # Use an app password, not your regular password
 # loginId = "NLDC\\00"

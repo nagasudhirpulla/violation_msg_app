@@ -18,3 +18,14 @@ class IReportCxt(TypedDict):
     splEvents: str
     violMsgs: List[IViolMsgRows]
     shiftIncharge: str
+
+
+class IAtcReportCxt(TypedDict):
+    msgNumber: str
+    msgDt: str
+    timeOfIssue: str
+    violMsgTo: str
+    voltViolStr: str
+    loadViolStr: str
+    violMsgs: List[IViolMsgRows]
+    shiftIncharge: str

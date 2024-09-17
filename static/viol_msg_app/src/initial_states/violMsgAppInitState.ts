@@ -31,6 +31,7 @@ const initState: IViolMsgAppState = {
         distributionMails: "",
         distributionNames: "",
         pendingActions: [],
+        shiftIncharge: "",
         msgMode: MsgModes.ALERT
     },
     urls: {

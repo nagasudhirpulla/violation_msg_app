@@ -45,6 +45,7 @@ class ViolationMsgSummaryRepo():
         msgInstructions = violLogData['msgInstructions']
         splEvnts = violLogData['splEvnts']
         violType = violLogData['violType']
+        shiftIncharge = violLogData['shiftIncharge']
         try:
             dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
                                       user=dbConfig['db_username'], password=dbConfig['db_password'])
@@ -52,8 +53,8 @@ class ViolationMsgSummaryRepo():
 
             # dbCur.execute('DELETE FROM public.viol_msg_log')
 
-            dbCur.execute('INSERT INTO "sch_drwl_viol_msgs" ("msgId", time_stamp, freq, "freqViolationMsg", "voltViolationMsg", "loadViolationMsg", "zcvViolationMsg", "msgInstructions", "splEvnts", "violType", "violMsgFile") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  RETURNING "Id"',
-                          (msgId, time_stamp, freq, freqViolationMsg, voltViolationMsg, loadViolationMsg, zcvViolationMsg, msgInstructions, splEvnts, violType, fileName))
+            dbCur.execute('INSERT INTO "sch_drwl_viol_msgs" ("msgId", time_stamp, freq, "freqViolationMsg", "voltViolationMsg", "loadViolationMsg", "zcvViolationMsg", "msgInstructions", "splEvnts", "violType", "violMsgFile", "shiftIncharge") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  RETURNING "Id"',
+                          (msgId, time_stamp, freq, freqViolationMsg, voltViolationMsg, loadViolationMsg, zcvViolationMsg, msgInstructions, splEvnts, violType, fileName, shiftIncharge))
             dbConn.commit()
             id: int = dbCur.fetchone()[0]
             isInsertSuccess = True
