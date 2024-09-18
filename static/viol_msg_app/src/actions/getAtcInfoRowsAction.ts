@@ -5,6 +5,7 @@ import { IStateUtilPnt } from "../typeDefs/stateUtilPnt";
 import { ActionType } from "./actionType";
 import { setAtcInfoRowsAction } from "./setAtcViolRowsAction";
 import { setRecipientAddrAction } from "./setRecipientAddrAction";
+import { setRecipientEmailsAction } from "./setRecipientEmailsAction";
 
 export interface IGetAtcInfoRowsPayload {
     utils: IStateUtilPnt[]
@@ -26,6 +27,11 @@ export const getAtcInfoRowsDispatch = async (action: IGetAtcInfoRowsAction, page
     let utils = action.payload.utils
     const receiversStr = "To: " + utils.map(x => x.name).join(", ")
     pageStateDispatch(setRecipientAddrAction(receiversStr))
+
+    // set the distribution emails list
+    let emailListStr = utils.filter(u => u.email.trim().length > 0).map(u => u.email).join(";")
+    pageStateDispatch(setRecipientEmailsAction(emailListStr))
+
     const atcRows = await fetchAtcRows(pageState.urls.serverBaseUrl, utils)
     pageStateDispatch(setAtcInfoRowsAction(atcRows))
 }

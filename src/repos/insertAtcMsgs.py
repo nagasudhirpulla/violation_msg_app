@@ -44,9 +44,7 @@ class AtcMsgSummaryRepo():
                                       user=dbConfig['db_username'], password=dbConfig['db_password'])
             dbCur = dbConn.cursor()
 
-            # dbCur.execute('DELETE FROM public.viol_msg_log')
-
-            dbCur.execute('INSERT INTO "act_viol_msgs" ("msgId", time_stamp, "voltViolationMsg", "loadViolationMsg", "violMsgFile", "shiftIncharge") VALUES (%s, %s, %s, %s, %s, %s)  RETURNING "Id"',
+            dbCur.execute('INSERT INTO public.atc_viol_msgs ("msgId", time_stamp, "voltViolationMsg", "loadViolationMsg", "violMsgFile", "shiftIncharge") VALUES (%s, %s, %s, %s, %s, %s)  RETURNING "Id"',
                           (msgId, time_stamp, voltViolationMsg, loadViolationMsg, fileName, shiftIncharge))
             dbConn.commit()
             id: int = dbCur.fetchone()[0]
@@ -95,14 +93,14 @@ class AtcMsgSummaryRepo():
                 for insRowIter in range(rowIter, iteratorEndVal):
                     dataRow = dataRows[insRowIter]
 
-                    dataInsertionTuple = (dataRow['name'], dataRow['act'],
+                    dataInsertionTuple = (dataRow['name'], dataRow['atc'],
                                           dataRow['drawal'], Id)
                     dataInsertionTuples.append(dataInsertionTuple)
 
                 # prepare sql for insertion and execute
                 dataText = ','.join(dbCur.mogrify('(%s, %s, %s, %s)', row).decode(
                     "utf-8") for row in dataInsertionTuples)
-                sqlTxt = 'INSERT INTO public.act_viol_rows ("name", act, drawal, "msgLogId") VALUES {0} '.format(
+                sqlTxt = 'INSERT INTO public.atc_viol_rows ("name", act, drawal, "msgLogId") VALUES {0} '.format(
                     dataText)
                 dbCur.execute(sqlTxt)
                 dbConn.commit()

@@ -56,8 +56,10 @@ def saveLog() -> Response:
     sender_email = appConf['sender_email']
     sender_password = appConf['sender_password']
     loginId = appConf['loginId']
-    pdfFileLocation = appConf['violPdfFileLocation']
-
+    if "atcInfoRows" in violLogData:
+        pdfFileLocation = appConf['atcPdfFileLocation']
+    else:
+        pdfFileLocation = appConf['violPdfFileLocation']
     receiver_emails = violLogData['emailTo'].split(";")
 
     # TODO validate each email in list using a regex
@@ -82,5 +84,9 @@ def saveLog() -> Response:
         </body>
         </html>
         """
-    send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+    if "atcInfoRows" in violLogData:
+        send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+    
+    else:
+        send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
     return jsonify({"success": 1})

@@ -14,7 +14,7 @@ export interface ISetRecipientEmailsAction extends IAction {
 export function setRecipientEmailsAction(emails: string): ISetRecipientEmailsAction {
     return {
         type: ActionType.SET_RECIPIENT_MAILS,
-        payload: { emails }
+        payload: { emails : emails}
     };
 }
 

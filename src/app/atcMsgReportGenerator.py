@@ -50,8 +50,8 @@ class AtcMsgReportGenerator:
                 violMsg: IViolMsgRows = {
                     'name': row['name'],
                     # 'date': dt.datetime.strftime(df['DATE_TIME'][i], "%d-%m-%Y"),
-                    'atc': int(round(row['atc'])),
-                    'drawal': int(round(row['drawal']))
+                    'atc': row['atc'],
+                    'drawal': row['drawal']
                 }
                 violMsgList.append(violMsg)
             reportContext['violMsgs'] = violMsgList
