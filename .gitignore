@@ -1,5 +1,6 @@
 data/
 build/
+output/
 project_env/
 node_modules/
 config.json

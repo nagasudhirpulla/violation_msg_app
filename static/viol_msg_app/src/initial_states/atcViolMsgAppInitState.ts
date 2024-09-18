@@ -8,6 +8,7 @@ const initState: IAtcViolMsgAppState = {
         constituents: [],
         msgId: `LD/${(nowDate.getMonth() + 1)}/`,
         recipientsStr: "To: ",
+        recipientMails: "",
         violMsgTo: "",
         voltViolationMsg: "",
         loadViolationMsg: "",

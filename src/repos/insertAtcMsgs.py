@@ -2,10 +2,10 @@ import datetime as dt
 import psycopg2
 from src.config.appConfig import getAppConfig
 from typing import List
-from src.typeDefs.violInfoRow import IViolInfoRow
+from src.typeDefs.atcInfoRow import IAtcInfoRow
 
 
-class ViolationMsgSummaryRepo():
+class AtcMsgSummaryRepo():
     """Repository class for transmission data
     """
     localConStr: str = ""
@@ -17,7 +17,7 @@ class ViolationMsgSummaryRepo():
         """
         self.localConStr = dbConStr
 
-    def insertViolationLog(self, violLogData: dict, fileName: str) -> int:
+    def insertAtcLog(self, violLogData: dict, fileName: str) -> int:
         """_summary_
 
         Args:
@@ -29,7 +29,6 @@ class ViolationMsgSummaryRepo():
         dbConfig = getAppConfig()
         dbConn = None
         dbCur = None
-        isInsertSuccess = False
         id = 0
 
         # Violation Message Details
@@ -37,14 +36,8 @@ class ViolationMsgSummaryRepo():
         time_stamp = dt.datetime.strptime(
             violLogData['date'], "%Y-%m-%d %H:%M:%S")
         # time_stamp = date_object.strftime("%Y-%m-%d %X")
-        freq = float(violLogData['freq'])
-        freqViolationMsg = violLogData['freqViolationMsg']
         voltViolationMsg = violLogData['voltViolationMsg']
         loadViolationMsg = violLogData['loadViolationMsg']
-        zcvViolationMsg = violLogData['zcvViolationMsg']
-        msgInstructions = violLogData['msgInstructions']
-        splEvnts = violLogData['splEvnts']
-        violType = violLogData['violType']
         shiftIncharge = violLogData['shiftIncharge']
         try:
             dbConn = psycopg2.connect(host=dbConfig['db_host'], dbname=dbConfig['db_name'],
@@ -53,15 +46,13 @@ class ViolationMsgSummaryRepo():
 
             # dbCur.execute('DELETE FROM public.viol_msg_log')
 
-            dbCur.execute('INSERT INTO "sch_drwl_viol_msgs" ("msgId", time_stamp, freq, "freqViolationMsg", "voltViolationMsg", "loadViolationMsg", "zcvViolationMsg", "msgInstructions", "splEvnts", "violType", "violMsgFile", "shiftIncharge") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)  RETURNING "Id"',
-                          (msgId, time_stamp, freq, freqViolationMsg, voltViolationMsg, loadViolationMsg, zcvViolationMsg, msgInstructions, splEvnts, violType, fileName, shiftIncharge))
+            dbCur.execute('INSERT INTO "act_viol_msgs" ("msgId", time_stamp, "voltViolationMsg", "loadViolationMsg", "violMsgFile", "shiftIncharge") VALUES (%s, %s, %s, %s, %s, %s)  RETURNING "Id"',
+                          (msgId, time_stamp, voltViolationMsg, loadViolationMsg, fileName, shiftIncharge))
             dbConn.commit()
             id: int = dbCur.fetchone()[0]
-            isInsertSuccess = True
 
         except Exception as err:
-            isInsertSuccess = False
-            print('Error while inserting violation log')
+            print('Error while inserting ATC violation log')
             print(err)
 
         finally:
@@ -72,7 +63,7 @@ class ViolationMsgSummaryRepo():
 
         return id
 
-    def insertViolInfoData(self, dataRows: List[IViolInfoRow], Id) -> bool:
+    def insertAtcInfoData(self, dataRows: List[IAtcInfoRow], Id) -> bool:
         """_summary_
 
         Args:
@@ -104,14 +95,14 @@ class ViolationMsgSummaryRepo():
                 for insRowIter in range(rowIter, iteratorEndVal):
                     dataRow = dataRows[insRowIter]
 
-                    dataInsertionTuple = (dataRow['name'], dataRow['schedule'],
-                                          dataRow['drawal'], dataRow['ace'], Id)
+                    dataInsertionTuple = (dataRow['name'], dataRow['act'],
+                                          dataRow['drawal'], Id)
                     dataInsertionTuples.append(dataInsertionTuple)
 
                 # prepare sql for insertion and execute
-                dataText = ','.join(dbCur.mogrify('(%s, %s, %s, %s, %s)', row).decode(
+                dataText = ','.join(dbCur.mogrify('(%s, %s, %s, %s)', row).decode(
                     "utf-8") for row in dataInsertionTuples)
-                sqlTxt = 'INSERT INTO public.sch_drwl_viol_rows ("name", schedule, drawal, ace, "msgLogId") VALUES {0} '.format(
+                sqlTxt = 'INSERT INTO public.act_viol_rows ("name", act, drawal, "msgLogId") VALUES {0} '.format(
                     dataText)
                 dbCur.execute(sqlTxt)
                 dbConn.commit()
@@ -122,7 +113,7 @@ class ViolationMsgSummaryRepo():
 
         except Exception as err:
             isInsertSuccess = False
-            print('Error while inserting violation info Rows')
+            print('Error while inserting ATC violation info Rows')
             print(err)
 
         finally:

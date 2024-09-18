@@ -5,6 +5,7 @@ from src.typeDefs.atcViolInfoLog import IAtcViolInfoLog
 from src.typeDefs.violInfoLog import IViolationLog
 from typing import Union
 from src.repos.insertViolationMsgs import ViolationMsgSummaryRepo
+from src.repos.insertAtcMsgs import AtcMsgSummaryRepo
 from src.app.violMsgReportGenerator import ViolMsgReportGenerator
 from src.app.atcMsgReportGenerator import AtcMsgReportGenerator
 from src.app.utils.sendMail import send_email
@@ -19,7 +20,8 @@ def saveLog() -> Response:
         force=True)  # type: ignore
     appConf = getAppConfig()
     violationMsgSummaryRepo = ViolationMsgSummaryRepo(appConf['appDbConnStr'])
-    violLogFilePath = getAppConfig()["violDataFilePath"]
+    atcMsgSummaryRepo = AtcMsgSummaryRepo(appConf['appDbConnStr'])
+    # violLogFilePath = getAppConfig()["violDataFilePath"]
 
     # Violation Msg Report Details
     violTmplPath: str = appConf['violTmplPath']
@@ -34,13 +36,20 @@ def saveLog() -> Response:
         # isSuccess = saveAtcViolLog(violLogData, violLogFilePath)
         atcMsgRprtGntr = AtcMsgReportGenerator(appDbConStr)
         fileName: str = atcMsgRprtGntr.generateAtcMsgReport(violLogData, atcTmplPath, atcDumpFolder)
+        # save entry to database
+        Id = atcMsgSummaryRepo.insertAtcLog(violLogData, fileName)
+        if Id:
+            isSuccess = atcMsgSummaryRepo.insertAtcInfoData(violLogData['atcInfoRows'], Id)
+        print("Insertion Successful")
+
     else:
         violMsgRprtGntr = ViolMsgReportGenerator(appDbConStr)
         fileName: str = violMsgRprtGntr.generateViolMsgReport(violLogData, violTmplPath, violDumpFolder)
         # isSuccess = saveViolLog(violLogData, violLogFilePath)
+        # save entry to database
         Id = violationMsgSummaryRepo.insertViolationLog(violLogData, fileName)
         if Id:
-            isSuccess = violationMsgSummaryRepo.insertAtcViolInfoData(violLogData['violInfoRows'], Id)
+            isSuccess = violationMsgSummaryRepo.insertViolInfoData(violLogData['violInfoRows'], Id)
         print("Insertion Successful")
 
     # send mail to utilities
