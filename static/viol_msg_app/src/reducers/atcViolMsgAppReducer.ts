@@ -12,6 +12,7 @@ import { IAtcViolMsgAppState } from "../typeDefs/atcViolMsgAppState";
 import { ISetAtcInfoRowsAction, setAtcInfoRowsReducer } from "../actions/setAtcViolRowsAction";
 import { ISetShInchAction, setAtcPageShInchReducer } from "../actions/setShInchAction";
 import { ISetRecipientAddrAction, setAtcPageRecipientAddrReducer } from "../actions/setRecipientAddrAction";
+import { ISetRecipientEmailsAction, setAtcPageRecipientEmailsReducer } from "../actions/setRecipientEmailsAction";
 import { getAtcInfoRowsDispatch, IGetAtcInfoRowsAction } from "../actions/getAtcInfoRowsAction";
 import { ISaveAtcViolLogAction, saveAtcViolLogDispatch } from "../actions/saveAtcViolLogAction";
 
@@ -33,6 +34,8 @@ export const useAtcViolMsgAppReducer = (initState: IAtcViolMsgAppState): [IAtcVi
                 return setAtcPageLoadViolMsgReducer(state, action as ISetLoadViolMsgAction)
             case ActionType.SET_RECIPIENT_ADDR:
                 return setAtcPageRecipientAddrReducer(state, action as ISetRecipientAddrAction)
+            case ActionType.SET_RECIPIENT_MAILS:
+                return setAtcPageRecipientEmailsReducer(state, action as ISetRecipientEmailsAction)
             case ActionType.SET_SH_INCH:
                 return setAtcPageShInchReducer(state, action as ISetShInchAction)
             default:

@@ -14,6 +14,7 @@ import { IStateUtilPnt } from '../typeDefs/stateUtilPnt';
 import { getAtcInfoRowsAction } from '../actions/getAtcInfoRowsAction';
 import { setShInchAction } from '../actions/setShInchAction';
 import { setRecipientAddrAction } from '../actions/setRecipientAddrAction';
+import { setRecipientEmailsAction } from '../actions/setRecipientEmailsAction';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { deriveAtcViolLog } from '../app_logic/deriveAtcViolLog';
 import { saveAtcViolLogAction } from '../actions/saveAtcViolLogAction';
@@ -33,7 +34,7 @@ function AtcViolMsgApp() {
     }
 
     const onPrintClick = () => {
-        window.print()
+        // window.print()
         setShowLogConfModal(true)
     }
 
@@ -57,7 +58,7 @@ function AtcViolMsgApp() {
                         placeholder="Select Constituents"
                         classNamePrefix="select" />
                     <button onClick={onConsAtcRowsUpdateClick} className="btn btn-xs btn-success">Update</button>
-                    <button onClick={onPrintClick} className="btn btn-xs btn-info ml-3">Print</button>
+                    <button onClick={onPrintClick} className="btn btn-xs btn-info ml-3">Send Message</button>
                 </div>
             </div>
             {pageState.ui.atcInfoRows.length > 0 &&
@@ -125,6 +126,14 @@ function AtcViolMsgApp() {
                             pageStateDispatch(setRecipientAddrAction(ev.target.value))
                         }}
                         style={{ width: "100%" }} />
+                    <br />
+                    Emails: <input
+                        style={{ width: "100%" }}
+                        value={pageState.ui.recipientMails}
+                        onChange={(ev) => {
+                            pageStateDispatch(setRecipientEmailsAction(ev.target.value))
+                        }}
+                    />
                     <br />
                     <p>The actual Import of electricity of your control area has crossed the ATC.</p>
                     <table className={"table viol_rows_table"}>

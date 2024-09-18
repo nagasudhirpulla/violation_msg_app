@@ -25,6 +25,7 @@ export interface IViolMsgAppState {
         distributionMails: string,
         distributionNames: string,
         msgMode: string,
+        shiftIncharge: string,
         pendingActions: IAction[]
     },
     urls: {

@@ -7,6 +7,8 @@ export const deriveViolLog = (state: IViolMsgAppState): IViolLog => {
         msgId: state.ui.msgId,
         date: moment(state.ui.date).format("YYYY-MM-DD HH:mm:ss"),
         freq: state.ui.freq,
+        violMsgTo: state.ui.distributionNames,
+        emailTo: state.ui.distributionMails,
         freqViolationMsg: state.ui.freqViolationMsg,
         voltViolationMsg: state.ui.voltViolationMsg,
         loadViolationMsg: state.ui.loadViolationMsg,
@@ -14,7 +16,8 @@ export const deriveViolLog = (state: IViolMsgAppState): IViolLog => {
         msgInstructions: state.ui.msgInstructions,
         splEvnts: state.ui.splEvnts,
         violInfoRows: state.ui.violInfoRows,
-        violType: state.ui.violType
+        violType: state.ui.violType,
+        shiftIncharge: state.ui.shiftIncharge
     }
     return violLog
 };

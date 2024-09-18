@@ -7,6 +7,8 @@ export interface IAtcViolMsgAppState {
         constituents: IStateUtilPnt[],
         msgId: string,
         recipientsStr: string,
+        recipientMails: string,
+        violMsgTo: string,
         voltViolationMsg: string,
         loadViolationMsg: string,
         atcInfoRows: IAtcInfoRow[],

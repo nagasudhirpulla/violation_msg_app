@@ -9,6 +9,7 @@ import { getAlertBuyersAction } from '../actions/getAlertBuyersAction';
 import moment from 'moment';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { setDistributionNamesAction } from '../actions/setDistributionNamesAction';
+// import { setDistributionEmailsAction } from '../actions/setDistributionEmailsAction';
 import { setMsgInstrucAction } from '../actions/setMsgInstrucAction';
 // import { setViolTypeAction } from '../actions/setViolTypeAction';
 import Modal from 'react-bootstrap/Modal'
@@ -26,6 +27,8 @@ import { getAlertSellersAction } from '../actions/getAlertSellersAction';
 import { getEmergencySellersAction } from '../actions/getEmergencySellersAction';
 import { setMsgModeAction } from '../actions/setMsgModeAction';
 import { setFreqViolMsgAction } from '../actions/setFreqViolMsgAction';
+import { setDistributionEmailsAction } from '../actions/setDistributionEmailsAction';
+import { setShInchAction } from '../actions/setShInchAction';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
@@ -39,8 +42,6 @@ function ViolMsgApp() {
         pageStateDispatch(setSelectedGensAction(selectedOptions))
     }
 
-    let [siName, setSiName] = useState("");
-
     const onConsViolRowsUpdateClick = () => {
         pageStateDispatch(getViolationRowsAction(false))
     }
@@ -49,7 +50,7 @@ function ViolMsgApp() {
     }
 
     const onPrintClick = () => {
-        window.print()
+        // window.print()
         setShowLogConfModal(true)
     }
 
@@ -159,7 +160,7 @@ function ViolMsgApp() {
                         <tbody>
                             <tr className="no-print">
                                 <td colSpan={12} valign="middle" align="center">
-                                    <button onClick={onPrintClick} className="mt-3 btn btn-primary">PRINT</button>
+                                    <button onClick={onPrintClick} className="mt-3 btn btn-primary">Send Message</button>
                                 </td>
                             </tr>
                             <tr>
@@ -232,6 +233,20 @@ function ViolMsgApp() {
                                         value={pageState.ui.distributionNames}
                                         onChange={(ev) => {
                                             pageStateDispatch(setDistributionNamesAction(ev.target.value))
+                                        }}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="middle" height="28" align="left">
+                                    <span>Emails</span>
+                                </td>
+                                <td colSpan={7} valign="middle" align="left">
+                                    <input
+                                        style={{ width: "100%" }}
+                                        value={pageState.ui.distributionMails}
+                                        onChange={(ev) => {
+                                            pageStateDispatch(setDistributionEmailsAction(ev.target.value))
                                         }}
                                     />
                                 </td>
@@ -451,10 +466,10 @@ function ViolMsgApp() {
                                 </td>
                                 <td colSpan={2} valign="bottom" align="center">
                                     <input
-                                        value={siName}
                                         style={{ width: "100%" }}
+                                        value={pageState.ui.shiftIncharge}
                                         onChange={(ev) => {
-                                            setSiName(ev.target.value)
+                                            pageStateDispatch(setShInchAction(ev.target.value))
                                         }} />
                                 </td>
                             </tr>

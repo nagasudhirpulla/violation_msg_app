@@ -5,6 +5,8 @@ class IViolationLog(TypedDict):
     msgId: str
     date: str
     freq: float
+    violMsgTo: str
+    emailTo: str
     freqViolationMsg: str
     voltViolationMsg: str
     loadViolationMsg: str
@@ -13,3 +15,4 @@ class IViolationLog(TypedDict):
     splEvnts: str
     violInfoRows: List[IViolInfoRow]
     violType: str
+    shiftIncharge: str
