@@ -69,17 +69,17 @@ function AtcViolMsgApp() {
                     >
                         <Modal.Header closeButton>
                             <Modal.Title>
-                                Save
+                                Send
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <p>
-                                Save this Message to Log ?
+                                Send this Message?
                             </p>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => setShowLogConfModal(false)}>Close</Button>
-                            <Button variant="primary" onClick={onSaveLog}>Save Log</Button>
+                            <Button variant="primary" onClick={onSaveLog}>Send Message</Button>
                         </Modal.Footer>
                     </Modal>
 
