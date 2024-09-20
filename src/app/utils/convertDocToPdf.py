@@ -59,7 +59,8 @@ def convert_docx_to_pdf(docx_path, pdf_path=None):
             wait_time += 1
         
         if os.path.exists(pdf_path):
-            print(f"Successfully converted {docx_path} to {pdf_path}")
+            # print(f"Successfully converted {docx_path} to {pdf_path}")
+            print(f"Successfully converted doc to pdf")
         else:
             raise FileNotFoundError(f"Conversion seemed to succeed, but {pdf_path} was not found")
     

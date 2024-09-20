@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, jsonify, request, Response
 from src.services.violLog import saveViolLog, saveAtcViolLog
 from src.config.appConfig import getAppConfig
@@ -31,16 +32,25 @@ def saveLog() -> Response:
     atcTmplPath: str = appConf['atcTmplPath']
     atcDumpFolder: str = appConf['atcDumpFolder']
     appDbConStr = ""
+
+    statusMessage = "In Process"
     # Report Generation Ends
     if "atcInfoRows" in violLogData:
         # isSuccess = saveAtcViolLog(violLogData, violLogFilePath)
         atcMsgRprtGntr = AtcMsgReportGenerator(appDbConStr)
         fileName: str = atcMsgRprtGntr.generateAtcMsgReport(violLogData, atcTmplPath, atcDumpFolder)
+
+        if fileName:
+            statusMessage = "Report Generation Completed"
         # save entry to database
         Id = atcMsgSummaryRepo.insertAtcLog(violLogData, fileName)
         if Id:
+            # status Message
+            statusMessage = statusMessage + os.linesep + "ATC Violation Message Saved to Database"
             isSuccess = atcMsgSummaryRepo.insertAtcInfoData(violLogData['atcInfoRows'], Id)
-        print("Insertion Successful")
+            if isSuccess:
+                statusMessage = statusMessage + os.linesep + "ATC Violation Rows Saved to Database"
+        # print("Insertion Successful")
 
     else:
         violMsgRprtGntr = ViolMsgReportGenerator(appDbConStr)
@@ -49,8 +59,12 @@ def saveLog() -> Response:
         # save entry to database
         Id = violationMsgSummaryRepo.insertViolationLog(violLogData, fileName)
         if Id:
+            # status Message
+            statusMessage = statusMessage + os.linesep + "Violation Message Saved to Database"
             isSuccess = violationMsgSummaryRepo.insertViolInfoData(violLogData['violInfoRows'], Id)
-        print("Insertion Successful")
+            if isSuccess:
+                statusMessage = statusMessage + os.linesep + "Violation Message Rows Saved to Database"
+        # print("Insertion Successful")
 
     # send mail to utilities
     sender_email = appConf['sender_email']
@@ -85,8 +99,17 @@ def saveLog() -> Response:
         </html>
         """
     if "atcInfoRows" in violLogData:
-        send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        if emailSentMsg == "Email sent successfully":
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+        else:
+            statusMessage = statusMessage + os.linesep + "Email sent UnSuccessful"
     
     else:
-        send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
-    return jsonify({"success": 1})
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        if emailSentMsg == "Email sent successfully":
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+        else:
+            statusMessage = statusMessage + os.linesep + "Email sent UnSuccessful"
+    print(statusMessage)
+    return jsonify({"success": 1, "msg": statusMessage})

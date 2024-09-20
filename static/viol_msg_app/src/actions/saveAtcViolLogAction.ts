@@ -22,8 +22,11 @@ export function saveAtcViolLogAction(atcViolLog: IAtcViolLog): ISaveAtcViolLogAc
 
 export const saveAtcViolLogDispatch = async (action: ISaveAtcViolLogAction, pageState: IAtcViolMsgAppState, pageStateDispatch: React.Dispatch<IAction>): Promise<void> => {
     const atcViolLog = action.payload.atcViolLog
-    const isSuccess = await saveViolLog(pageState.urls.serverBaseUrl, atcViolLog)
+    const [isSuccess, msg] = await saveViolLog(pageState.urls.serverBaseUrl, atcViolLog)
     if (!isSuccess) {
         console.log("Unable to save violation log...")
+    }
+    else{
+        console.log(msg)
     }
 }

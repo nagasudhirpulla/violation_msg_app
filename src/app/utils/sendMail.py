@@ -31,7 +31,9 @@ def send_email(sender_email, loginId, sender_password, receiver_emails, subject,
             # Send email
             # server.send_message(message)
             server.sendmail(sender_email, receiver_emails, message.as_string())
-        print("Email sent successfully")
+        # print("Email sent successfully")
+        successMsg = "Email sent successfully"
+        return successMsg
     except Exception as e:
         print(f"An error occurred while sending the email: {str(e)}")
 
