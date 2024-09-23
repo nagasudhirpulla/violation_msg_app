@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, jsonify, request, Response
 from src.services.violLog import saveViolLog, saveAtcViolLog
 from src.config.appConfig import getAppConfig
@@ -31,26 +32,64 @@ def saveLog() -> Response:
     atcTmplPath: str = appConf['atcTmplPath']
     atcDumpFolder: str = appConf['atcDumpFolder']
     appDbConStr = ""
+
+    statusMessage = "In Process"
     # Report Generation Ends
     if "atcInfoRows" in violLogData:
         # isSuccess = saveAtcViolLog(violLogData, violLogFilePath)
         atcMsgRprtGntr = AtcMsgReportGenerator(appDbConStr)
         fileName: str = atcMsgRprtGntr.generateAtcMsgReport(violLogData, atcTmplPath, atcDumpFolder)
+
+        if fileName:
+            statusMessage = "Report Generation Completed; "
+        else:
+            statusMessage = "Report Generation Not Completed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
         # save entry to database
         Id = atcMsgSummaryRepo.insertAtcLog(violLogData, fileName)
         if Id:
+            # status Message
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database; "
             isSuccess = atcMsgSummaryRepo.insertAtcInfoData(violLogData['atcInfoRows'], Id)
-        print("Insertion Successful")
+            if isSuccess:
+                statusMessage = statusMessage + os.linesep + "Violation Rows Saved to Database; "
+            else:
+                statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
+                statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+                return jsonify({"success": 0, "msg": statusMessage})
+        else:
+            statusMessage = statusMessage + os.linesep + "Message Save to Database Failed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
 
     else:
         violMsgRprtGntr = ViolMsgReportGenerator(appDbConStr)
         fileName: str = violMsgRprtGntr.generateViolMsgReport(violLogData, violTmplPath, violDumpFolder)
         # isSuccess = saveViolLog(violLogData, violLogFilePath)
+
+        if fileName:
+            statusMessage = "Report Generation Completed; "
+        else:
+            statusMessage = "Report Generation Not Completed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
         # save entry to database
         Id = violationMsgSummaryRepo.insertViolationLog(violLogData, fileName)
         if Id:
+            # status Message
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database; "
             isSuccess = violationMsgSummaryRepo.insertViolInfoData(violLogData['violInfoRows'], Id)
-        print("Insertion Successful")
+            if isSuccess:
+                statusMessage = statusMessage + os.linesep + "Message Rows Saved to Database; "
+            else:
+                statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
+                statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+                return jsonify({"success": 0, "msg": statusMessage})
+        else:
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database Failed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
 
     # send mail to utilities
     sender_email = appConf['sender_email']
@@ -85,8 +124,17 @@ def saveLog() -> Response:
         </html>
         """
     if "atcInfoRows" in violLogData:
-        send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        if emailSentMsg == "Email sent successfully":
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+        else:
+            statusMessage = statusMessage + os.linesep + "Email sent UnSuccessful"
     
     else:
-        send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
-    return jsonify({"success": 1})
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        if emailSentMsg == "Email sent successfully":
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+        else:
+            statusMessage = statusMessage + os.linesep + "Email sent UnSuccessful"
+    print(statusMessage)
+    return jsonify({"success": 1, "msg": statusMessage})

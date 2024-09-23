@@ -18,6 +18,8 @@ import { setRecipientEmailsAction } from '../actions/setRecipientEmailsAction';
 import { setMsgIdAction } from '../actions/setMsgIdAction';
 import { deriveAtcViolLog } from '../app_logic/deriveAtcViolLog';
 import { saveAtcViolLogAction } from '../actions/saveAtcViolLogAction';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AtcViolMsgApp() {
     let [pageState, pageStateDispatch] = useAtcViolMsgAppReducer(pageInitState);
@@ -35,12 +37,14 @@ function AtcViolMsgApp() {
 
     const onPrintClick = () => {
         // window.print()
+        // toast.success('Message sent successfully!');
         setShowLogConfModal(true)
     }
 
     const onSaveLog = () => {
         // console.log(pageState)
         pageStateDispatch(saveAtcViolLogAction(deriveAtcViolLog(pageState)))
+        // toast.info('Log saved successfully!');
         setShowLogConfModal(false)
     }
 

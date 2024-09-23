@@ -2,7 +2,7 @@ import { IAtcViolLog } from "../typeDefs/atcViolLog";
 import { ISaveLogApiResp } from "../typeDefs/saveLogApiResp";
 import { IViolLog } from "../typeDefs/violLog";
 
-export const saveViolLog = async (baseAddr: string, violLog: IViolLog | IAtcViolLog): Promise<boolean> => {
+export const saveViolLog = async (baseAddr: string, violLog: IViolLog | IAtcViolLog): Promise<[boolean, string]> => {
     try {
         const resp = await fetch(`${baseAddr}/violLogsApi/saveLog`, {
             method: 'POST',
@@ -12,10 +12,11 @@ export const saveViolLog = async (baseAddr: string, violLog: IViolLog | IAtcViol
             },
             body: JSON.stringify(violLog)
         })
-        const isSuccess = (await resp.json() as ISaveLogApiResp).success
-        return isSuccess
+        const respJson = await resp.json() as ISaveLogApiResp
+        // console.log(respJson)
+        return [respJson.success, respJson.msg]
     } catch (e) {
         console.error(e)
-        return false
+        return [false, ""]
     }
 };

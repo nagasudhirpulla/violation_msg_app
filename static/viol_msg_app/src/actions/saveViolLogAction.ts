@@ -3,6 +3,7 @@ import { IAction } from "../typeDefs/action";
 import { IViolLog } from "../typeDefs/violLog";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
+import { toast } from 'react-toastify';
 
 export interface ISaveViolLogPayload {
     violLog: IViolLog
@@ -22,8 +23,19 @@ export function saveViolLogAction(violLog: IViolLog): ISaveViolLogAction {
 
 export const saveViolLogDispatch = async (action: ISaveViolLogAction, pageState: IViolMsgAppState, pageStateDispatch: React.Dispatch<IAction>): Promise<void> => {
     const violLog = action.payload.violLog
-    const isSuccess = await saveViolLog(pageState.urls.serverBaseUrl, violLog)
+    const [isSuccess, msg] = await saveViolLog(pageState.urls.serverBaseUrl, violLog)
     if (!isSuccess) {
+        toast.error(msg, {
+            isLoading: false,
+            autoClose: 10000
+        });
         console.log("Unable to save violation log...")
+    }
+    else{
+        toast.success(msg, {
+            isLoading: false,
+            autoClose: 10000
+        });
+        console.log(msg)
     }
 }

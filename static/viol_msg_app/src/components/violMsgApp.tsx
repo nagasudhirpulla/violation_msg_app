@@ -29,6 +29,7 @@ import { setMsgModeAction } from '../actions/setMsgModeAction';
 import { setFreqViolMsgAction } from '../actions/setFreqViolMsgAction';
 import { setDistributionEmailsAction } from '../actions/setDistributionEmailsAction';
 import { setShInchAction } from '../actions/setShInchAction';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
