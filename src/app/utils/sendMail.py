@@ -8,11 +8,13 @@ def send_email(sender_email, loginId, sender_password, receiver_emails, subject,
     # Create a multipart message
     message = MIMEMultipart()
     message["From"] = sender_email
+    receiver_emails.append(sender_email)
     message["To"] = ", ".join(receiver_emails)  # Join multiple recipient emails
     message["Subject"] = subject
 
     # Add body to email
     message.attach(MIMEText(html, "html"))
+    successMsg = "MAIL NOT SENT"
 
     # Attach PDF file if provided
     if attachment_path:
@@ -36,6 +38,7 @@ def send_email(sender_email, loginId, sender_password, receiver_emails, subject,
         return successMsg
     except Exception as e:
         print(f"An error occurred while sending the email: {str(e)}")
+        return successMsg
 
 
 # html = """\
