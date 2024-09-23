@@ -41,30 +41,55 @@ def saveLog() -> Response:
         fileName: str = atcMsgRprtGntr.generateAtcMsgReport(violLogData, atcTmplPath, atcDumpFolder)
 
         if fileName:
-            statusMessage = "Report Generation Completed"
+            statusMessage = "Report Generation Completed; "
+        else:
+            statusMessage = "Report Generation Not Completed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
         # save entry to database
         Id = atcMsgSummaryRepo.insertAtcLog(violLogData, fileName)
         if Id:
             # status Message
-            statusMessage = statusMessage + os.linesep + "ATC Violation Message Saved to Database"
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database; "
             isSuccess = atcMsgSummaryRepo.insertAtcInfoData(violLogData['atcInfoRows'], Id)
             if isSuccess:
-                statusMessage = statusMessage + os.linesep + "ATC Violation Rows Saved to Database"
-        # print("Insertion Successful")
+                statusMessage = statusMessage + os.linesep + "Violation Rows Saved to Database; "
+            else:
+                statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
+                statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+                return jsonify({"success": 0, "msg": statusMessage})
+        else:
+            statusMessage = statusMessage + os.linesep + "Message Save to Database Failed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
 
     else:
         violMsgRprtGntr = ViolMsgReportGenerator(appDbConStr)
         fileName: str = violMsgRprtGntr.generateViolMsgReport(violLogData, violTmplPath, violDumpFolder)
         # isSuccess = saveViolLog(violLogData, violLogFilePath)
+
+        if fileName:
+            statusMessage = "Report Generation Completed; "
+        else:
+            statusMessage = "Report Generation Not Completed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
         # save entry to database
         Id = violationMsgSummaryRepo.insertViolationLog(violLogData, fileName)
         if Id:
             # status Message
-            statusMessage = statusMessage + os.linesep + "Violation Message Saved to Database"
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database; "
             isSuccess = violationMsgSummaryRepo.insertViolInfoData(violLogData['violInfoRows'], Id)
             if isSuccess:
-                statusMessage = statusMessage + os.linesep + "Violation Message Rows Saved to Database"
-        # print("Insertion Successful")
+                statusMessage = statusMessage + os.linesep + "Message Rows Saved to Database; "
+            else:
+                statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
+                statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+                return jsonify({"success": 0, "msg": statusMessage})
+        else:
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database Failed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
 
     # send mail to utilities
     sender_email = appConf['sender_email']
