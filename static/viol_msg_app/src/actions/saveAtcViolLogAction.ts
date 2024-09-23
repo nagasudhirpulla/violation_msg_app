@@ -25,16 +25,18 @@ export const saveAtcViolLogDispatch = async (action: ISaveAtcViolLogAction, page
     const atcViolLog = action.payload.atcViolLog
     const [isSuccess, msg] = await saveViolLog(pageState.urls.serverBaseUrl, atcViolLog)
     if (!isSuccess) {
-        toast.error("Some error while sending ATC mail", {
+        toast.error(msg, {
             isLoading: false,
-            autoClose: 10000
+            autoClose: 10000,
+            style: { fontWeight: 'bold' }
         });
         console.log("Unable to save violation log...")
     }
     else{
         toast.success(msg, {
             isLoading: false,
-            autoClose: 10000
+            autoClose: 10000,
+            style: { fontWeight: 'bold' }
         });
         console.log(msg)
     }
