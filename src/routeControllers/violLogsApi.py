@@ -128,13 +128,13 @@ def saveLog() -> Response:
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg
         else:
-            statusMessage = statusMessage + os.linesep + "Email sent UnSuccessful"
+            statusMessage = statusMessage + os.linesep + emailSentMsg
     
     else:
         emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg
         else:
-            statusMessage = statusMessage + os.linesep + "Email sent UnSuccessful"
+            statusMessage = statusMessage + os.linesep + emailSentMsg
     print(statusMessage)
     return jsonify({"success": 1, "msg": statusMessage})
