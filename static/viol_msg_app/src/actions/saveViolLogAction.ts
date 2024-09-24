@@ -27,14 +27,16 @@ export const saveViolLogDispatch = async (action: ISaveViolLogAction, pageState:
     if (!isSuccess) {
         toast.error(msg, {
             isLoading: false,
-            autoClose: 10000
+            autoClose: 10000,
+            style: { fontWeight: 'bold' }
         });
         console.log("Unable to save violation log...")
     }
     else{
         toast.success(msg, {
             isLoading: false,
-            autoClose: 10000
+            autoClose: 10000,
+            style: { fontWeight: 'bold' }
         });
         console.log(msg)
     }
