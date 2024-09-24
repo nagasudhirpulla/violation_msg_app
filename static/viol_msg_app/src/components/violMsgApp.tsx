@@ -1,5 +1,5 @@
 // https://react-bootstrap.github.io/components/modal/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select'
 import { useViolMsgAppReducer } from '../reducers/violMsgAppReducer';
 import pageInitState, { MsgModes } from '../initial_states/violMsgAppInitState'
@@ -34,6 +34,11 @@ import 'react-toastify/dist/ReactToastify.css';
 function ViolMsgApp() {
     let [pageState, pageStateDispatch] = useViolMsgAppReducer(pageInitState);
     const [showLogConfModal, setShowLogConfModal] = useState(false);
+    const [isSendEnabled, setIsSendEnabled] = useState(false);
+
+    useEffect(() => {
+        console.log("Send button enabled:", isSendEnabled);
+    }, [isSendEnabled]);
 
     const onSelConsChange = (selectedOptions: IUtilPnt[]) => {
         pageStateDispatch(setSelectedConsAction(selectedOptions))
@@ -51,28 +56,40 @@ function ViolMsgApp() {
     }
 
     const onPrintClick = () => {
-        // window.print()
-        setShowLogConfModal(true)
+        if (isSendEnabled) {
+            setShowLogConfModal(true)
+        } else {
+            console.log("Send button is disabled. Please suggest Alert or Emergency first.");
+        }
     }
 
     const onSaveLog = () => {
-        // console.log(pageState)
         pageStateDispatch(saveViolLogAction(deriveViolLog(pageState)))
         setShowLogConfModal(false)
+        setIsSendEnabled(false)
+    }
+
+    const enableSendButton = () => {
+        setIsSendEnabled(true);
+        console.log("Enabling send button");
     }
 
     const onSuggestAlertBuyersClick = () => {
         pageStateDispatch(getAlertBuyersAction())
+        enableSendButton()
     }
     const onSuggestEmergencyBuyersClick = () => {
         pageStateDispatch(getEmergencyBuyersAction())
+        enableSendButton()
     }
 
     const onSuggestAlertSellersClick = () => {
         pageStateDispatch(getAlertSellersAction())
+        enableSendButton()
     }
     const onSuggestEmergencySellersClick = () => {
         pageStateDispatch(getEmergencySellersAction())
+        enableSendButton()
     }
 
     const onSelMsgModeChange = (mode: string) => {
@@ -161,7 +178,9 @@ function ViolMsgApp() {
                         <tbody>
                             <tr className="no-print">
                                 <td colSpan={12} valign="middle" align="center">
-                                    <button onClick={onPrintClick} className="mt-3 btn btn-primary">Send Message</button>
+                                <button onClick={onPrintClick} className={`mt-3 btn btn-primary ${isSendEnabled ? '' : 'disabled'}`}
+                                    disabled={!isSendEnabled}>Send Message</button>
+                                    <p>{isSendEnabled ? '' : 'Send button is disabled. Please suggest Alert or Emergency first.'}</p>
                                 </td>
                             </tr>
                             <tr>
@@ -494,9 +513,9 @@ function ViolMsgApp() {
                             </tr>
                         </tbody>
                     </table>
-                    <p style={{ fontSize: "x-small" }}>
-                        {pageState.ui.distributionMails}
-                    </p>
+                    {/* <p style={{ fontSize: "x-small" }}> */}
+                    {/*    {pageState.ui.distributionMails} */}
+                    {/*</p> */}
                 </>
             }
             {/* <pre>{JSON.stringify(pageState.ui.violInfoRows, null, 2)}</pre> */}
