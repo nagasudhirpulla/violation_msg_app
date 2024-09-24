@@ -1,5 +1,5 @@
 // https://react-bootstrap.github.io/components/modal/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select'
 import pageInitState from '../initial_states/atcViolMsgAppInitState'
 import { setMsgTimeAction } from '../actions/setMsgTimeAction';
@@ -24,6 +24,11 @@ import 'react-toastify/dist/ReactToastify.css';
 function AtcViolMsgApp() {
     let [pageState, pageStateDispatch] = useAtcViolMsgAppReducer(pageInitState);
     const [showLogConfModal, setShowLogConfModal] = useState(false);
+    const [isSendEnabled, setIsSendEnabled] = useState(false);
+
+    useEffect(() => {
+        console.log("Send button enabled:", isSendEnabled);
+    }, [isSendEnabled]);
 
     let [selConsList, setSelConsList] = useState([] as IStateUtilPnt[]);
     const onSelConsChange = (selectedOptions: IStateUtilPnt[]) => {
@@ -33,19 +38,26 @@ function AtcViolMsgApp() {
     const onConsAtcRowsUpdateClick = () => {
         pageStateDispatch(setMsgTimeAction(new Date()))
         pageStateDispatch(getAtcInfoRowsAction(selConsList))
+        enableSendButton()
     }
 
     const onPrintClick = () => {
-        // window.print()
-        // toast.success('Message sent successfully!');
-        setShowLogConfModal(true)
+        if (isSendEnabled) {
+            setShowLogConfModal(true)
+        } else {
+            console.log("Send button is disabled. Please suggest Alert or Emergency first.");
+        }
     }
 
     const onSaveLog = () => {
-        // console.log(pageState)
         pageStateDispatch(saveAtcViolLogAction(deriveAtcViolLog(pageState)))
-        // toast.info('Log saved successfully!');
         setShowLogConfModal(false)
+        setIsSendEnabled(false)
+    }
+
+    const enableSendButton = () => {
+        setIsSendEnabled(true);
+        console.log("Enabling send button");
     }
 
     return (
@@ -62,7 +74,7 @@ function AtcViolMsgApp() {
                         placeholder="Select Constituents"
                         classNamePrefix="select" />
                     <button onClick={onConsAtcRowsUpdateClick} className="btn btn-xs btn-success">Update</button>
-                    <button onClick={onPrintClick} className="btn btn-xs btn-info ml-3">Send Message</button>
+                    <button onClick={onPrintClick} className="btn btn-xs btn-info ml-3" disabled={!isSendEnabled}>Send Message</button>
                 </div>
             </div>
             {pageState.ui.atcInfoRows.length > 0 &&
