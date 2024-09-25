@@ -75,6 +75,9 @@ function AtcViolMsgApp() {
                         classNamePrefix="select" />
                     <button onClick={onConsAtcRowsUpdateClick} className="btn btn-xs btn-success">Update</button>
                     <button onClick={onPrintClick} className="btn btn-xs btn-info ml-3" disabled={!isSendEnabled}>Send Message</button>
+                    <a href="http://10.2.100.56:8081/mis_dashboard/iegcViolMsgs/" target="_blank">
+                        <button className="btn btn-xs btn-primary ml-3">Show Issued Messages</button>
+                    </a>
                 </div>
             </div>
             {pageState.ui.atcInfoRows.length > 0 &&
