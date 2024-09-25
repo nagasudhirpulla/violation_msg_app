@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<p><a href="{{ url_for('oauth.logout') }}">logout</a></p>
     <div id="root" class="container-fluid"></div>
     <link rel="stylesheet" href="{{ url_for('static', filename='viol_msg_app/node_modules/bootstrap/dist/css/bootstrap.min.css') }}"/>
     <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/toastr/build/toastr.min.js') }}"></script>
