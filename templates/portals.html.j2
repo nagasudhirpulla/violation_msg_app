@@ -1,0 +1,51 @@
+{% extends "layoutBase.html.j2" %}
+{% block title %}Home{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <h1>Welcome to Violation Message Application</h1>
+        <div style="text-align: center;">
+            <a href="{{ url_for('violation') }}"><button class="btn btn-primary">Violation Page</button></a>
+            <a href="{{ url_for('atc') }}"><button class="btn btn-primary">ATC Page</button></a>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <style>
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+
+{% endblock %} 

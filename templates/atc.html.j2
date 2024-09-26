@@ -1,21 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layoutBase.html.j2" %}
+{% block title %}ATC{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATC Violation Message</title>
-</head>
+{% block head %}
+{{ super() }}
+{% endblock %}
 
-<body>
+
+{% block content %}
     <div id="root" class="container"></div>
     <link rel="stylesheet" href="{{ url_for('static', filename='viol_msg_app/node_modules/bootstrap/dist/css/bootstrap.min.css') }}"/>
     <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/toastr/build/toastr.min.js') }}"></script>
     <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/react/umd/react.production.min.js') }}"></script>
     <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/react-dom/umd/react-dom.production.min.js') }}"></script>
     <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/dist/bundle.atc_viol_msg_app.js') }}"></script>
-    
+
+{% endblock %}
+
+{% block scripts %}    
     <style>
     .basic-multi-select {
         width: 50%;
@@ -91,6 +92,5 @@
         }
     }
 </style>
-</body>
 
-</html>
+{% endblock %} 

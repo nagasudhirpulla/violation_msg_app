@@ -41,8 +41,13 @@ login_manager.init_app(app)
 @app.route('/')
 def index():
     if current_user.is_authenticated:
-        return redirect(url_for('violation'))
+        return redirect(url_for('portals'))
     return render_template('loggedout.html.j2')
+
+@app.route('/portals')
+@roles_required(['viol_msg_app_user'])
+def portals():
+    return render_template('portals.html.j2')
 
 @app.route('/violation')
 @roles_required(['viol_msg_app_user'])

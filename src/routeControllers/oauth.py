@@ -179,7 +179,7 @@ def callback():
     # Begin user session by logging the user in
     login_user(user)
     # Send user back to homepage
-    return redirect(url_for("violation"))
+    return redirect(url_for("portals"))
 
 
 @oauthPage.route("/logout")
