@@ -114,6 +114,9 @@ function ViolMsgApp() {
                     <button onClick={onSuggestAlertBuyersClick} className="btn btn-xs btn-info">Suggest Alert</button>
                     <button onClick={onSuggestEmergencyBuyersClick} className="btn btn-xs btn-warning ms-2">Suggest Emergency</button>
                     <button onClick={onConsViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Update</button>
+                    <a href="http://10.2.100.56:8081/mis_dashboard/iegcViolMsgs/" target="_blank">
+                        <button className="btn btn-xs btn-primary ml-3">Show Issued Messages</button>
+                    </a>
                 </div>
                 <br />
                 <div>
