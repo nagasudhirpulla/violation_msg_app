@@ -2,5 +2,8 @@
   "devDependencies": {
     "css-loader": "^7.1.2",
     "style-loader": "^4.0.0"
+  },
+  "dependencies": {
+    "react-toastify": "^10.0.5"
   }
 }
