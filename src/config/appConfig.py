@@ -32,7 +32,8 @@ def getBuyersFromConf() -> List[IBuyer]:
                          "acePnt": c[4],
                          "atcPnt": c[5],
                          "ttcPnt": c[6],
-                         "isRE": True if c[7].lower() == "re" else False
+                         "isRE": True if c[7].lower() == "re" else False,
+                         "isSuperRE": True if c[7].lower() == "superRe" else False
                          }
         return buyer
     buyers = [parseBuyerConf(c) for c in appConf["constituents"]]
@@ -57,6 +58,7 @@ class BuyerCategory(Enum):
     General = 1
     RE = 2
     LessSch = 3
+    SuperRE = 4
 
 
 class SellerCategory(Enum):
