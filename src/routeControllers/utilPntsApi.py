@@ -7,7 +7,7 @@ utilPntsApiPage = Blueprint('utilPntsApi', __name__,
 
 
 @utilPntsApiPage.route('/getUtilsInfo', methods=['GET'])
-@roles_required(['viol_msg_app_user'])
+# @roles_required(['viol_msg_app_user'])
 def getUtilsInfo() -> dict:
     appConf = getAppConfig()
     consList = appConf["constituents"]

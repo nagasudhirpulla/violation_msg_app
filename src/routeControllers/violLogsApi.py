@@ -10,12 +10,14 @@ from src.repos.insertAtcMsgs import AtcMsgSummaryRepo
 from src.app.violMsgReportGenerator import ViolMsgReportGenerator
 from src.app.atcMsgReportGenerator import AtcMsgReportGenerator
 from src.app.utils.sendMail import send_email
+from src.security.decorators import roles_required
 
 violLogsApiPage = Blueprint('violLogsApi', __name__,
                             template_folder='templates')
 
 
 @violLogsApiPage.route('/saveLog', methods=['POST'])
+# @roles_required(['viol_msg_app_user'])
 def saveLog() -> Response:
     violLogData: Union[IAtcViolInfoLog, IViolationLog] = request.get_json(
         force=True)  # type: ignore

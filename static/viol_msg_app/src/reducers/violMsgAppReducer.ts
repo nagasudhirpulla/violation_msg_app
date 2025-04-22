@@ -26,6 +26,8 @@ import { ISetSelectedConsAction, setSelectedConsReducer } from "../actions/setSe
 import { getEmergencyBuyersDispatch, IGetEmergencyBuyersAction } from "../actions/getEmergencyBuyersAction";
 import { ISetSelectedGensAction, setSelectedGensReducer } from "../actions/setSelectedGensAction";
 import { getAlertSellersDispatch, IGetAlertSellersAction } from "../actions/getAlertSellersAction";
+import { getAlertOverInjSellersDispatch, IGetAlertOverInjSellersAction } from "../actions/getAlertOverInjSellersAction";
+import { getAlertUnderInjSellersDispatch, IGetAlertUnderInjSellersAction } from "../actions/getAlertUnderInjSellersAction";
 import { getEmergencySellersDispatch, IGetEmergencySellersAction } from "../actions/getEmergencySellersAction";
 import { ISetPendingActionsAction, setPendingActionsAction, setPendingActionsReducer } from "../actions/setPendingActionsAction";
 import { ISetMsgModeAction, setMsgModeReducer } from "../actions/setMsgModeAction";
@@ -137,6 +139,18 @@ export const useViolMsgAppReducer = (initState: IViolMsgAppState): [IViolMsgAppS
             }
             case ActionType.SUGGEST_ALERT_SELLERS: {
                 await getAlertSellersDispatch(action as IGetAlertSellersAction, pageState, pageStateDispatch)
+                // update violation data after ui refresh
+                pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(true)]))
+                break;
+            }
+            case ActionType.SUGGEST_ALERT_OVER_INJ_SELLERS: {
+                await getAlertOverInjSellersDispatch(action as IGetAlertOverInjSellersAction, pageState, pageStateDispatch)
+                // update violation data after ui refresh
+                pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(true)]))
+                break;
+            }
+            case ActionType.SUGGEST_ALERT_UNDER_INJ_SELLERS: {
+                await getAlertUnderInjSellersDispatch(action as IGetAlertUnderInjSellersAction, pageState, pageStateDispatch)
                 // update violation data after ui refresh
                 pageStateDispatch(setPendingActionsAction([...pageState.ui.pendingActions, getViolationRowsAction(true)]))
                 break;

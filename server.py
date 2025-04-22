@@ -45,17 +45,17 @@ def index():
     return render_template('loggedout.html.j2')
 
 @app.route('/portals')
-@roles_required(['viol_msg_app_user'])
+# @roles_required(['viol_msg_app_user'])
 def portals():
     return render_template('portals.html.j2')
 
 @app.route('/violation')
-@roles_required(['viol_msg_app_user'])
+# @roles_required(['viol_msg_app_user'])
 def violation():
     return render_template('home.html.j2')
 
 @app.route('/atc')
-@roles_required(['viol_msg_app_user'])
+# @roles_required(['viol_msg_app_user'])
 def atc():
     return render_template('atc.html.j2')
 

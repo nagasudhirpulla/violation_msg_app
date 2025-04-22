@@ -24,6 +24,8 @@ import { setSelectedConsAction } from '../actions/setSelectedConsAction';
 import { setSelectedGensAction } from '../actions/setSelectedGensAction';
 import { getEmergencyBuyersAction } from '../actions/getEmergencyBuyersAction';
 import { getAlertSellersAction } from '../actions/getAlertSellersAction';
+import { getAlertOverInjSellersAction } from '../actions/getAlertOverInjSellersAction';
+import { getAlertUnderInjSellersAction } from '../actions/getAlertUnderInjSellersAction';
 import { getEmergencySellersAction } from '../actions/getEmergencySellersAction';
 import { setMsgModeAction } from '../actions/setMsgModeAction';
 import { setFreqViolMsgAction } from '../actions/setFreqViolMsgAction';
@@ -92,6 +94,16 @@ function ViolMsgApp() {
         enableSendButton()
     }
 
+    const onSuggestAlertOverInjSellersClick = () => {
+        pageStateDispatch(getAlertOverInjSellersAction())
+        enableSendButton()
+    }
+
+    const onSuggestAlertUnderInjSellersClick = () => {
+        pageStateDispatch(getAlertUnderInjSellersAction())
+        enableSendButton()
+    }
+
     const onSelMsgModeChange = (mode: string) => {
         pageStateDispatch(setMsgInstrucAction("The voltage of following nodes is continuing to be outside the IEGC operation limits despite WRLDC directions vide message ref .... dated .... . Time of issue ... . To take remedial measures"))
         pageStateDispatch(setMsgModeAction(mode))
@@ -132,6 +144,8 @@ function ViolMsgApp() {
                         classNamePrefix="select" />
                     <button onClick={onSuggestAlertSellersClick} className="btn btn-xs btn-info">Suggest Alert</button>
                     <button onClick={onSuggestEmergencySellersClick} className="btn btn-xs btn-warning ms-2">Suggest Emergency</button>
+                    <button onClick={onSuggestAlertOverInjSellersClick} className="btn btn-xs btn-success ms-2">Suggest Over Injection Alert</button>
+                    <button onClick={onSuggestAlertUnderInjSellersClick} className="btn btn-xs btn-success ms-2">Suggest Under Injection Alert</button>
                     <button onClick={onGensViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Update</button>
                 </div>
                 <div>
