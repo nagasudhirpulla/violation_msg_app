@@ -1,5 +1,6 @@
 import { IAction } from "../typeDefs/action";
 import { IAtcViolMsgAppState } from "../typeDefs/atcViolMsgAppState";
+import { IVoltViolMsgAppState } from "../typeDefs/voltViolMsgAppState";
 import { ActionType } from "./actionType";
 
 export interface ISetRecipientAddrPayload {
@@ -19,6 +20,16 @@ export function setRecipientAddrAction(recipientsStr: string): ISetRecipientAddr
 }
 
 export const setAtcPageRecipientAddrReducer = (state: IAtcViolMsgAppState, action: ISetRecipientAddrAction): IAtcViolMsgAppState => {
+    return {
+        ...state,
+        ui: {
+            ...state.ui,
+            recipientsStr: action.payload.recipientsStr
+        }
+    };
+}
+
+export const setVoltViolPageRecipientAddrReducer = (state: IVoltViolMsgAppState, action: ISetRecipientAddrAction): IVoltViolMsgAppState => {
     return {
         ...state,
         ui: {

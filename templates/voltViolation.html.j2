@@ -1,0 +1,96 @@
+{% extends "layoutBase.html.j2" %}
+{% block title %}Voltage Violation{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    <div id="root" class="container"></div>
+    <link rel="stylesheet" href="{{ url_for('static', filename='viol_msg_app/node_modules/bootstrap/dist/css/bootstrap.min.css') }}"/>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/toastr/build/toastr.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/react/umd/react.production.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/node_modules/react-dom/umd/react-dom.production.min.js') }}"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='viol_msg_app/dist/bundle.volt_viol_msg_app.js') }}"></script>
+
+{% endblock %}
+
+{% block scripts %}    
+    <style>
+    .basic-multi-select {
+        width: 50%;
+        display: inline-block;
+        margin-right: 1em;
+    }
+
+    table.logoTable {
+        border: none;
+        text-align: center;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    table.volt_viol_rows_table {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    table.volt_viol_rows_table tr,
+    table.volt_viol_rows_table td {
+        border: 1px solid black;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    input,
+    textarea {
+        border: none;
+        resize: vertical;
+    }
+
+    body,
+    div,
+    table,
+    thead,
+    tbody,
+    tfoot,
+    tr,
+    th,
+    td,
+    p {
+        font-family: "Calibri";
+    }
+
+    a.comment-indicator:hover+comment {
+        background: #ffd;
+        position: absolute;
+        display: block;
+        border: 1px solid black;
+        padding: 0.5em;
+    }
+
+    a.comment-indicator {
+        background: red;
+        display: inline-block;
+        border: 1px solid black;
+        width: 0.5em;
+        height: 0.5em;
+    }
+
+    comment {
+        display: none;
+    }
+
+    @media print {
+
+        .no-print,
+        .no-print * {
+            display: none !important;
+        }
+    }
+</style>
+
+{% endblock %} 

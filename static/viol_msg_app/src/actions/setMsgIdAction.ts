@@ -1,6 +1,7 @@
 import { IAction } from "../typeDefs/action";
 import { IAtcViolMsgAppState } from "../typeDefs/atcViolMsgAppState";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
+import { IVoltViolMsgAppState } from "../typeDefs/voltViolMsgAppState";
 import { ActionType } from "./actionType";
 
 export interface ISetMsgIdPayload {
@@ -30,6 +31,16 @@ export const setMsgIdReducer = (state: IViolMsgAppState, action: ISetMsgIdAction
 }
 
 export const setAtcPageMsgIdReducer = (state: IAtcViolMsgAppState, action: ISetMsgIdAction): IAtcViolMsgAppState => {
+    return {
+        ...state,
+        ui: {
+            ...state.ui,
+            msgId: action.payload.msgId
+        }
+    };
+}
+
+export const setVoltViolPageMsgIdReducer = (state: IVoltViolMsgAppState, action: ISetMsgIdAction): IVoltViolMsgAppState => {
     return {
         ...state,
         ui: {

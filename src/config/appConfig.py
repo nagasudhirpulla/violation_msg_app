@@ -3,11 +3,15 @@ import json
 from typing import List
 from src.typeDefs.buyer import IBuyer
 from src.typeDefs.generator import IGenerator
+from src.typeDefs.subStation import ISubStation
+from src.typeDefs.genStationMvar import IGenStationMvar
 from enum import Enum
+import pandas as pd
 
 # initialize the app config global variable
 appConf = {}
-
+subStnConf = {}
+genStnMvarConf = {}
 
 def loadAppConfig(fName="secret/config.json"):
     # load config json into the global variable
@@ -15,6 +19,27 @@ def loadAppConfig(fName="secret/config.json"):
         global appConf
         appConf = json.load(f)
         return appConf
+
+
+def initConfigs():
+    loadSubStnConfig()
+    loadGenStnMvarConfig()
+
+
+def loadSubStnConfig(fName="secret/config.xlsx"):
+    global subStnConf
+    subStnConfDf = pd.read_excel(fName, sheet_name="subStations")
+    subStnConf = subStnConfDf.to_dict('records')
+    return subStnConf
+
+
+def loadGenStnMvarConfig(fName="secret/config.xlsx"):
+    global genStnMvarConf
+    genStnMvarConfDf = pd.read_excel(fName, sheet_name="generatingStations")
+    # Convert Nan to None
+    # fileMappings = fileMappingsDf.where(pd.notnull(fileMappings),None)
+    genStnMvarConf = genStnMvarConfDf.to_dict('records')
+    return genStnMvarConf
 
 
 def getAppConfig():
@@ -51,6 +76,17 @@ def getGensFromConf() -> List[IGenerator]:
         return gen
     gens = [parseGenConf(c) for c in appConf["generators"]]
     return gens
+
+
+def getSubStnConfig() -> List[ISubStation]:
+    global subStnConf
+    return subStnConf
+
+
+def getGenStnMvarConfig() -> List[IGenStationMvar]:
+    global genStnMvarConf
+    return genStnMvarConf
+
 
 
 class BuyerCategory(Enum):

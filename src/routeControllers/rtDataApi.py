@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from src.services.scada_fetcher import fetchScadaPntRtData
-from src.app.violationSuggestion import deriveBuyersInAlertState, deriveBuyersInEmergencyState, deriveSellersInAlertState, deriveSellersInEmergencyState, deriveSellersInAlertOverInjState, deriveSellersInAlertUnderInjState
+from src.app.violationSuggestion import deriveBuyersInAlertState, deriveBuyersInEmergencyState, deriveSellersInAlertState, deriveSellersInEmergencyState, deriveSellersInAlertOverInjState, deriveSellersInAlertUnderInjState, deriveVoltViolationInState, deriveGenStnMvarInState
 from typing import List, Dict
 from src.security.decorators import roles_required
 
@@ -56,3 +56,18 @@ def getAlertOverInjSellers() -> Dict[str, List[int]]:
 def getAlertUnderInjSellers() -> Dict[str, List[int]]:
     underInjSellerIndices = deriveSellersInAlertUnderInjState()
     return {"indices": underInjSellerIndices}
+
+@rtDataApiPage.route('/getVoltViolData', methods=['GET'])
+# @roles_required(['viol_msg_app_user'])
+def getVoltViolData() -> dict:
+    state = request.args.get('id') or ""
+    voltViolIndices = deriveVoltViolationInState(state)
+    genStnMvarIndices = deriveGenStnMvarInState(state)
+    return {"voltViol": voltViolIndices, "genStnMvar": genStnMvarIndices}
+
+@rtDataApiPage.route('/getGenStnMvarData', methods=['GET'])
+# @roles_required(['viol_msg_app_user'])
+def getGenStnMvarData() -> dict:
+    state = request.args.get('state') or ""
+    genStnMvarIndices = deriveGenStnMvarInState(state)
+    return {"indices": genStnMvarIndices}

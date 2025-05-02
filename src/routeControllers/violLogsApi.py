@@ -4,11 +4,13 @@ from src.services.violLog import saveViolLog, saveAtcViolLog
 from src.config.appConfig import getAppConfig
 from src.typeDefs.atcViolInfoLog import IAtcViolInfoLog
 from src.typeDefs.violInfoLog import IViolationLog
+from src.typeDefs.voltViolInfoLog import IVoltViolInfoLog
 from typing import Union
 from src.repos.insertViolationMsgs import ViolationMsgSummaryRepo
 from src.repos.insertAtcMsgs import AtcMsgSummaryRepo
 from src.app.violMsgReportGenerator import ViolMsgReportGenerator
 from src.app.atcMsgReportGenerator import AtcMsgReportGenerator
+from src.app.voltViolMsgReportGenerator import VoltViolMsgReportGenerator
 from src.app.utils.sendMail import send_email
 from src.security.decorators import roles_required
 
@@ -64,6 +66,20 @@ def saveLog() -> Response:
             statusMessage = statusMessage + os.linesep + "Message Save to Database Failed; "
             statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
             return jsonify({"success": 0, "msg": statusMessage})
+        
+    elif "voltViolInfoRows" in violLogData:
+        # isSuccess = saveAtcViolLog(violLogData, violLogFilePath)
+        voltViolMsgRprtGntr = VoltViolMsgReportGenerator(appDbConStr)
+        fileName: str = voltViolMsgRprtGntr.generateVoltViolMsgReport(violLogData, atcTmplPath, atcDumpFolder)
+
+        if fileName:
+            statusMessage = "Report Generation Completed; "
+        else:
+            statusMessage = "Report Generation Not Completed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
+        # save entry to database
+        return jsonify({"success": 0, "msg": statusMessage})
 
     else:
         violMsgRprtGntr = ViolMsgReportGenerator(appDbConStr)

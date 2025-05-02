@@ -34,8 +34,10 @@
 <body>
     <div class="top-row">
         {% if current_user.is_authenticated %}
+            <a href="{{ url_for('portals') }}"><button class="btn btn-xs btn-info ms-2">Home</button></a>
             <a href="{{ url_for('violation') }}"><button class="btn btn-xs btn-info ms-2">Violation</button></a>
-            <a href="{{ url_for('atc') }}"><button class="btn btn-xs btn-success ms-2">ATC</button></a>
+            <a href="{{ url_for('atc') }}"><button class="btn btn-xs btn-info ms-2">ATC</button></a>
+            <a href="{{ url_for('voltViolation') }}"><button class="btn btn-xs btn-info ms-2">Voltage Violation</button></a>
         {% endif %}
         <a href="{{ url_for('oauth.logout') }}"><button class="logout-tab ms-2">Logout</button></a>
     </div>

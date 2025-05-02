@@ -6,7 +6,7 @@ apppend data in excel - https://stackoverflow.com/questions/37182528/how-to-appe
 '''
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, Blueprint
-from src.config.appConfig import loadAppConfig
+from src.config.appConfig import loadAppConfig, initConfigs, getGenStnMvarConfig, getSubStnConfig
 from src.routeControllers.rtDataApi import rtDataApiPage
 from src.routeControllers.utilPntsApi import utilPntsApiPage
 from src.routeControllers.violLogsApi import violLogsApiPage
@@ -19,6 +19,9 @@ import werkzeug
 
 # get application config
 appConfig = loadAppConfig()
+initConfigs()
+subStnConf = getSubStnConfig()
+genStnMvarConf = getGenStnMvarConfig()
 
 initOauthClient()
 
@@ -58,6 +61,11 @@ def violation():
 # @roles_required(['viol_msg_app_user'])
 def atc():
     return render_template('atc.html.j2')
+
+@app.route('/voltViolation')
+# @roles_required(['viol_msg_app_user'])
+def voltViolation():
+    return render_template('voltViolation.html.j2')
 
 app.register_blueprint(oauthPage, url_prefix='/oauth')
 app.register_blueprint(rtDataApiPage, url_prefix='/rtDataApi')
