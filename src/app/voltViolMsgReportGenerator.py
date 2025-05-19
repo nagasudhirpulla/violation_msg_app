@@ -46,7 +46,7 @@ class VoltViolMsgReportGenerator:
         try:
 
             voltViolMsgList: List[IVoltViolInfoRows] = []
-            for row in voltViolLogData['atcInfoRows']:
+            for row in voltViolLogData['voltViolInfoRows']:
                 voltViolMsg: IVoltViolInfoRows = {
                     'name': row['name'],
                     # 'date': dt.datetime.strftime(df['DATE_TIME'][i], "%d-%m-%Y"),
@@ -59,9 +59,8 @@ class VoltViolMsgReportGenerator:
             
         # get generators mvar
         try:
-
             genStnMvarMsgList: List[IGenStnMvarInfoRows] = []
-            for row in voltViolLogData['atcInfoRows']:
+            for row in voltViolLogData['genStnMvarInfoRows']:
                 genStnMvarMsg: IGenStnMvarInfoRows = {
                     'name': row['name'],
                     # 'date': dt.datetime.strftime(df['DATE_TIME'][i], "%d-%m-%Y"),

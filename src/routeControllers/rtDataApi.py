@@ -60,9 +60,10 @@ def getAlertUnderInjSellers() -> Dict[str, List[int]]:
 @rtDataApiPage.route('/getVoltViolData', methods=['GET'])
 # @roles_required(['viol_msg_app_user'])
 def getVoltViolData() -> dict:
-    state = request.args.get('id') or ""
-    voltViolIndices = deriveVoltViolationInState(state)
-    genStnMvarIndices = deriveGenStnMvarInState(state)
+    statesStr = request.args.get('id') or ""
+    stateList = statesStr.split(",")
+    voltViolIndices, subStnListIndices = deriveVoltViolationInState(stateList)
+    genStnMvarIndices = deriveGenStnMvarInState(subStnListIndices)
     return {"voltViol": voltViolIndices, "genStnMvar": genStnMvarIndices}
 
 @rtDataApiPage.route('/getGenStnMvarData', methods=['GET'])

@@ -8,6 +8,7 @@ from src.typeDefs.voltViolInfoLog import IVoltViolInfoLog
 from typing import Union
 from src.repos.insertViolationMsgs import ViolationMsgSummaryRepo
 from src.repos.insertAtcMsgs import AtcMsgSummaryRepo
+from src.repos.insertVoltViolMsgs import VoltViolMsgSummaryRepo
 from src.app.violMsgReportGenerator import ViolMsgReportGenerator
 from src.app.atcMsgReportGenerator import AtcMsgReportGenerator
 from src.app.voltViolMsgReportGenerator import VoltViolMsgReportGenerator
@@ -26,6 +27,7 @@ def saveLog() -> Response:
     appConf = getAppConfig()
     violationMsgSummaryRepo = ViolationMsgSummaryRepo(appConf['appDbConnStr'])
     atcMsgSummaryRepo = AtcMsgSummaryRepo(appConf['appDbConnStr'])
+    voltViolMsgSummaryRepo = VoltViolMsgSummaryRepo(appConf['appDbConnStr'])
     # violLogFilePath = getAppConfig()["violDataFilePath"]
 
     # Violation Msg Report Details
@@ -35,6 +37,10 @@ def saveLog() -> Response:
     # ATC Repport Deials
     atcTmplPath: str = appConf['atcTmplPath']
     atcDumpFolder: str = appConf['atcDumpFolder']
+    
+    # ATC Repport Deials
+    voltViolTmplPath: str = appConf['voltViolTmplPath']
+    voltViolDumpFolder: str = appConf['voltViolDumpFolder']
     appDbConStr = ""
 
     statusMessage = "In Process"
@@ -70,7 +76,7 @@ def saveLog() -> Response:
     elif "voltViolInfoRows" in violLogData:
         # isSuccess = saveAtcViolLog(violLogData, violLogFilePath)
         voltViolMsgRprtGntr = VoltViolMsgReportGenerator(appDbConStr)
-        fileName: str = voltViolMsgRprtGntr.generateVoltViolMsgReport(violLogData, atcTmplPath, atcDumpFolder)
+        fileName: str = voltViolMsgRprtGntr.generateVoltViolMsgReport(violLogData, voltViolTmplPath, voltViolDumpFolder)
 
         if fileName:
             statusMessage = "Report Generation Completed; "
@@ -78,6 +84,9 @@ def saveLog() -> Response:
             statusMessage = "Report Generation Not Completed; "
             statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
             return jsonify({"success": 0, "msg": statusMessage})
+        
+        # save entry to database
+        Id = voltViolMsgSummaryRepo.insertVoltViolLog(violLogData, fileName)
         # save entry to database
         return jsonify({"success": 0, "msg": statusMessage})
 

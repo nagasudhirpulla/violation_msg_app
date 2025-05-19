@@ -31,7 +31,13 @@ def fetchScadaPntRandData(pntId):
     pntId = pntId.strip()
     if pntId == "":
         return None
-    return random.randint(-50, 50)
+    return random.randint(420, 450)
+
+def fetchRandData(pntId):
+    pntId = pntId.strip()
+    if pntId == "":
+        return None
+    return random.randint(-100, 50)
 
 
 def fetchScadaPntHistData(pntId: str, startTime: dt.datetime, endTime: dt.datetime) -> pd.Series:
@@ -67,6 +73,6 @@ def fetchScadaPntRandHistData(pntId, startTime: dt.datetime, endTime: dt.datetim
         return pd.Series()
     timestamps = pd.date_range(
         startTime, endTime, freq=dt.timedelta(minutes=1)).tolist()
-    dataSeries = pd.Series([random.randint(-1000, 1000)
+    dataSeries = pd.Series([random.randint(420, 450)
                            for x in timestamps], index=timestamps)
     return dataSeries

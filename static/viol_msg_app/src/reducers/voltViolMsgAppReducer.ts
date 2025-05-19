@@ -24,7 +24,7 @@ export const useVoltViolMsgAppReducer = (initState: IVoltViolMsgAppState): [IVol
                 return setVoltViolPageAppConfigReducer(state, action as ISetAppConfigAction)
             case ActionType.SET_VOLT_VIOL_INFO_ROWS:
                 return setVoltViolInfoRowsReducer(state, action as ISetVoltViolInfoRowsAction)
-            case ActionType.GET_GEN_STN_MVAR_INFO_ROWS:
+            case ActionType.SET_GEN_STN_MVAR_INFO_ROWS:
                 return setGenStnMvarInfoRowsReducer(state, action as ISetGenStnMvarInfoRowsAction)
             case ActionType.SET_MSG_TIME:
                 return setVoltViolPageMsgTimeReducer(state, action as ISetMsgTimeAction)
