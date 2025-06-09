@@ -87,8 +87,20 @@ def saveLog() -> Response:
         
         # save entry to database
         Id = voltViolMsgSummaryRepo.insertVoltViolLog(violLogData, fileName)
-        # save entry to database
-        return jsonify({"success": 0, "msg": statusMessage})
+        if Id:
+            # status Message
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database; "
+            isSuccess = voltViolMsgSummaryRepo.insertVoltViolInfoData(violLogData['voltViolInfoRows'], Id)
+            if isSuccess:
+                statusMessage = statusMessage + os.linesep + "Voltage Violation SubStation Rows Saved to Database; "
+            else:
+                statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
+                statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+                return jsonify({"success": 0, "msg": statusMessage})
+        else:
+            statusMessage = statusMessage + os.linesep + "Message Save to Database Failed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
 
     else:
         violMsgRprtGntr = ViolMsgReportGenerator(appDbConStr)
@@ -121,9 +133,12 @@ def saveLog() -> Response:
     # send mail to utilities
     sender_email = appConf['sender_email']
     sender_password = appConf['sender_password']
+    Cc_mails = appConf['Cc_mails']
     loginId = appConf['loginId']
     if "atcInfoRows" in violLogData:
         pdfFileLocation = appConf['atcPdfFileLocation']
+    elif "voltViolInfoRows" in violLogData:
+        pdfFileLocation = appConf['voltViolPdfFileLocation']
     else:
         pdfFileLocation = appConf['violPdfFileLocation']
     receiver_emails = violLogData['emailTo'].split(";")
@@ -131,6 +146,7 @@ def saveLog() -> Response:
     # TODO validate each email in list using a regex
     attachment_file = pdfFileLocation + fileName
     subject = "ग्रिड संचालन/शेड्यूलिंग और प्रेषण नियमों के उल्लंघन करने के कारण गैर-अनुपालन संदेश/Non-compliance message due to violating grid operating/scheduling and dispatch regulations of the IEGC"
+    # subject = "This is test mail from Python for violation message application"  # TODO remove this line after testing
     html = """\
         <html>
         <head></head>
@@ -151,14 +167,21 @@ def saveLog() -> Response:
         </html>
         """
     if "atcInfoRows" in violLogData:
-        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
+        if emailSentMsg == "Email sent successfully":
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+        else:
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+            
+    elif "voltViolInfoRows" in violLogData:
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg
         else:
             statusMessage = statusMessage + os.linesep + emailSentMsg
     
     else:
-        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg
         else:

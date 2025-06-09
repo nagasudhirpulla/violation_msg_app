@@ -31,13 +31,23 @@ function VoltViolMsgApp() {
         setSelConsList(selectedOptions);
     }
 
-    const onConsVoltViolRowsUpdateClick = () => {
+    const onConsHighVoltViolRowsUpdateClick = () => {
         if (selConsList.length === 0) {
             console.log("No constituents selected. Please select at least one.");
             return;
         }
         pageStateDispatch(setMsgTimeAction(new Date()))
-        pageStateDispatch(getVoltViolInfoRowsAction(selConsList))
+        pageStateDispatch(getVoltViolInfoRowsAction(selConsList, 1))
+        enableSendButton()
+    }
+
+    const onConsLowVoltViolRowsUpdateClick = () => {
+        if (selConsList.length === 0) {
+            console.log("No constituents selected. Please select at least one.");
+            return;
+        }
+        pageStateDispatch(setMsgTimeAction(new Date()))
+        pageStateDispatch(getVoltViolInfoRowsAction(selConsList, 0))
         enableSendButton()
     }
 
@@ -73,7 +83,8 @@ function VoltViolMsgApp() {
                         onChange={onSelConsChange}
                         placeholder="Select Constituents"
                         classNamePrefix="select" />
-                    <button onClick={onConsVoltViolRowsUpdateClick} className="btn btn-xs btn-success">Suggest Voltage Violation</button>
+                    <button onClick={onConsHighVoltViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Suggest Voltage Violation</button>
+                    <button onClick={onConsLowVoltViolRowsUpdateClick} className="btn btn-xs btn-success ms-2">Suggest Low Voltage Violation</button>
                     <button onClick={onPrintClick} className="btn btn-xs btn-info ms-2" disabled={!isSendEnabled}>Send Message</button>
                     <a href="http://10.2.100.56:8081/mis_dashboard/iegcViolMsgs/" target="_blank">
                         <button className="btn btn-xs btn-primary ms-2">Show Issued Messages</button>

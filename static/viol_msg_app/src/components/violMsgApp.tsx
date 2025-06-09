@@ -1,5 +1,5 @@
-// https://react-bootstrap.github.io/components/modal/
 import React, { useState, useEffect } from 'react';
+// https://react-bootstrap.github.io/components/modal/
 import Select from 'react-select'
 import { useViolMsgAppReducer } from '../reducers/violMsgAppReducer';
 import pageInitState, { MsgModes } from '../initial_states/violMsgAppInitState'

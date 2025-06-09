@@ -10,7 +10,8 @@ import { setRecipientEmailsAction } from "./setRecipientEmailsAction";
 import { fetchVoltViolIndices } from "../services/fetchVoltViolIndices";
 
 export interface IGetVoltViolInfoRowsPayload {
-    utils: IStateUtilPnt[]
+    utils: IStateUtilPnt[],
+    isHighVoltMsg: number
 }
 
 export interface IGetVoltViolInfoRowsAction extends IAction {
@@ -18,17 +19,18 @@ export interface IGetVoltViolInfoRowsAction extends IAction {
     payload: IGetVoltViolInfoRowsPayload
 }
 
-export function getVoltViolInfoRowsAction(utils: IStateUtilPnt[]): IGetVoltViolInfoRowsAction {
+export function getVoltViolInfoRowsAction(utils: IStateUtilPnt[], isHighVoltMsg: number): IGetVoltViolInfoRowsAction {
     return {
         type: ActionType.GET_VOLT_VIOL_INFO_ROWS,
-        payload: { utils }
+        payload: { utils, isHighVoltMsg }
     };
 }
 
 export const getVoltViolInfoRowsDispatch = async (action: IGetVoltViolInfoRowsAction, pageState: IVoltViolMsgAppState, pageStateDispatch: React.Dispatch<IAction>): Promise<void> => {
     let utils = action.payload.utils
+    const isHighVoltMsg = action.payload.isHighVoltMsg
     const receiversStr = "To: " + utils.map(x => x.name).join(", ")
-    const stateList = utils.map(x => x.name).join(",")
+    const stateList = utils.map(x => x.name).join(",") // Last value is for HV
     console.log("stateList: ", stateList)
     pageStateDispatch(setRecipientAddrAction(receiversStr))
 
@@ -37,7 +39,7 @@ export const getVoltViolInfoRowsDispatch = async (action: IGetVoltViolInfoRowsAc
     pageStateDispatch(setRecipientEmailsAction(emailListStr))
 
     // const {voltViol, genStnMvar} = await fetchVoltViolIndices(pageState.urls.serverBaseUrl, utils[0].name)
-    const {voltViol, genStnMvar} = await fetchVoltViolIndices(pageState.urls.serverBaseUrl, stateList)
+    const {voltViol, genStnMvar} = await fetchVoltViolIndices(pageState.urls.serverBaseUrl, stateList, isHighVoltMsg)
     console.log("voltViol: ", voltViol)
     console.log("genStnMvar: ", genStnMvar)
     const voltViolInfoRows = voltViol.map(([name, volt]) => ({ name, volt }));

@@ -41,6 +41,7 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
                 name: s['name'],
                 votLvl: s['voltlvl'],
                 voltPnt: s['voltPnt'],
+                owner: s['owner'],
                 state: s['state'],
                 email: s['email']
             })

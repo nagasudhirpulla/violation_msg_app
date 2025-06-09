@@ -1,8 +1,6 @@
 import { IVoltViolInfoRow } from "./voltViolInfoRow";
 import { IGenStnMvarInfoRow } from "./genStnMvarInfoRow";
 import { IStateUtilPnt } from "./stateUtilPnt";
-import { ISubStnUtilPnt } from "./subStnUtilPnt";
-import { IGenStnUtilPnt } from "./genStnUtilPnt";
 
 export interface IVoltViolMsgAppState {
     ui: {

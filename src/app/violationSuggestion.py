@@ -271,15 +271,46 @@ def deriveVoltViolationInState(stateList: str) -> List[int]:
             subStnVolt = fetchScadaPntHistData(b["voltPnt"], startTime, endTime)
 
             if b["voltLvl"] == 400:
-                if check_high_voltage_threshold(subStnVolt , 420, 90) or check_low_voltage_threshold(subStnVolt , 380, 90):
+                if check_high_voltage_threshold(subStnVolt , 420, 90):
                     voltVal = fetchScadaPntRtData(b["voltPnt"])
                     voltViolIndices.append((b["name"], voltVal))
-                    subStnListIndices.append((b['name'], check_high_voltage_threshold(subStnVolt , 420, 90), b['state']))
+                    subStnListIndices.append((b['name'], True, b['state']))
             elif b["voltLvl"] == 765:
-                if check_high_voltage_threshold(subStnVolt , 800, 90) or check_low_voltage_threshold(subStnVolt , 728, 90):
+                if check_high_voltage_threshold(subStnVolt , 800, 90):
                     voltVal = fetchScadaPntRtData(b["voltPnt"])
                     voltViolIndices.append((b["name"], voltVal))
-                    subStnListIndices.append((b['name'], check_high_voltage_threshold(subStnVolt , 800, 90), b['state']))
+                    subStnListIndices.append((b['name'], True, b['state']))
+                
+    # create the final list and return
+    return voltViolIndices, subStnListIndices
+
+
+def deriveLowVoltViolationInState(stateList: str) -> List[int]:
+    # get all subStations of that state
+    subStations = getSubStnConfig()
+    voltViolIndices = []
+    subStnListIndices = []
+    
+    if stateList == "":
+        return voltViolIndices
+    for itr, b in enumerate(subStations):
+        # fetch last 15 mins data for each buyer
+        if b['state'] in stateList:
+            endTime: dt.datetime = stripSeconds(
+                dt.datetime.now()-dt.timedelta(minutes=1))
+            startTime: dt.datetime = endTime-dt.timedelta(minutes=30)
+            subStnVolt = fetchScadaPntHistData(b["voltPnt"], startTime, endTime)
+
+            if b["voltLvl"] == 400:
+                if check_low_voltage_threshold(subStnVolt , 380, 90):
+                    voltVal = fetchScadaPntRtData(b["voltPnt"])
+                    voltViolIndices.append((b["name"], voltVal))
+                    subStnListIndices.append((b['name'], False, b['state']))
+            elif b["voltLvl"] == 765:
+                if check_low_voltage_threshold(subStnVolt , 728, 90):
+                    voltVal = fetchScadaPntRtData(b["voltPnt"])
+                    voltViolIndices.append((b["name"], voltVal))
+                    subStnListIndices.append((b['name'], False, b['state']))
                 
     # create the final list and return
     return voltViolIndices, subStnListIndices
@@ -291,13 +322,14 @@ def check_high_voltage_threshold(subStnVolt, threshold, req_perc):
     
     # Calculate the percentage
     total_values = len(subStnVolt)
-    perc_above_threshold = (values_above_threshold / total_values) * 100
-    
-    # Check if percentage meets the requirement
-    if perc_above_threshold >= req_perc:
-        return True
-    else:
-        return False
+    if total_values:
+        perc_above_threshold = (values_above_threshold / total_values) * 100
+        # Check if percentage meets the requirement
+        if perc_above_threshold >= req_perc:
+            return True
+        else:
+            return False
+    return False
     
     
 def check_low_voltage_threshold(subStnVolt, threshold, req_perc):
@@ -306,14 +338,15 @@ def check_low_voltage_threshold(subStnVolt, threshold, req_perc):
     
     # Calculate the percentage
     total_values = len(subStnVolt)
-    perc_above_threshold = (values_above_threshold / total_values) * 100
-    
-    # Check if percentage meets the requirement
-    if perc_above_threshold >= req_perc:
-        return True
-    else:
-        return False
-    
+    if total_values:
+        perc_above_threshold = (values_above_threshold / total_values) * 100
+        
+        # Check if percentage meets the requirement
+        if perc_above_threshold >= req_perc:
+            return True
+        else:
+            return False
+    return False
     
 def deriveGenStnMvarInState(subStnListIndices: str) -> List[int]:
     # get all subStations of that state

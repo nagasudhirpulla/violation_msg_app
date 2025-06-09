@@ -95,9 +95,9 @@ class VoltViolMsgSummaryRepo():
                     dataInsertionTuples.append(dataInsertionTuple)
 
                 # prepare sql for insertion and execute
-                dataText = ','.join(dbCur.mogrify('(%s, %s, %s, %s)', row).decode(
+                dataText = ','.join(dbCur.mogrify('(%s, %s, %s)', row).decode(
                     "utf-8") for row in dataInsertionTuples)
-                sqlTxt = 'INSERT INTO public.volt_viol_rows ("name", act, drawal, "msgLogId") VALUES {0} '.format(
+                sqlTxt = 'INSERT INTO public.volt_viol_sub_station_rows ("sub_station", volt, "msgLogId") VALUES {0} '.format(
                     dataText)
                 dbCur.execute(sqlTxt)
                 dbConn.commit()
