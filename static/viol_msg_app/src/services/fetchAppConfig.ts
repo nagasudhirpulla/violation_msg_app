@@ -10,6 +10,8 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
         const appConf: IAppConfig = {
             generators: [],
             constituents: [],
+            subStn: [],
+            genStnMvar: [],
             freqPnt: respJSON.freqPnt
         }
         //console.log(respJSON);
@@ -33,10 +35,30 @@ export const fetchAppConfig = async (baseAddr: string): Promise<IAppConfig> => {
                 ttcPnt: c[6]
             })
         });
+        //console.log(respJSON);
+        respJSON.subStn.forEach(s => {
+            appConf.subStn.push({
+                name: s['name'],
+                votLvl: s['voltlvl'],
+                voltPnt: s['voltPnt'],
+                owner: s['owner'],
+                state: s['state'],
+                email: s['email']
+            })
+        });
+        //console.log(respJSON);
+        respJSON.genStnMvar.forEach(gs => {
+            appConf.genStnMvar.push({
+                name: gs['name'],
+                mvar: gs['mvar'],
+                state: gs['state'],
+                email: gs['email']
+            })
+        });
         return appConf;
     } catch (e) {
         console.error(e);
-        return { generators: [], constituents: [], freqPnt: "" };
+        return { generators: [], constituents: [], freqPnt: "", subStn: [], genStnMvar: [] };
         //return { success: false, message: `Could not retrieve employees data due to error ${JSON.stringify(e)}` };
     }
 };

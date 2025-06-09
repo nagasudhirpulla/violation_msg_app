@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         viol_msg_app: ['babel-polyfill', path.resolve(__dirname, 'src/viol_msg_app.tsx')],
         atc_viol_msg_app: ['babel-polyfill', path.resolve(__dirname, 'src/atc_viol_msg_app.tsx')],
+        volt_viol_msg_app: ['babel-polyfill', path.resolve(__dirname, 'src/volt_viol_msg_app.tsx')],
     },
 
     output: {

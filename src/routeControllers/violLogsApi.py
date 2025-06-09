@@ -4,11 +4,14 @@ from src.services.violLog import saveViolLog, saveAtcViolLog
 from src.config.appConfig import getAppConfig
 from src.typeDefs.atcViolInfoLog import IAtcViolInfoLog
 from src.typeDefs.violInfoLog import IViolationLog
+from src.typeDefs.voltViolInfoLog import IVoltViolInfoLog
 from typing import Union
 from src.repos.insertViolationMsgs import ViolationMsgSummaryRepo
 from src.repos.insertAtcMsgs import AtcMsgSummaryRepo
+from src.repos.insertVoltViolMsgs import VoltViolMsgSummaryRepo
 from src.app.violMsgReportGenerator import ViolMsgReportGenerator
 from src.app.atcMsgReportGenerator import AtcMsgReportGenerator
+from src.app.voltViolMsgReportGenerator import VoltViolMsgReportGenerator
 from src.app.utils.sendMail import send_email
 from src.security.decorators import roles_required
 
@@ -24,6 +27,7 @@ def saveLog() -> Response:
     appConf = getAppConfig()
     violationMsgSummaryRepo = ViolationMsgSummaryRepo(appConf['appDbConnStr'])
     atcMsgSummaryRepo = AtcMsgSummaryRepo(appConf['appDbConnStr'])
+    voltViolMsgSummaryRepo = VoltViolMsgSummaryRepo(appConf['appDbConnStr'])
     # violLogFilePath = getAppConfig()["violDataFilePath"]
 
     # Violation Msg Report Details
@@ -33,6 +37,10 @@ def saveLog() -> Response:
     # ATC Repport Deials
     atcTmplPath: str = appConf['atcTmplPath']
     atcDumpFolder: str = appConf['atcDumpFolder']
+    
+    # ATC Repport Deials
+    voltViolTmplPath: str = appConf['voltViolTmplPath']
+    voltViolDumpFolder: str = appConf['voltViolDumpFolder']
     appDbConStr = ""
 
     statusMessage = "In Process"
@@ -56,6 +64,35 @@ def saveLog() -> Response:
             isSuccess = atcMsgSummaryRepo.insertAtcInfoData(violLogData['atcInfoRows'], Id)
             if isSuccess:
                 statusMessage = statusMessage + os.linesep + "Violation Rows Saved to Database; "
+            else:
+                statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
+                statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+                return jsonify({"success": 0, "msg": statusMessage})
+        else:
+            statusMessage = statusMessage + os.linesep + "Message Save to Database Failed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
+        
+    elif "voltViolInfoRows" in violLogData:
+        # isSuccess = saveAtcViolLog(violLogData, violLogFilePath)
+        voltViolMsgRprtGntr = VoltViolMsgReportGenerator(appDbConStr)
+        fileName: str = voltViolMsgRprtGntr.generateVoltViolMsgReport(violLogData, voltViolTmplPath, voltViolDumpFolder)
+
+        if fileName:
+            statusMessage = "Report Generation Completed; "
+        else:
+            statusMessage = "Report Generation Not Completed; "
+            statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
+            return jsonify({"success": 0, "msg": statusMessage})
+        
+        # save entry to database
+        Id = voltViolMsgSummaryRepo.insertVoltViolLog(violLogData, fileName)
+        if Id:
+            # status Message
+            statusMessage = statusMessage + os.linesep + "Message Saved to Database; "
+            isSuccess = voltViolMsgSummaryRepo.insertVoltViolInfoData(violLogData['voltViolInfoRows'], Id)
+            if isSuccess:
+                statusMessage = statusMessage + os.linesep + "Voltage Violation SubStation Rows Saved to Database; "
             else:
                 statusMessage = statusMessage + os.linesep + "Rows Failed to save in Database; "
                 statusMessage = statusMessage + os.linesep + "MAIL NOT SENT; "
@@ -100,6 +137,8 @@ def saveLog() -> Response:
     loginId = appConf['loginId']
     if "atcInfoRows" in violLogData:
         pdfFileLocation = appConf['atcPdfFileLocation']
+    elif "voltViolInfoRows" in violLogData:
+        pdfFileLocation = appConf['voltViolPdfFileLocation']
     else:
         pdfFileLocation = appConf['violPdfFileLocation']
     receiver_emails = violLogData['emailTo'].split(";")
@@ -128,6 +167,13 @@ def saveLog() -> Response:
         </html>
         """
     if "atcInfoRows" in violLogData:
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
+        if emailSentMsg == "Email sent successfully":
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+        else:
+            statusMessage = statusMessage + os.linesep + emailSentMsg
+            
+    elif "voltViolInfoRows" in violLogData:
         emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg

@@ -1,5 +1,6 @@
 import { IAction } from "../typeDefs/action";
 import { IAtcViolMsgAppState } from "../typeDefs/atcViolMsgAppState";
+import { IVoltViolMsgAppState } from "../typeDefs/voltViolMsgAppState";
 import { IViolMsgAppState } from "../typeDefs/violMsgAppState";
 import { ActionType } from "./actionType";
 
@@ -30,6 +31,16 @@ export const setShInchReducer = (state: IViolMsgAppState, action: ISetShInchActi
 }
 
 export const setAtcPageShInchReducer = (state: IAtcViolMsgAppState, action: ISetShInchAction): IAtcViolMsgAppState => {
+    return {
+        ...state,
+        ui: {
+            ...state.ui,
+            sInChargeStr: action.payload.shInch
+        }
+    };
+}
+
+export const setVoltViolPageShInchReducer = (state: IVoltViolMsgAppState, action: ISetShInchAction): IVoltViolMsgAppState => {
     return {
         ...state,
         ui: {

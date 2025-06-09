@@ -1,5 +1,5 @@
-from src.config.appConfig import getBuyersFromConf, BuyerCategory, getGensFromConf, SellerCategory
-from src.services.scada_fetcher import fetchScadaPntHistData, fetchScadaPntRtData
+from src.config.appConfig import getBuyersFromConf, BuyerCategory, getGensFromConf, SellerCategory, getSubStnConfig, getGenStnMvarConfig
+from src.services.scada_fetcher import fetchRandData, fetchScadaPntHistData, fetchScadaPntRtData
 from typing import List
 import datetime as dt
 
@@ -252,3 +252,132 @@ def deriveSellersInAlertUnderInjState() -> List[int]:
                     alertSellerIndices.append(itr)
     # create the final list and return
     return alertSellerIndices
+
+
+def deriveVoltViolationInState(stateList: str) -> List[int]:
+    # get all subStations of that state
+    subStations = getSubStnConfig()
+    voltViolIndices = []
+    subStnListIndices = []
+    
+    if stateList == "":
+        return voltViolIndices
+    for itr, b in enumerate(subStations):
+        # fetch last 15 mins data for each buyer
+        if b['state'] in stateList:
+            endTime: dt.datetime = stripSeconds(
+                dt.datetime.now()-dt.timedelta(minutes=1))
+            startTime: dt.datetime = endTime-dt.timedelta(minutes=60)
+            subStnVolt = fetchScadaPntHistData(b["voltPnt"], startTime, endTime)
+
+            if b["voltLvl"] == 400:
+                if check_high_voltage_threshold(subStnVolt , 420, 90):
+                    voltVal = fetchScadaPntRtData(b["voltPnt"])
+                    voltViolIndices.append((b["name"], voltVal))
+                    subStnListIndices.append((b['name'], True, b['state']))
+            elif b["voltLvl"] == 765:
+                if check_high_voltage_threshold(subStnVolt , 800, 90):
+                    voltVal = fetchScadaPntRtData(b["voltPnt"])
+                    voltViolIndices.append((b["name"], voltVal))
+                    subStnListIndices.append((b['name'], True, b['state']))
+                
+    # create the final list and return
+    return voltViolIndices, subStnListIndices
+
+
+def deriveLowVoltViolationInState(stateList: str) -> List[int]:
+    # get all subStations of that state
+    subStations = getSubStnConfig()
+    voltViolIndices = []
+    subStnListIndices = []
+    
+    if stateList == "":
+        return voltViolIndices
+    for itr, b in enumerate(subStations):
+        # fetch last 15 mins data for each buyer
+        if b['state'] in stateList:
+            endTime: dt.datetime = stripSeconds(
+                dt.datetime.now()-dt.timedelta(minutes=1))
+            startTime: dt.datetime = endTime-dt.timedelta(minutes=30)
+            subStnVolt = fetchScadaPntHistData(b["voltPnt"], startTime, endTime)
+
+            if b["voltLvl"] == 400:
+                if check_low_voltage_threshold(subStnVolt , 380, 90):
+                    voltVal = fetchScadaPntRtData(b["voltPnt"])
+                    voltViolIndices.append((b["name"], voltVal))
+                    subStnListIndices.append((b['name'], False, b['state']))
+            elif b["voltLvl"] == 765:
+                if check_low_voltage_threshold(subStnVolt , 728, 90):
+                    voltVal = fetchScadaPntRtData(b["voltPnt"])
+                    voltViolIndices.append((b["name"], voltVal))
+                    subStnListIndices.append((b['name'], False, b['state']))
+                
+    # create the final list and return
+    return voltViolIndices, subStnListIndices
+
+
+def check_high_voltage_threshold(subStnVolt, threshold, req_perc):
+    # Count values above threshold
+    values_above_threshold = sum(1 for value in subStnVolt if value > threshold)
+    
+    # Calculate the percentage
+    total_values = len(subStnVolt)
+    if total_values:
+        perc_above_threshold = (values_above_threshold / total_values) * 100
+        # Check if percentage meets the requirement
+        if perc_above_threshold >= req_perc:
+            return True
+        else:
+            return False
+    return False
+    
+    
+def check_low_voltage_threshold(subStnVolt, threshold, req_perc):
+    # Count values above threshold
+    values_above_threshold = sum(1 for value in subStnVolt if value < threshold)
+    
+    # Calculate the percentage
+    total_values = len(subStnVolt)
+    if total_values:
+        perc_above_threshold = (values_above_threshold / total_values) * 100
+        
+        # Check if percentage meets the requirement
+        if perc_above_threshold >= req_perc:
+            return True
+        else:
+            return False
+    return False
+    
+def deriveGenStnMvarInState(subStnListIndices: str) -> List[int]:
+    # get all subStations of that state
+    genStations = getGenStnMvarConfig()
+    genStnMvarIndices = []
+    
+    if subStnListIndices == "":
+        return genStnMvarIndices
+    for itr, b in enumerate(genStations):
+        # fetch last 15 mins data for each buyer
+        # if any(item[0] == b['subStation'] for item in subStnListIndices):
+        subStnMatchItr = False
+        try:
+            subStnMatchItr = next(item for item in subStnListIndices if item[0] == b['subStation'])
+        except StopIteration:
+            print("No match found")
+            continue
+        if subStnMatchItr:
+            endTime: dt.datetime = stripSeconds(
+                dt.datetime.now()-dt.timedelta(minutes=1))
+            startTime: dt.datetime = endTime-dt.timedelta(minutes=60)
+            # select all generating stations of that state as on 01-05-2025
+            # select all generating stations of that subStation as on 16-05-2025
+            mvarVal = fetchRandData(b["mvar"])
+            if subStnMatchItr[1]:
+                if mvarVal > 0:
+                    genStnMvarIndices.append((b["name"], mvarVal))         
+            else:
+                if mvarVal < 0:
+                    genStnMvarIndices.append((b["name"], mvarVal))
+          
+    # create the final list and return
+    return genStnMvarIndices
+    
