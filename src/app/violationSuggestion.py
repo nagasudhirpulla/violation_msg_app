@@ -25,6 +25,11 @@ def deriveBuyersInAlertState() -> List[int]:
         buyerCategory: BuyerCategory = BuyerCategory.General
         if b["isRE"] == True:
             buyerCategory = BuyerCategory.RE
+        
+        #  new buyer category as super RE rich added
+        elif b["isSuperRE"] == True:
+            buyerCategory = BuyerCategory.SuperRE
+
         elif buyerHistSch.iloc[-1] < 400:
             buyerCategory = BuyerCategory.LessSch
 
@@ -34,9 +39,16 @@ def deriveBuyersInAlertState() -> List[int]:
         buyerHistDevPerc = (buyerHistDev.div(buyerHistSch))*100
         minDevPerc = buyerHistDevPerc.abs().min()
 
-        if buyerCategory == BuyerCategory.RE:
+        # new case added for super RE Rich
+        if buyerCategory == BuyerCategory.SuperRE:
+            if (minDev >= 250 and minDev <= 350):
+                alertBuyerIndices.append(itr)
+
+        # re rich case
+        elif buyerCategory == BuyerCategory.RE:
             if (minDev >= 200 and minDev <= 300) or (minDevPerc >= 10 and minDevPerc <= 15):
                 alertBuyerIndices.append(itr)
+
         elif buyerCategory == BuyerCategory.LessSch:
             if (minDev >= 40 and minDev <= 60) or (minDevPerc >= 20 and minDevPerc <= 30):
                 alertBuyerIndices.append(itr)
@@ -64,6 +76,11 @@ def deriveBuyersInEmergencyState() -> List[int]:
         buyerCategory: BuyerCategory = BuyerCategory.General
         if b["isRE"] == True:
             buyerCategory = BuyerCategory.RE
+
+        #  new buyer category as super RE rich added
+        elif b["isSuperRE"] == True:
+            buyerCategory = BuyerCategory.SuperRE
+
         elif buyerHistSch.iloc[-1] < 400:
             buyerCategory = BuyerCategory.LessSch
 
@@ -73,7 +90,13 @@ def deriveBuyersInEmergencyState() -> List[int]:
         buyerHistDevPerc = (buyerHistDev.div(buyerHistSch))*100
         minDevPerc = buyerHistDevPerc.abs().min()
 
-        if buyerCategory == BuyerCategory.RE:
+
+        # new case added for super RE Rich
+        if buyerCategory == BuyerCategory.SuperRE:
+            if minDev >= 350:
+                emergencyBuyerIndices.append(itr)
+
+        elif buyerCategory == BuyerCategory.RE:
             if minDev >= 300 or minDevPerc >= 15:
                 emergencyBuyerIndices.append(itr)
         elif buyerCategory == BuyerCategory.LessSch:

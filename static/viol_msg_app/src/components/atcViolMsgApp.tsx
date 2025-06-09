@@ -74,7 +74,7 @@ function AtcViolMsgApp() {
                         placeholder="Select Constituents"
                         classNamePrefix="select" />
                     <button onClick={onConsAtcRowsUpdateClick} className="btn btn-xs btn-success">Update</button>
-                    <button onClick={onPrintClick} className="btn btn-xs btn-info ml-3" disabled={!isSendEnabled}>Send Message</button>
+                    <button onClick={onPrintClick} className="btn btn-xs btn-info ms-2" disabled={!isSendEnabled}>Send Message</button>
                     <a href="http://10.2.100.56:8081/mis_dashboard/iegcViolMsgs/" target="_blank">
                         <button className="btn btn-xs btn-primary ms-2">Show Issued Messages</button>
                     </a>
