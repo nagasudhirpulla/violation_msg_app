@@ -4,12 +4,17 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 import os
 
-def send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_path=None):
+def send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_path=None):
     # Create a multipart message
     message = MIMEMultipart()
     message["From"] = sender_email
-    receiver_emails.append(sender_email)
-    message["To"] = ", ".join(receiver_emails)  # Join multiple recipient emails
+    # receiver_emails.append(sender_email)
+    
+    # Don't modify the original receiver_emails list
+    to_recipients = receiver_emails.copy()
+    # to_recipients.append(sender_email)
+    message["To"] = ", ".join(to_recipients)  # Join multiple recipient emails
+    message["Cc"] = ", ".join(Cc_mails)  # Join multiple recipient emails
     message["Subject"] = subject
 
     # Add body to email
@@ -32,7 +37,9 @@ def send_email(sender_email, loginId, sender_password, receiver_emails, subject,
             server.login(loginId, sender_password)
             # Send email
             # server.send_message(message)
-            server.sendmail(sender_email, receiver_emails, message.as_string())
+            # IMPORTANT: Include both TO and CC recipients in the actual sending
+            all_recipients = to_recipients + Cc_mails
+            server.sendmail(sender_email, all_recipients, message.as_string())
         # print("Email sent successfully")
         successMsg = "Email sent successfully"
         return successMsg

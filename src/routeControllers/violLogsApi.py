@@ -96,6 +96,7 @@ def saveLog() -> Response:
     # send mail to utilities
     sender_email = appConf['sender_email']
     sender_password = appConf['sender_password']
+    Cc_mails = appConf['Cc_mails']
     loginId = appConf['loginId']
     if "atcInfoRows" in violLogData:
         pdfFileLocation = appConf['atcPdfFileLocation']
@@ -106,6 +107,7 @@ def saveLog() -> Response:
     # TODO validate each email in list using a regex
     attachment_file = pdfFileLocation + fileName
     subject = "ग्रिड संचालन/शेड्यूलिंग और प्रेषण नियमों के उल्लंघन करने के कारण गैर-अनुपालन संदेश/Non-compliance message due to violating grid operating/scheduling and dispatch regulations of the IEGC"
+    # subject = "This is test mail from Python for violation message application"  # TODO remove this line after testing
     html = """\
         <html>
         <head></head>
@@ -126,14 +128,14 @@ def saveLog() -> Response:
         </html>
         """
     if "atcInfoRows" in violLogData:
-        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg
         else:
             statusMessage = statusMessage + os.linesep + emailSentMsg
     
     else:
-        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, subject, html, attachment_file)
+        emailSentMsg = send_email(sender_email, loginId, sender_password, receiver_emails, Cc_mails, subject, html, attachment_file)
         if emailSentMsg == "Email sent successfully":
             statusMessage = statusMessage + os.linesep + emailSentMsg
         else:
